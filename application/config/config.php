@@ -24,7 +24,7 @@ date_default_timezone_set('America/Edmonton');//Time zone
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'https://v-contracting.ca/app/';
+$config['base_url'] = 'https://lev-west.com/app/';
 
 /*
 |--------------------------------------------------------------------------
