@@ -352,7 +352,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Safety Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -695,7 +695,7 @@ class Report extends CI_Controller
 					$html .= '<tr bgcolor="#337ab7" style="color:white;">
 										<th align="center"><strong>Company</strong></th>';
 					for ($j = $star; $j < $finish; $j++) {
-						$html .= '<th align="center"><strong>VCI</strong></th>';
+						$html .= '<th align="center"><strong>Lev-West</strong></th>';
 					}
 					$html .= '</tr>';
 
@@ -826,7 +826,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('App Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -890,7 +890,7 @@ class Report extends CI_Controller
 
 			$titlePlate = "Plate Number";
 			$unitNumber = $lista['plate'];
-			//si la empresa es VCI entonces debe venir con un vehiculo de la base de datos, sino se le coloco el numero
+			//si la empresa es Lev-West entonces debe venir con un vehiculo de la base de datos, sino se le coloco el numero
 			if ($lista["fk_id_company"] == 1) {
 				$titlePlate = "Plate Number";
 				$unitNumber = $lista['unit_number'];
@@ -981,7 +981,7 @@ class Report extends CI_Controller
 						</tr>
 						
 						<tr bgcolor="#337ab7" style="color:white;">
-							<th align="center"><strong>VCI Representative<br>' . $lista['name'] . '</strong></th>
+							<th align="center"><strong>Lev-West Representative<br>' . $lista['name'] . '</strong></th>
 							<th ></th>
 							<th align="center"><strong>Contractor</strong></th>
 						</tr>
@@ -1027,7 +1027,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Inspection Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -1831,7 +1831,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Inspection Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -1932,7 +1932,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Inspection Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -2044,7 +2044,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -2196,7 +2196,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Work Order Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -2805,7 +2805,7 @@ class Report extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Check-In report');
 		$pdf->SetSubject('TCPDF Tutorial');
 

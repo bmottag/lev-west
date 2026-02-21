@@ -61,12 +61,12 @@ class Hauling extends CI_Controller
 
 		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+		$cabeceras .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
 
 		//enviar correo al cliente
 		mail($to, $subjet, $mensaje, $cabeceras);
 
-		//enviar correo a VCI
+		//enviar correo a Lev-West
 		$arrParam = array(
 			"idNotification" => ID_NOTIFICATION_HAULING,
 			"subjet" => $subjet,
@@ -438,12 +438,12 @@ class Hauling extends CI_Controller
 
 		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+		$cabeceras .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
 
 		//enviar correo al cliente
 		mail($to, $subjet, $mensaje, $cabeceras);
 
-		//enviar correo a VCI
+		//enviar correo a Lev-West
 		$arrParam = array(
 			"idNotification" => ID_NOTIFICATION_HAULING,
 			"subjet" => $subjet,

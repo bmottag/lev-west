@@ -218,7 +218,7 @@ if($information){
 		<div class="col-lg-12">				
 			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<strong>VCI WORKERS</strong>
+					<strong>Lev-West WORKERS</strong>
 				</div>
 				<div class="panel-body">	
 										
@@ -226,10 +226,10 @@ if($information){
 <?php if($safetyWorkers){ ?>
 												
 					<button type="button" class="btn btn-warning btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Lev-West Workers
 					</button>
 <?php }else { ?>
-					<a href="<?php echo base_url("safety/add_workers/" . $information[0]["id_safety"]); ?>" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+					<a href="<?php echo base_url("safety/add_workers/" . $information[0]["id_safety"]); ?>" class="btn btn-warning btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Lev-West Workers</a>
 												
 <?php } ?>
 											

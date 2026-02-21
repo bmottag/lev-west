@@ -577,7 +577,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('IHSR report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -668,7 +668,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('ERP report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -1403,7 +1403,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('JSO report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -1602,7 +1602,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('JOB HAZARDS ANALYSIS report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -2559,7 +2559,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Excavation and Trenching Plan report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -3313,7 +3313,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Fire Watch report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -3416,7 +3416,7 @@ class Jobs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Fire Watch Log Sheet');
 		$pdf->SetSubject('TCPDF Tutorial');
 

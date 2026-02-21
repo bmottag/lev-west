@@ -95,10 +95,10 @@
 							<?php if ($confinedWorkers) { ?>
 
 								<button type="button" class="btn btn-info btn-lg btn-block" data-toggle="modal" data-target="#modalWorker" id="x">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Lev-West Workers
 								</button>
 							<?php } else { ?>
-								<a href="<?php echo base_url("more/add_workers_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"] . "/2"); ?>" class="btn btn-info btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add VCI Workers</a>
+								<a href="<?php echo base_url("more/add_workers_confined/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_confined"] . "/2"); ?>" class="btn btn-info btn-lg btn-block"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Lev-West Workers</a>
 							<?php } ?>
 
 							<br>

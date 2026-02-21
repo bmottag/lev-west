@@ -153,7 +153,7 @@ if (!function_exists("send_notification")) {
 
                     $headers  = 'MIME-Version: 1.0' . "\r\n";
                     $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-                    $headers .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+                    $headers .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
                     //enviar correo
                     $envio = mail($to, $arrDatos["subjet"], $arrDatos["msjEmail"], $headers);
                 }

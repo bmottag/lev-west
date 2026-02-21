@@ -307,7 +307,7 @@ class Template extends CI_Controller {
 
 			// set document information
 			$pdf->SetCreator(PDF_CREATOR);
-			$pdf->SetAuthor('VCI');
+			$pdf->SetAuthor('Lev-West');
 			$pdf->SetTitle('Template report');
 			$pdf->SetSubject('TCPDF Tutorial');
 

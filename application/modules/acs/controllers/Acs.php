@@ -404,7 +404,7 @@ class Acs extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Accounting Control Sheet (ACS)');
 		$pdf->SetSubject('TCPDF Tutorial');
 

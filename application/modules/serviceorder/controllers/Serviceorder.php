@@ -227,7 +227,7 @@ class Serviceorder extends CI_Controller
 				$arrParamUser = array("idUser" => $this->input->post('assign_to'));
 				$userInfo = $this->general_model->get_user($arrParamUser);
 
-				$mensajeSMS = "APP VCI - New Service Order #" . $data["idServiceOrder"];
+				$mensajeSMS = "Lev-West APP - New Service Order #" . $data["idServiceOrder"];
 				$mensajeSMS .= "\nUnit #: " . $vehicleInfo[0]["unit_number"];
 				$mensajeSMS .= "\nVIN #: " . $vehicleInfo[0]["vin_number"];
 				$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
@@ -291,7 +291,7 @@ class Serviceorder extends CI_Controller
 					$arrParamUser = array("idUser" => $this->input->post('hddIdAssignedBy'));
 					$userInfo = $this->general_model->get_user($arrParamUser);
 
-					$mensajeSMS = "APP VCI - Service Order #" . $data["idServiceOrder"] . " closed.";
+					$mensajeSMS = "Lev-West APP - Service Order #" . $data["idServiceOrder"] . " closed.";
 					$mensajeSMS .= "\nUnit #: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= "\nVIN #: " . $vehicleInfo[0]["vin_number"];
 					$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
@@ -589,7 +589,7 @@ class Serviceorder extends CI_Controller
 			$arrParamUser = array("idUser" => $idUserTo);
 			$userInfo = $this->general_model->get_user($arrParamUser);
 
-			$mensajeSMS = "APP VCI - Service Order #" . $idServiceOrder;
+			$mensajeSMS = "Lev-West APP - Service Order #" . $idServiceOrder;
 			$mensajeSMS .= "\nUnit #: " . $vehicleInfo[0]["unit_number"];
 			$mensajeSMS .= "\nVIN #: " . $vehicleInfo[0]["vin_number"];
 			$mensajeSMS .= "\nMaintenance: " . $this->input->post('hddMaintenanceDescription');
@@ -718,12 +718,12 @@ class Serviceorder extends CI_Controller
 							</html>";
 
 			//mensaje de texto
-			$mensajeSMS = "APP VCI - " . $subjet;
+			$mensajeSMS = "Lev-West APP - " . $subjet;
 			$mensajeSMS .= "\nThere is an urgent need to carry out Preventive Maintenance as soon as possible.";
 			$mensajeSMS .= "\nFollow the link to see the list.";
 			$mensajeSMS .= "\n\n" . base_url("login/index/x/" . $module . "/x");
 
-			//enviar correo a VCI
+			//enviar correo a Lev-West
 			$arrParam = array(
 				"idNotification" => ID_NOTIFICATION_MAINTENANCE,
 				"subjet" => $subjet,
@@ -756,7 +756,7 @@ class Serviceorder extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('WORK ORDER');
 		$pdf->SetSubject('TCPDF Tutorial');
 

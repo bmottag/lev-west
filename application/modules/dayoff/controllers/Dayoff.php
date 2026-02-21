@@ -108,7 +108,7 @@ class Dayoff extends CI_Controller {
 									break;
 							}
 							//mensaje del correo
-							$subjet = "DAY OFF APP-VCI";
+							$subjet = "DAY OFF APP-Lev-West";
 							$observation =  $this->security->xss_clean($this->input->post('observation'));
 							$observation =  addslashes($observation);
 							$mensajeEmail = "<p>There is a new request for a Day Off:</p>";
@@ -119,7 +119,7 @@ class Dayoff extends CI_Controller {
 							$mensajeEmail .= "<p>Follow the link to approve or deny the Day Off: </p>";
 							
 							//mensaje de texto
-							$mensajeSMS = "DAY OFF APP-VCI";
+							$mensajeSMS = "DAY OFF APP-Lev-West";
 							$mensajeSMS .= "\nThere is a new request for a Day Off:";
 							$mensajeSMS .= "\nEmployee: " . $dayoffInfo[0]["name"];
 							$mensajeSMS .= "\nType: " . $tipo;
@@ -290,7 +290,7 @@ class Dayoff extends CI_Controller {
 
 				$headers = "MIME-Version: 1.0\r\n";
 				$headers .= "Content-Type: text/html; charset=utf-8\r\n";
-				$headers .= "From: VCI APP <info@v-contracting.ca>\r\n";
+				$headers .= "From: Lev-West APP <fabian.v@lev-west.com>\r\n";
 
 				mail($to, $subjet, $mensaje, $headers);
 			}

@@ -703,7 +703,7 @@ class Programming extends CI_Controller
 
 												$to = '+1' . $dato['movil'];
 
-												$mensaje = "INSPECTION APP-VCI";
+												$mensaje = "INSPECTION APP-Lev-West";
 												$mensaje .= "\nDo not forget to do the Inspection:";
 												$mensaje .= "\n" . $inspeccionesValues["unit_description"];
 
@@ -726,7 +726,7 @@ class Programming extends CI_Controller
 												//$to = '+1' . $phoneAdmin;
 												$to = '+14034089921'; // . $phoneAdmin;
 
-												$mensaje = "INSPECTION APP-VCI";
+												$mensaje = "INSPECTION APP-Lev-West";
 												$mensaje .= "\nThe user has not done the Inspection:";
 												$mensaje .= "\n" . $dato['name'] . " - " . $inspeccionesValues["unit_description"];
 
@@ -885,7 +885,7 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $dato['movil'];
 
-										$mensaje = "FLHA APP-VCI";
+										$mensaje = "FLHA APP-Lev-West";
 										$mensaje .= "\nDo not forget to do the FLHA:";
 										$mensaje .= "\n" . $lista['job_description'];
 
@@ -907,7 +907,7 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $phoneAdmin;
 
-										$mensaje = "FLHA APP-VCI";
+										$mensaje = "FLHA APP-Lev-West";
 										$mensaje .= "\nThe user has not done the FLHA:";
 										$mensaje .= "\n" . $dato['name'];
 
@@ -972,7 +972,7 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $dato['movil'];
 
-										$mensaje = "JSO APP-VCI";
+										$mensaje = "JSO APP-Lev-West";
 										$mensaje .= "\nDo not forget to do the JSO:";
 										$mensaje .= "\n" . $lista['job_description'];
 
@@ -994,7 +994,7 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $phoneAdmin;
 
-										$mensaje = "JSO APP-VCI";
+										$mensaje = "JSO APP-Lev-West";
 										$mensaje .= "\nThe user has not done the JSO:";
 										$mensaje .= "\n" . $dato['name'];
 
@@ -1129,7 +1129,7 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $dato['movil'];
 
-										$mensaje = "IHSR APP-VCI";
+										$mensaje = "IHSR APP-Lev-West";
 										$mensaje .= "\nDo not forget to do the IHSR:";
 										$mensaje .= "\n" . $lista['job_description'];
 
@@ -1151,7 +1151,7 @@ class Programming extends CI_Controller
 
 										$to = '+1' . $phoneAdmin;
 
-										$mensaje = "IHSR APP-VCI";
+										$mensaje = "IHSR APP-Lev-West";
 										$mensaje .= "\nThe user has not done the IHSR:";
 										$mensaje .= "\n" . $dato['name'];
 
@@ -1330,7 +1330,7 @@ class Programming extends CI_Controller
 
 		$client = new Twilio\Rest\Client($dato1, $dato2);
 
-		$mensaje = "APP VCI - Planning";
+		$mensaje = "Lev-West APP - Planning";
 		$mensaje .= "\n\n" . $employee . " confirmed the plan for " . $dateProgramming  . " at " . $hora .  ".";
 
 		$to = '+1' . $movil;

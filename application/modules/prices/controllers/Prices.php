@@ -98,7 +98,7 @@ class Prices extends CI_Controller {
 	{
 			$data['vehicleState'] = 1;
 			$data['companyType'] = $companyType;
-			$data['title'] = $companyType==1?"VCI":"RENTALS";
+			$data['title'] = $companyType==1?"Lev-West":"RENTALS";
 
 			$this->load->model("general_model");
 			$arrParam = array(
@@ -154,7 +154,7 @@ class Prices extends CI_Controller {
 			//job_equipment unit price list			
 			$data['vehicleState'] = 1;
 			$data['companyType'] = $companyType;
-			$data['title'] = $companyType==1?"VCI":"RENTALS";
+			$data['title'] = $companyType==1?"Lev-West":"RENTALS";
 
 			$arrParam = array(
 				"companyType" => $companyType,

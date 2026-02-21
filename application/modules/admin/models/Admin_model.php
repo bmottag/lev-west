@@ -308,7 +308,7 @@ class Admin_model extends CI_Model
 
 	/**
 	 * Get vehicle list
-	 * Param int $companyType -> 1: VCI; 2: Subcontractor
+	 * Param int $companyType -> 1: Lev-West; 2: Subcontractor
 	 * @since 15/12/2016
 	 * @review 26/2/2017
 	 */
@@ -331,7 +331,7 @@ class Admin_model extends CI_Model
 
 	/**
 	 * Get vehicle list
-	 * Param int $companyType -> 1: VCI; 2: Subcontractor
+	 * Param int $companyType -> 1: Lev-West; 2: Subcontractor
 	 * Param int $vehicleType -> 1: Pickup; 2: Construction Equipment; 3: Trucks; 4: Special Equipment; 99: Otros
 	 * @since 5/5/2017
 	 */
@@ -344,7 +344,7 @@ class Admin_model extends CI_Model
 		if (array_key_exists("companyType", $arrData)) {
 			$this->db->where('C.company_type', $arrData["companyType"]);
 
-			//si es de VCI entonces filtrar por tipo de inspeccion de lo contrario no se hace el filtro
+			//si es de Lev-West entonces filtrar por tipo de inspeccion de lo contrario no se hace el filtro
 			if ($arrData["companyType"] == 1) {
 				if (array_key_exists("vehicleType", $arrData)) {
 					$this->db->where('T.inspection_type', $arrData["vehicleType"]);

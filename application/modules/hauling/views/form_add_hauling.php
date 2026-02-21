@@ -134,7 +134,7 @@ if ($userRol == 99) {
 														}
 														?>
 
-														<a class="btn <?php echo $class; ?> class_disabled" href="<?php echo base_url("hauling/add_signature/vci/" . $information["id_hauling"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Signature </a>
+														<a class="btn <?php echo $class; ?> class_disabled" href="<?php echo base_url("hauling/add_signature/vci/" . $information["id_hauling"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Lev-West Signature </a>
 
 													</div>
 												</div>
@@ -225,7 +225,7 @@ if ($userRol == 99) {
 
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="company">VCI or Subcontractor</label>
+								<label class="col-sm-4 control-label" for="company">Lev-West or Subcontractor</label>
 								<div class="col-sm-5">
 									<select name="CompanyType" id="CompanyType" class="form-control" required <?php if ($information) { ?>
 										disabled
@@ -234,7 +234,7 @@ if ($userRol == 99) {
 										<option value="">Select...</option>
 										<option value=1 <?php if ($information && $information["company_type"] == 1) {
 															echo "selected";
-														}  ?>>VCI</option>
+														}  ?>>Lev-West</option>
 										<option value=2 <?php if ($information && $information["company_type"] == 2) {
 															echo "selected";
 														}  ?>>Subcontractor</option>
@@ -523,7 +523,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
 									If you use the SAVE button you just save the Hauling Report.<br>
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-									If you use the SAVE & SEND EMAIL button you save the Hauling Report and sent the email to the subcontractor and to <strong>info@v-contracting.ca</strong>.
+									If you use the SAVE & SEND EMAIL button you save the Hauling Report and sent the email to the subcontractor and to <strong>fabian.v@lev-west.com</strong>.
 								</div>
 							</div>
 

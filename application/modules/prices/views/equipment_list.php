@@ -23,7 +23,7 @@
 				<div class="panel-body">
 				
 					<ul class="nav nav-pills">
-						<li <?php if($companyType == 1){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentList/1"); ?>">VCI EQUIPMENT</a>
+						<li <?php if($companyType == 1){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentList/1"); ?>">Lev-West EQUIPMENT</a>
 						</li>
 						<li <?php if($companyType == 2){ echo "class='active'";} ?>><a href="<?php echo base_url("prices/equipmentList/2"); ?>">RENTAL EQUIPMENT</a>
 						</li>

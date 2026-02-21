@@ -567,7 +567,7 @@ class Admin extends CI_Controller
 					if ($configuracionAlertas) {
 
 						//mensaje de texto
-						$mensajeSMS = "NEW JOB APP-VCI";
+						$mensajeSMS = "NEW JOB APP-Lev-West";
 						$mensajeSMS .= "\nFor your records, a new Job Code has been created in the system.";
 						$mensajeSMS .= "\nJob Code/Name: " . $jobDescription;
 
@@ -643,7 +643,7 @@ class Admin extends CI_Controller
 		$data['companyType'] = $companyType;
 		$data['vehicleType'] = $vehicleType;
 		$data['vehicleState'] = $vehicleState;
-		$data['title'] = $companyType == 1 ? "VCI" : "RENTALS";
+		$data['title'] = $companyType == 1 ? "Lev-West" : "RENTALS";
 
 		$arrParam = array(
 			"companyType" => $companyType,
@@ -719,7 +719,7 @@ class Admin extends CI_Controller
 
 		$idVehicle = $this->input->post('hddId');
 		$idCompany = $this->input->post('company');
-		$data["compannyType"] = $idCompany == 1 ? 1 : 2; //1:VCI; 2:Subcontractor
+		$data["compannyType"] = $idCompany == 1 ? 1 : 2; //1:Lev-West; 2:Subcontractor
 
 		$pass = $this->generaPass(); //clave para colocarle al codigo QR
 
@@ -807,7 +807,7 @@ class Admin extends CI_Controller
 
 	/**
 	 * FUNCIÓN PARA SUBIR LA IMAGEN 
-	 * @param int vistaRegreso -> para saber si es de VCI o RENTADA
+	 * @param int vistaRegreso -> para saber si es de Lev-West o RENTADA
 	 */
 	function do_upload($type, $vistaRegreso)
 	{
@@ -1680,7 +1680,7 @@ class Admin extends CI_Controller
 
 						$headers = "MIME-Version: 1.0\r\n";
 						$headers .= "Content-Type: text/html; charset=utf-8\r\n";
-						$headers .= "From: VCI APP <info@v-contracting.ca>\r\n";
+						$headers .= "From: Lev-West APP <fabian.v@lev-west.com>\r\n";
 
 						//enviar correo
 						$envio = mail($to, $subjet, $mensaje, $headers);
@@ -1689,7 +1689,7 @@ class Admin extends CI_Controller
 					//envio mensaje de texto
 					if ($envioAlerta['movil'] && $msj) {
 						$to = '+1' . $envioAlerta['movil'];
-						$mensaje = "APP VCI - Employees Certificates";
+						$mensaje = "Lev-West APP - Employees Certificates";
 						$mensaje .= "\n There are some employees who have a certificate that is about to expire, go to Settings - Employee and check.";
 
 						$client->messages->create(
@@ -1775,7 +1775,7 @@ class Admin extends CI_Controller
 			foreach ($checkinList as $data) :
 				$x++;
 				//send sms to the employee
-				$mensaje = "VCI Sign-Out";
+				$mensaje = "Lev-West Sign-Out";
 				$mensaje .= "\n" . $data['worker_name'];
 				$mensaje .= "\n";
 				$mensaje .= "This message is to remind you that you still ON the working list at the work site, it is possible that you forgot to sign out.";

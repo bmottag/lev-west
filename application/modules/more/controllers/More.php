@@ -174,7 +174,7 @@ class More extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('ESI report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -551,7 +551,7 @@ class More extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('PPE INSPECTION REPORT');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -1298,7 +1298,7 @@ class More extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Confined space entry permit report');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -1590,7 +1590,7 @@ class More extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('Task Control Report');
 		$pdf->SetSubject('TCPDF Tutorial');
 

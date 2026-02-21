@@ -1140,7 +1140,7 @@ class General_model extends CI_Model
 
 	/**
 	 * Get equipment list
-	 * Param int $companyType -> 1: VCI; 2: Subcontractor
+	 * Param int $companyType -> 1: Lev-West; 2: Subcontractor
 	 * @since 6/11/2020
 	 */
 	public function get_equipment_info_by($arrData)
@@ -1170,7 +1170,7 @@ class General_model extends CI_Model
 
 	/**
 	 * Get equipment list
-	 * Param int $companyType -> 1: VCI; 2: Subcontractor
+	 * Param int $companyType -> 1: Lev-West; 2: Subcontractor
 	 * @since 6/11/2020
 	 */
 	public function get_equipment_price($arrData)

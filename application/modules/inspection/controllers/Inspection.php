@@ -265,13 +265,13 @@ class Inspection extends CI_Controller
 										</html>";
 
 						//mensaje de texto
-						$mensajeSMS = "APP VCI - " . $subjet;
+						$mensajeSMS = "Lev-West APP - " . $subjet;
 						$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 						$mensajeSMS .= $comments != "" ? "\nComments: " . $comments : "";
 						$mensajeSMS .= $fails;
 						$mensajeSMS .= "\n\nSee: " . $urlMovil;
 
-						//enviar correo a VCI
+						//enviar correo a Lev-West
 						$arrParam = array(
 							"idNotification" => ID_NOTIFICATION_INSPECTIONS,
 							"subjet" => $subjet,
@@ -417,12 +417,12 @@ class Inspection extends CI_Controller
 									</html>";
 
 					//mensaje de texto
-					$mensajeSMS = "APP VCI - " . $subjet;
+					$mensajeSMS = "Lev-West APP - " . $subjet;
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= $comments != "" ? "\nComments: " . $comments : "";
 					$mensajeSMS .= "\n\nSee: " . $urlMovil;
 
-					//enviar correo a VCI
+					//enviar correo a Lev-West
 					$arrParam = array(
 						"idNotification" => ID_NOTIFICATION_INSPECTIONS,
 						"subjet" => $subjet,
@@ -616,12 +616,12 @@ class Inspection extends CI_Controller
 									</html>";
 
 					//mensaje de texto
-					$mensajeSMS = "APP VCI - " . $subjet;
+					$mensajeSMS = "Lev-West APP - " . $subjet;
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= $comments != "" ? "\nComments: " . $comments : "";
 					$mensajeSMS .= "\n\nSee: " . $urlMovil;
 
-					//enviar correo a VCI
+					//enviar correo a Lev-West
 					$arrParam = array(
 						"idNotification" => ID_NOTIFICATION_INSPECTIONS,
 						"subjet" => $subjet,
@@ -768,12 +768,12 @@ class Inspection extends CI_Controller
 									</html>";
 
 					//mensaje de texto
-					$mensajeSMS = "APP VCI - " . $subjet;
+					$mensajeSMS = "Lev-West APP - " . $subjet;
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= $comments != "" ? "\nComments: " . $comments : "";
 					$mensajeSMS .= "\n\nSee: " . $urlMovil;
 
-					//enviar correo a VCI
+					//enviar correo a Lev-West
 					$arrParam = array(
 						"idNotification" => ID_NOTIFICATION_INSPECTIONS,
 						"subjet" => $subjet,
@@ -1005,13 +1005,13 @@ class Inspection extends CI_Controller
 									</html>";
 
 					//mensaje de texto
-					$mensajeSMS = "APP VCI - " . $subjet;
+					$mensajeSMS = "Lev-West APP - " . $subjet;
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= $comments != "" ? "\nComments: " . $comments : "";
 					$mensajeSMS .= $fails;
 					$mensajeSMS .= "\n\nSee: " . $urlMovil;
 
-					//enviar correo a VCI
+					//enviar correo a Lev-West
 					$arrParam = array(
 						"idNotification" => ID_NOTIFICATION_INSPECTIONS,
 						"subjet" => $subjet,
@@ -1240,13 +1240,13 @@ class Inspection extends CI_Controller
 									</html>";
 
 					//mensaje de texto
-					$mensajeSMS = "APP VCI - " . $subjet;
+					$mensajeSMS = "Lev-West APP - " . $subjet;
 					$mensajeSMS .= "\nUnit Number: " . $vehicleInfo[0]["unit_number"];
 					$mensajeSMS .= $comments != "" ? "\nComments: " . $comments : "";
 					$mensajeSMS .= $fails;
 					$mensajeSMS .= "\n\nSee: " . $urlMovil;
 
-					//enviar correo a VCI
+					//enviar correo a Lev-West
 					$arrParam = array(
 						"idNotification" => ID_NOTIFICATION_INSPECTIONS,
 						"subjet" => $subjet,

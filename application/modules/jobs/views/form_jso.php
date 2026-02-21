@@ -66,7 +66,7 @@ $(function(){
 						}
 						?>						
 						<br><br>
-						This form is to be completed before a sub-contractor’s employee(s), visitor(s) and worker(s) commences work on any VCI site. 
+						This form is to be completed before a sub-contractor’s employee(s), visitor(s) and worker(s) commences work on any Lev-West site. 
 						<br>
 						Please complete all sections that are applicable to these worksite activities.
 						<br>
@@ -151,7 +151,7 @@ if ($retornoError) {
 						<div class="modal-content">      
 							<div class="modal-header">        
 								<button type="button" class="close" data-dismiss="modal">×</button>        
-								<h4 class="modal-title">VCI Supervisor Signature</h4>      </div>      
+								<h4 class="modal-title">Lev-West Supervisor Signature</h4>      </div>      
 							<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["supervisor_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
 							<div class="modal-footer">        
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -163,7 +163,7 @@ if ($retornoError) {
 		}
 		?>
 
-		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("jobs/add_signature_jso/supervisor/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_jso"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Supervisor Signature </a>
+		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("jobs/add_signature_jso/supervisor/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_jso"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Lev-West Supervisor Signature </a>
 
 							</div>
 						</div>
@@ -211,7 +211,7 @@ if ($retornoError) {
 							<div class="modal-content">      
 								<div class="modal-header">        
 									<button type="button" class="close" data-dismiss="modal">×</button>        
-									<h4 class="modal-title">VCI Manager Signature</h4>      </div>      
+									<h4 class="modal-title">Lev-West Manager Signature</h4>      </div>      
 					<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["manager_signature"]); ?>" class="img-rounded" alt="Safety Coordinator Signature" width="304" height="236" />   </div>      
 								<div class="modal-footer">        
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -223,7 +223,7 @@ if ($retornoError) {
 			<?php
 			}
 			?>
-			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("jobs/add_signature_jso/manager/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_jso"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Manager Signature </a>
+			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("jobs/add_signature_jso/manager/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_jso"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Lev-West Manager Signature </a>
 
 							</div>
 						</div>
@@ -246,7 +246,7 @@ if ($retornoError) {
 					<strong>WORKER(S)</strong>
 				</div>
 				<div class="panel-body">
-<p class="text-left">By signing below the worker(s) agreed to comply with all VCI’s policies as well as with all safe operations required on
+<p class="text-left">By signing below the worker(s) agreed to comply with all Lev-West’s policies as well as with all safe operations required on
 this specific site, also is aware of all potential hazards, keeping in mind that all equipment has the right of way. Do not
 walk behind any piece of equipment before making EYE CONTACT with the operator.</p>	
 

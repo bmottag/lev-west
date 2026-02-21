@@ -684,7 +684,7 @@ pr($records);
 		$arrParam = array("idUser" => $idUser);
 		$userInfo = $this->general_model->get_user($arrParam);
 
-		$mensaje = "VCI TIME SHEET";
+		$mensaje = "Lev-West TIME SHEET";
 		$mensaje .= "\n" . $userInfo[0]['first_name'] . ' ' .  $userInfo[0]['last_name'];
 		$mensaje .= "\n";
 		$mensaje .= "This message is to remind you that you have been working more than 14 hours, it is possible that you forgot to check out, if it is the case please login the system and check out.";
@@ -722,7 +722,7 @@ pr($records);
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('WORK ORDER');
 		$pdf->SetSubject('TCPDF Tutorial');
 
@@ -841,12 +841,12 @@ pr($records);
 			$subjet = "Hour sin WO";
 
 			//mensaje de texto
-			$mensajeSMS = "APP VCI - " . $subjet;
+			$mensajeSMS = "Lev-West APP - " . $subjet;
 			$mensajeSMS .= "\nHoras sin asignar a WO.";
 			$mensajeSMS .= "\nFollow the link to see the list.";
 			$mensajeSMS .= "\n\n" . base_url("dashboard/without_work_order");
 
-			//enviar correo a VCI
+			//enviar correo a Lev-West
 			$arrParam = array(
 				"idNotification" => ID_NOTIFICATION_HOURS_PAYROLL_CHECK,
 				"subjet" => $subjet,

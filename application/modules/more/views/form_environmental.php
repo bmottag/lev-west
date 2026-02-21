@@ -109,7 +109,7 @@ if ($retornoError) {
 						<div class="modal-content">      
 							<div class="modal-header">        
 								<button type="button" class="close" data-dismiss="modal">×</button>        
-								<h4 class="modal-title">VCI Inspector Signature</h4>      </div>      
+								<h4 class="modal-title">Lev-West Inspector Signature</h4>      </div>      
 							<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["inspector_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" />   </div>      
 							<div class="modal-footer">        
 								<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -121,7 +121,7 @@ if ($retornoError) {
 		}
 		?>
 
-		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/inspector/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_environmental"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Inspector Signature </a>
+		<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/inspector/" . $jobInfo[0]["id_job"] . "/". $information[0]["id_job_environmental"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Lev-West Inspector Signature </a>
 
 							</div>
 						</div>
@@ -166,7 +166,7 @@ if ($retornoError) {
 							<div class="modal-content">      
 								<div class="modal-header">        
 									<button type="button" class="close" data-dismiss="modal">×</button>        
-									<h4 class="modal-title">VCI Manager Signature</h4>      </div>      
+									<h4 class="modal-title">Lev-West Manager Signature</h4>      </div>      
 					<div class="modal-body text-center"><img src="<?php echo base_url($information[0]["manager_signature"]); ?>" class="img-rounded" alt="Safety Coordinator Signature" width="304" height="236" />   </div>      
 								<div class="modal-footer">        
 									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>     
@@ -178,7 +178,7 @@ if ($retornoError) {
 			<?php
 			}
 			?>
-			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/manager/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_environmental"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> VCI Manager Signature </a>
+			<a class="btn <?php echo $class; ?>" href="<?php echo base_url("more/add_signature_esi/manager/" . $jobInfo[0]["id_job"] . "/" . $information[0]["id_job_environmental"]); ?>"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span> Lev-West Manager Signature </a>
 
 							</div>
 						</div>

@@ -287,7 +287,7 @@ class Incidences extends CI_Controller {
 			</html>";
 
 			//mensaje de texto
-			$mensajeSMS = "APP VCI - Incident Notification";
+			$mensajeSMS = "Lev-West APP - Incident Notification";
 			$mensajeSMS .= "\nIt is a new " . $subjet . ":";
 			$mensajeSMS .= "\nReport by: " . $infoIncident[0]["name"];
 			if($incidencesType == 3){
@@ -296,7 +296,7 @@ class Incidences extends CI_Controller {
 				$mensajeSMS .= "\nWhat happened: " . $infoIncident[0]["what_happened"];
 			}
 
-			//enviar correo a VCI
+			//enviar correo a Lev-West
 			$arrParam = array(
 				"idNotification" => ID_NOTIFICATION_INCIDENT,
 				"subjet" => $subjet,
@@ -623,7 +623,7 @@ class Incidences extends CI_Controller {
 
 			// set document information
 			$pdf->SetCreator(PDF_CREATOR);
-			$pdf->SetAuthor('VCI');
+			$pdf->SetAuthor('Lev-West');
 			$pdf->SetTitle('Incidences Report');
 			$pdf->SetSubject('TCPDF Tutorial');
 
@@ -828,7 +828,7 @@ pr($data['info']);
 		$data['infoPersonsInvolved'] = $this->incidences_model->get_persons_involved($arrParam);
 pr($data['infoPersonsInvolved']); exit;
 		$mensaje = "";
-		$mensaje .= "VCI INCIDENCES - " . date('F j, Y', strtotime($data['info'][0]['date_issue']));
+		$mensaje .= "Lev-West INCIDENCES - " . date('F j, Y', strtotime($data['info'][0]['date_issue']));
 		$mensaje .= "\n" . $data['infoSafety'][0]['job_description'];
 		$mensaje .= "\nFollow the link, read and sign.";
 		$mensaje .= "\n";

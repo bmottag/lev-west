@@ -487,7 +487,7 @@ class Workorders extends CI_Controller
 	public function truckList()
 	{
 		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
-		$company = 1; //la empresa es VCI que el id es 1
+		$company = 1; //la empresa es Lev-West que el id es 1
 		$type = $this->input->post('type');
 		$this->load->model("general_model");
 		//si es igual a 8 es miscellaneous entonces la informacion la debe sacar de la tabla param_miscellaneous
@@ -867,19 +867,19 @@ class Workorders extends CI_Controller
 
 				$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 				$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-				$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+				$cabeceras .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
 
 				//enviar correo al cliente
 				mail($to, $subjet, $mensaje, $cabeceras);
 
-				//enviar correo a VCI
-				mail('info@v-contracting.ca', $subjet, $mensaje, $cabeceras);
+				//enviar correo a Lev-West
+				mail('fabian.v@lev-west.com', $subjet, $mensaje, $cabeceras);
 
 				if ($lista['foreman_name'] && $lista['foreman_email']) {
 
 					$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 					$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-					$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+					$cabeceras .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
 
 					//enviar correo al FOREMAN
 					mail($lista['foreman_email'], $subjet, $mensaje, $cabeceras);
@@ -1043,17 +1043,17 @@ class Workorders extends CI_Controller
 
 		$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 		$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-		$cabeceras .= 'From: VCI APP <hugo@v-contracting.com>' . "\r\n";
+		$cabeceras .= 'From: Lev-West APP <hugo@v-contracting.com>' . "\r\n";
 
 		//enviar correo al cliente
 		mail($to, $subjet, $mensaje, $cabeceras);
 
 		//mensaje de texto
-		$mensajeSMS = "APP VCI - Work Order Email";
+		$mensajeSMS = "Lev-West APP - Work Order Email";
 		$mensajeSMS .= "\nAn email was sent to the client with the Work Order information.";
 		$mensajeSMS .= "\nWorkorder number: " . $id;
 
-		//enviar correo a VCI
+		//enviar correo a Lev-West
 		$arrParam = array(
 			"idNotification" => ID_NOTIFICATION_WORKORDER,
 			"subjet" => $subjet,
@@ -1066,7 +1066,7 @@ class Workorders extends CI_Controller
 
 			$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 			$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-			$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+			$cabeceras .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
 
 			//enviar correo al FOREMAN
 			mail($lista['foreman_email'], $subjet, $mensaje, $cabeceras);
@@ -1218,7 +1218,7 @@ class Workorders extends CI_Controller
 
 		// set document information
 		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('VCI');
+		$pdf->SetAuthor('Lev-West');
 		$pdf->SetTitle('WORK ORDER');
 		$pdf->SetSubject('TCPDF Tutorial');
 

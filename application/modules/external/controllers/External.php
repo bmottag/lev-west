@@ -241,7 +241,7 @@ class External extends CI_Controller {
 		$data['informationWorker'] = $this->general_model->get_safety_subcontractors_workers($arrParam);//info safety workers
 
 		$mensaje = "";
-		$mensaje .= "VCI FLHA - " . date('F j, Y', strtotime($data['infoSafety'][0]['date']));
+		$mensaje .= "Lev-West FLHA - " . date('F j, Y', strtotime($data['infoSafety'][0]['date']));
 		$mensaje .= "\n" . $data['infoSafety'][0]['job_description'];
 		$mensaje .= "\nFollow the link, read the FLHA and sign.";
 		$mensaje .= "\n";
@@ -307,7 +307,7 @@ class External extends CI_Controller {
 		$data['informationWorker'] = $this->general_model->get_excavation_subcontractors($arrParam);//info safety workers
 
 		$mensaje = "";
-		$mensaje .= "VCI Excavation and Trenching Plan - " . date('F j, Y', strtotime($data['information'][0]['date_excavation']));
+		$mensaje .= "Lev-West Excavation and Trenching Plan - " . date('F j, Y', strtotime($data['information'][0]['date_excavation']));
 		$mensaje .= "\n" . $data['information'][0]['job_description'];
 		$mensaje .= "\nFollow the link, read the Excavation and Trenching Plan and sign.";
 		$mensaje .= "\n";
@@ -408,12 +408,12 @@ class External extends CI_Controller {
 					$msj .= "<br><strong>Password: </strong>" . $passwd;
 
 					//Envio de correo
-					$subjet = "Welcome to VCI";
+					$subjet = "Welcome to Lev-West";
 					$user = $firstName;
 					$to = $email;
 
 					$link = base_url();
-					$emailmsj = "<strong>APP Link: </strong><a href='" . $link . "'>VCI APP</a>";
+					$emailmsj = "<strong>APP Link: </strong><a href='" . $link . "'>Lev-West APP</a>";
 					$emailmsj .= "<br><strong>User name: </strong>" . $log_user;
 					$emailmsj .= "<br><strong>Password: </strong>" . $passwd;
 
@@ -432,7 +432,7 @@ class External extends CI_Controller {
 	
 					$cabeceras  = 'MIME-Version: 1.0' . "\r\n";
 					$cabeceras .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-					$cabeceras .= 'From: VCI APP <info@v-contracting.ca>' . "\r\n";
+					$cabeceras .= 'From: Lev-West APP <fabian.v@lev-west.com>' . "\r\n";
 
 					//enviar correo
 					mail($to, $subjet, $mensaje, $cabeceras);
