@@ -10,6 +10,7 @@
     <meta name="author" content="">
 	
     <title>Lev-West</title>
+    <link rel="icon" type="image/png" href="<?php echo base_url("images/favicon.png"); ?>" />
 
     <!-- Bootstrap Core CSS -->
 	<link href="<?php echo base_url("assets/bootstrap/vendor/bootstrap/css/bootstrap.min.css"); ?>" rel="stylesheet">
