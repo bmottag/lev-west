@@ -21,8 +21,11 @@ class Invoices_model extends CI_Model {
 		if (array_key_exists("idJobCode", $arrData) && $arrData["idJobCode"] != 'x') {
 			$this->db->where('I.fk_id_job', $arrData["idJobCode"]);
 		}
-		if (array_key_exists("idEmpleado", $arrData) && $arrData["idEmpleado"] != 'x') {
-			$this->db->where('E.numero_unico', $arrData["idEmpleado"]);
+		if (array_key_exists("status", $arrData) && $arrData["status"] != 'x') {
+			$this->db->where('I.invoice_status', $arrData["status"]);
+		}
+		if (array_key_exists("number", $arrData) && $arrData["number"] != 'x') {
+			$this->db->like('I.number', $arrData["number"]);
 		}
 		$query = $this->db->get('invoices I');
 
@@ -47,7 +50,9 @@ class Invoices_model extends CI_Model {
 			'fk_id_job' => $this->input->post('jobName'),
 			'date_issue' => $this->input->post('date'),
 			'due_date' => $this->input->post('due_date'),
-			'number' => $this->input->post('number')
+			'number' => $this->input->post('number'),
+			'is_wo_or_claim' => $this->input->post('link_to'),
+			'fk_id_wo_or_claim' => $this->input->post('list_work_order')
 		);
 
 		//revisar si es para adicionar o editar
@@ -92,6 +97,48 @@ class Invoices_model extends CI_Model {
 		}
 
 		return str_pad($next, 3, "0", STR_PAD_LEFT);
+	}
+
+	/**
+	 * Get Invoices Items
+	 * @since 9/03/2026
+	 */
+	public function get_invoices_items($arrData)
+	{
+		$this->db->select();
+		if (array_key_exists("idInvoice", $arrData)) {
+			$this->db->where('I.fk_id_invoice', $arrData["idInvoice"]);
+		}
+		$query = $this->db->get('invoices_items I');
+
+		if ($query->num_rows() > 0) {
+			return $query->result_array();
+		} else {
+			return false;
+		}
+	}
+
+	/**
+	 * Claim list by Job Code
+	 * @since 10/03/2026
+	 * @author BMOTTAG
+	 */
+	public function get_claim_by_job_code($jobCode)
+	{
+		$wos = array();
+		$sql = "SELECT * FROM claim WHERE date_issue_claim >= CURDATE() - INTERVAL 10 DAY AND fk_id_job = $jobCode;";
+		$query = $this->db->query($sql);
+
+		if ($query->num_rows() > 0) {
+			$i = 0;
+			foreach ($query->result() as $row) {
+				$wos[$i]["id_claim"] = $row->id_claim;
+				$wos[$i]["observation"] = $row->observation_claim;
+				$i++;
+			}
+		}
+		$this->db->close();
+		return $wos;
 	}
 		
 	    
