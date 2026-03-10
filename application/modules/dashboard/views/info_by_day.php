@@ -36,7 +36,7 @@
         <div class="col-lg-12">
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url('dashboard/calendar'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the Calendar</a>
+                    <a class="btn btn-danger btn-xs" href=" <?php echo base_url('dashboard/calendar'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Back to the Almanac</a>
                     <a class="btn btn-danger btn-xs" href=" <?php echo base_url("dashboard/info_by_day/all/" . $fecha) ; ?> "><span class="glyphicon glyphicon glyphicon-chevron-right" aria-hidden="true"></span> View all the Information for the selected day</a> <br>
                     <i class="fa fa-bell fa-fw"></i> <strong>SUMMARY</strong> - <?php echo date('F j, Y', strtotime($fecha)); ?>
                 </div>
@@ -466,7 +466,7 @@
             
             <div class="panel panel-danger">
                 <div class="panel-heading">
-                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Orders or need to check the sum of hours.
+                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL ALERT</strong> - The following list contains items that are not associated with any Work Tickets or need to check the sum of hours.
                 </div>
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">

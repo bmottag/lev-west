@@ -55,7 +55,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * MECHANIC DASHBOARD
+	 * MECHANIC Work Space
 	 */
 	public function mechanic()
 	{
@@ -202,7 +202,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * SUPERVISOR DASHBOARD
+	 * SUPERVISOR Work Space
 	 */
 	public function supervisor()
 	{
@@ -241,7 +241,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * WORK ORDER DASHBOARD
+	 * WORK ORDER Work Space
 	 */
 	public function work_order()
 	{
@@ -279,7 +279,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * SAFETY DASHBOARD
+	 * SAFETY Work Space
 	 */
 	public function safety()
 	{
@@ -319,7 +319,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * Accounting DASHBOARD
+	 * Accounting Work Space
 	 */
 	public function accounting()
 	{
@@ -353,7 +353,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * Management DASHBOARD
+	 * Management Work Space
 	 */
 	public function management()
 	{
@@ -389,7 +389,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * SUPER ADMIN DASHBOARD
+	 * SUPER ADMIN Work Space
 	 */
 	public function admin()
 	{
@@ -429,7 +429,7 @@ class Dashboard extends CI_Controller
 	}
 
 	/**
-	 * Calendario
+	 * Almanac
 	 * @since 18/12/2020
 	 * @author BMOTTAG
 	 */

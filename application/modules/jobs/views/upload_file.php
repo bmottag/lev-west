@@ -22,7 +22,7 @@
 						<div class="col-lg-12">
 							<div class="alert alert-danger ">
 								<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-								Currently, there are entries in the WO (Work Orders) detailing various expenses related to this Job Code. Unfortunately, there is an inability to upload additional information at this time.
+								Currently, there are entries in the WO (Work Tickets) detailing various expenses related to this Job Code. Unfortunately, there is an inability to upload additional information at this time.
 							</div>
 						</div>
 					<?php } ?>

@@ -24,7 +24,7 @@ echo $jobInfo[0]['job_description'];
                 <div class="panel-body">
                     <div class="list-group">
                         <a href="#" class="list-group-item">
-                            <p class="text-success"><i class="fa fa-money fa-fw"></i><strong> Work Orders Records</strong>
+                            <p class="text-success"><i class="fa fa-money fa-fw"></i><strong> Work Tickets Records</strong>
                                 <span class="pull-right text-muted small"><em><?php echo $noWorkOrder ; ?></em>
                                 </span>
                             </p>

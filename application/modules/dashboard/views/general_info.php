@@ -184,13 +184,13 @@
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
-						<li>This role can edit Work Orders that are "On Field" and "In Progress".</li>
+						<li>This role can edit Work Tickets that are "On Field" and "In Progress".</li>
 						<li>Work Order Report</li>
 						<li>Hauling Report</li>
 						<li>Force Account</li>
 						</ul>
 						----------------------------
-						<br><strong>Calendar</strong>
+						<br><strong>Almanac</strong>
 						<br>----------------------------
 						<br><strong>Manuals</strong>
 					</p>
@@ -269,7 +269,7 @@
 						<li>Force Account</li>
 						</ul>
 						----------------------------
-						<br><strong>Calendar</strong>
+						<br><strong>Almanac</strong>
 						<br>----------------------------
 						<br>* <strong>Settings:</strong> 
 						<ul>
@@ -354,7 +354,7 @@
 						<li>Force Account</li>
 						</ul>
 						----------------------------
-						<br><strong>Calendar:</strong>
+						<br><strong>Almanac:</strong>
 						<ul>
 						<li>Edit Worker Hours</li>
 						</ul>
@@ -428,13 +428,13 @@
 						<li>Search Income</li>
 						<li>Asign rate</li>
 						<li>Download invoice</li>
-						<li>This role can edit Work Orders that are "On Field", "In Progress" and "Revised".</li>
+						<li>This role can edit Work Tickets that are "On Field", "In Progress" and "Revised".</li>
 						<li>Work Order Report</li>
 						<li>Hauling Report</li>
 						<li>Force Account</li>
 						</ul>
 						----------------------------
-						<br><strong>Calendar</strong>
+						<br><strong>Almanac</strong>
 						<br>----------------------------
 						<br><strong>Manuals</strong>
 					</p>
@@ -507,7 +507,7 @@
 						<li>Force Account</li>
 						</ul>
 						----------------------------
-						<br><strong>Calendar</strong>
+						<br><strong>Almanac</strong>
 						<br>----------------------------
 						<br>* <strong>Settings:</strong> 
 						<ul>

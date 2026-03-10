@@ -113,7 +113,7 @@ return date;
 		<div class="col-lg-4">
 			<div class="panel panel-info">
 				<div class="panel-heading">
-					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Work Orders <b><?php echo date("Y"); ?></b>
+					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Work Tickets <b><?php echo date("Y"); ?></b>
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
@@ -182,7 +182,7 @@ return date;
 		<div class="col-lg-4">
 			<div class="panel panel-violeta">
 				<div class="panel-heading">
-					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Work Orders <b><?php echo $year; ?></b>
+					<i class="fa fa-bell fa-fw"></i> Notifications Panel - Work Tickets <b><?php echo $year; ?></b>
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
