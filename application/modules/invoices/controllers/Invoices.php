@@ -19,11 +19,14 @@ class Invoices extends CI_Controller {
 		if($this->input->post('date')){
 			$arrParam['date'] = $this->input->post('date');
 		}
-		if($this->input->post('company')){
-			$arrParam['idCompany'] = $this->input->post('company');
+		if($this->input->post('idJobCode')){
+			$arrParam['idJobCode'] = $this->input->post('idJobCode');
 		}
 		if($this->input->post('status')){
-			$arrParam['idStatus'] = $this->input->post('status');
+			$arrParam['status'] = $this->input->post('status');
+		}
+		if($this->input->post('number')){
+			$arrParam['number'] = $this->input->post('number');
 		}
 		$data['info'] = $this->invoices_model->get_invoices($arrParam);
 
@@ -84,7 +87,7 @@ class Invoices extends CI_Controller {
 			$arrParam = array('idInvoice' => $id);
 			$data['information'] = $this->invoices_model->get_invoices($arrParam); //info invoice
 
-			$data['items'] = $this->invoices_model->get_workorder_personal($arrParam); //items
+			$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -128,6 +131,38 @@ class Invoices extends CI_Controller {
 
 		echo json_encode($data);
 	}
+
+	/**
+	 * Claim list
+	 * @since 10/03/2026
+	 * @author BMOTTAG
+	 */
+	public function claimList()
+	{
+		header("Content-Type: text/plain; charset=utf-8");
+		$jobCode = $this->input->post('jobCode');
+		$list = $this->invoices_model->get_claim_by_job_code($jobCode);
+		echo "<option value=''>Select...</option>";
+		if ($list) {
+			foreach ($list as $fila) {
+				echo "<option value='" . $fila["id_claim"] . "' >" . $fila["id_claim"] . " - " . $fila["observation"] . "</option>";
+			}
+		}
+	}
+
+	/**
+	 * Cargo modal- formulario de captura items
+	 * @since 10/03/2026
+	 */
+	public function cargarModalItems()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+
+		$data["idInvoice"] = $this->input->post("idInvoice");
+
+		$this->load->view("modal_items", $data);
+	}
+
 
 	
 }

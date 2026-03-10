@@ -78,46 +78,35 @@ if ($retornoError) {
 									if($statusList) {
 										foreach ($statusList as $status) {
 									?>
-										<option value="<?php echo $status["status_slug"]; ?>" <?php if($_POST && $_POST[0]["status"] == $status["status_slug"]) { echo "selected"; }  ?> ><?php echo $status["status_name"]; ?> </option>
+										<option value="<?php echo $status["status_slug"]; ?>" <?php if($_POST && $_POST["status"] == $status["status_slug"]) { echo "selected"; }  ?> ><?php echo $status["status_name"]; ?> </option>
 									<?php
 										}
 									}
 									?>
 								</select>
 							</div>
-
+							<div class="col-sm-2">
+								<label for="from">Invoice # : </label>
+								<input type="text" class="form-control" id="number" name="number" value="<?php echo $_POST?$_POST["number"]:""; ?>" placeholder="Invoice #" />
+							</div>
 							<div class="col-sm-1">
 								<br>
 								<button type="submit" class="btn btn-primary" id='btnSearch' name='btnSearch'><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search </button>
 							</div>
-							<div class="col-sm-2">
-								<br>
-								<?php 
-									if($info && 1){ 
-										$date = 'x';
-										$idJobCode = 'x';
-										$status = 'x';
-										if($_POST && $this->input->post('date')){
-											$date = $this->input->post('date');
-										}
-										if($_POST && $this->input->post('idJobCode')){
-											$idJobCode =  $this->input->post('idJobCode');
-										}
-										if($_POST && $this->input->post('status')){
-											$status = $this->input->post('status');
-										}
-								?>	
-								<?php } ?>	
-							</div>
 						</div>
 					</form>
-				<?php
-					if($info){
-				?>	
+
+				<?php 										
+					if(!$info){ 
+						echo '<div class="col-lg-12">
+								<p class="text-danger"><span class="glyphicon glyphicon-alert" aria-hidden="true"></span> There are no records in the system.</p>
+							</div>';
+					} else {
+				?>
 					<table width="100%" class="table table-striped table-bordered table-hover small" id="dataTables">
 						<thead>
 							<tr>
-								<th width='4%' class="text-center">Number</th>
+								<th width='4%' class="text-center">Invoice #</th>
 								<th width='4%' class="text-center">Date Issue</th>
 								<th width='10%' class="text-center">Job Code</th>
 								<th width='8%' class="text-center">Client</th>

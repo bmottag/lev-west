@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=1.0.0"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=3.0.0"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -28,13 +28,13 @@
 <script>
 	$(function() {
 
-		$(".btn-primary").click(function() {
+		$(".btn-info").click(function() {
 			var oID = $(this).attr("id");
 			$.ajax({
 				type: 'POST',
-				url: base_url + 'workorders/cargarModalPersonal',
+				url: base_url + 'invoices/cargarModalItems',
 				data: {
-					'idWorkorder': oID
+					'idInvoice': oID
 				},
 				cache: false,
 				success: function(data) {
@@ -149,7 +149,9 @@
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="hddTask">Date :</label>
 							<div class="col-sm-5">
-								<input type="text" class="form-control" id="date" name="date" value="<?php echo $information ? $information[0]["date_issue"] : ""; ?>" placeholder="Date" required <?php echo $deshabilitar; ?> />
+								<input type="text" class="form-control" id="date" name="date"
+								value="<?php echo $information ? $information[0]['date_issue'] : date('Y-m-d'); ?>"
+								placeholder="Date" required <?php echo $deshabilitar; ?> />
 							</div>
 						</div>
 
@@ -201,8 +203,6 @@
 						<?php
 						if ($information) {
 						?>
-
-
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="taskDescription">Status :</label>
 								<div class="col-sm-5">
@@ -221,6 +221,28 @@
 								</div>
 							</div>
 						<?php } ?>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="taskDescription">Link to :</label>
+							<div class="col-sm-5">
+								<select name="link_to" id="link_to" class="form-control">
+									<option value=''>Select...</option>
+									<option value='wo' <?php if($information && $information[0]["is_wo_or_claim"] == 'wo') { echo "selected"; }  ?>>W.O.</option>
+									<option value='claim' <?php if($information && $information[0]["is_wo_or_claim"] == 'claim') { echo "selected"; }  ?>>Claim</option>
+								</select>
+							</div>
+						</div>
+
+						<input type="hidden" id="selected_link_id" value="<?php echo $information ? $information[0]['fk_id_wo_or_claim'] : ''; ?>">
+
+						<div class="form-group" id="div_list_work_order">
+							<label class="col-sm-4 control-label" id="label_list" for="work_order_div">Select Work Order</label>
+							<div class="col-sm-5">
+								<select name="list_work_order" id="list_work_order" class="form-control">
+									<option value="">Select...</option>
+								</select>
+							</div>
+						</div>
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="form-group">
@@ -247,67 +269,64 @@
 	if ($information) {
 	?>
 
-		<!--INICIO PERSONAL -->
+		<!--ITEMS -->
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<b>PERSONNEL</b>
+						<b>ITEMS</b>
 					</div>
 					<div class="panel-body">
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
 
-								<button type="button" class="btn btn-primary btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_workorder"]; ?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Personnel
+								<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_invoice"]; ?>">
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> And an Item
 								</button><br>
 							</div>
 						<?php } ?>
 
 						<?php
-						if ($workorderPersonal) {
+						if ($items) {
 						?>
 							<table class="table table-bordered table-striped table-hover table-condensed">
 								<tr class="info">
-									<th class="text-center">Employee Name</th>
-									<th class="text-center">Employee Type</th>
-									<th class="text-center">Work Done</th>
-									<th class="text-center">Hours</th>
+									<th class="text-center">Item</th>
+									<th class="text-center">Description</th>
+									<th class="text-center">Quantity</th>
+									<th class="text-center">Unit</th>
+									<th class="text-center">Rate</th>
 									<th class="text-center">Links</th>
 								</tr>
 								<?php
-								foreach ($workorderPersonal as $data) :
+								$record = 0;
+								foreach ($items as $data) :
+									$record++;
 									echo "<tr>";
+									echo "<td ><small>" . $record . "</small></td>";
 									echo "<td ><small>" . $data['name'] . "</small></td>";
 
-									$idRecord = $data['id_workorder_personal'];
+									$idRecord = $data['id_invoices_items'];
 								?>
-									<form name="personal_<?php echo $idRecord ?>" id="personal_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
-										<input type="hidden" id="formType" name="formType" value="personal" />
+									<form name="item_<?php echo $idRecord ?>" id="item_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
 										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdWorkOrder" name="hddIdWorkOrder" value="<?php echo $data['fk_id_workorder']; ?>" />
-										<input type="hidden" id="rate" name="rate" value="<?php echo $data['rate']; ?>" />
-										<input type="hidden" id="check_pdf" name="check_pdf" value="<?php echo $data['view_pdf']; ?>" />
-										<input type="hidden" id="quantity" name="quantity" value=1>
-
-										<td>
-											<select name="type_personal" id="type_personal" class="form-control">
-												<option value=''>Select...</option>
-												<?php for ($i = 0; $i < count($employeeTypeList); $i++) { ?>
-													<option value="<?php echo $employeeTypeList[$i]["id_employee_type"]; ?>" <?php if ($data["fk_id_employee_type"] == $employeeTypeList[$i]["id_employee_type"]) {
-																																	echo "selected";
-																																}  ?>><?php echo $employeeTypeList[$i]["employee_type"]; ?></option>
-												<?php } ?>
-											</select>
-										</td>
+										<input type="hidden" id="hddIdInvoice" name="hddIdInvoice" value="<?php echo $data['fk_id_invoice']; ?>" />
 
 										<td>
 											<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
 										</td>
 
 										<td>
-											<input type="text" id="hours" name="hours" class="form-control" placeholder="Hours" value="<?php echo $data['hours']; ?>" required <?php echo $deshabilitar; ?>>
+											<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
+										</td>
+
+										<td>
+											<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
+										</td>
+
+										<td>
+											<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required <?php echo $deshabilitar; ?>>
 										</td>
 
 										<td class='text-center'>
@@ -335,13 +354,13 @@
 				</div>
 			</div>
 		</div>
-		<!--FIN PERSONAL -->
+		<!--FIN ITEM -->
 
 	<?php } ?>
 
 </div>
 
-<!--INICIO Modal para PERSONAL -->
+<!--INICIO Modal para ITEM -->
 <div class="modal fade text-center" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content" id="tablaDatos">
@@ -349,4 +368,4 @@
 		</div>
 	</div>
 </div>
-<!--FIN Modal para PERSONAL -->
+<!--FIN Modal para ITEM -->

@@ -1,10 +1,12 @@
+var firstLoad = true;
+
 $( document ).ready( function () {
 			
 	$( "#form" ).validate( {
 		rules: {
+			jobName:				{ required: true },
 			date:					{ required: true },
 			due_date:				{ required: true },
-			jobName:				{ required: true },
 			number: 				{ required: true, maxlength:10 }
 		},
 		errorElement: "em",
@@ -46,6 +48,59 @@ $( document ).ready( function () {
 			});	
 		}	
 	});	
+
+	$('#link_to').change(function () {
+		var link_to = $('#link_to').val();
+		var jobCode = $('#jobName').val();
+		var endpoint = '';
+
+		// solo limpiar si NO es la primera carga
+		if (!firstLoad) {
+			$('#list_work_order').html('<option value="">Select...</option>');
+			$('#selected_link_id').val('');
+		}
+
+		if (link_to !== '') {
+			if (jobCode) {
+				// Definir endpoint según el valor
+				if (link_to === 'wo') {
+					endpoint = base_url + 'hauling/woList';
+					$('#label_list').text('Select Work Order');
+				} 
+				else if (link_to === 'claim') {
+					endpoint = base_url + 'invoices/claimList';
+					$('#label_list').text('Select Claim');
+				}
+
+				if (endpoint !== '') {
+
+					$('#list_work_order').html('<option value="">Loading...</option>');
+
+					$.ajax({
+						type: 'POST',
+						url: endpoint,
+						data: { jobCode: jobCode },
+						cache: false,
+						success: function (data)
+						{
+							$('#list_work_order').html(data);
+
+							var selected = $('#selected_link_id').val();
+							if(selected){
+								$('#list_work_order').val(selected);
+							}
+
+							firstLoad = false;
+						}
+					});
+					$("#div_list_work_order").css("display", "inline");
+				}
+			} else {
+				$('#id_work_order').val(null);
+				alert('Please select a job code');
+			}
+		}
+	});
 				
 	$("#btnSubmit").click(function(){		
 	
@@ -65,7 +120,6 @@ $( document ).ready( function () {
 				$("#div_msj").css("display", "none");
 				$("#div_cargando").css("display", "inline");
 
-			
 				$.ajax({
 					type: "POST",	
 					url: base_url + "invoices/save_invoice",	
@@ -190,5 +244,15 @@ $( document ).ready( function () {
 		
 		}//if			
 	});
+
+	// ---- DISPARAR AUTOMÁTICAMENTE EN EDICIÓN ----
+	var link_to = $('#link_to').val();
+	var jobCode = $('#jobName').val();
+
+	if (link_to && jobCode) {
+		setTimeout(function(){
+			$('#link_to').trigger('change');
+		}, 200);
+	}
 
 });
