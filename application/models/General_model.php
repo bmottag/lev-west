@@ -2633,7 +2633,7 @@ class General_model extends CI_Model
 	}
 
 	/**
-	 * Sumatoria de horas de personal for Calendar
+	 * Sumatoria de horas de personal for Almanac
 	 * @param $idWorkorder
 	 * @param $idUser
 	 * @author BMOTTAG
@@ -2652,7 +2652,7 @@ class General_model extends CI_Model
 	}
 
 	/**
-	 * Sumatoria de horas de personal en los equipos for Calendar
+	 * Sumatoria de horas de personal en los equipos for Almanac
 	 * @param $idWorkorder
 	 * @param $idUser
 	 * @author BMOTTAG
