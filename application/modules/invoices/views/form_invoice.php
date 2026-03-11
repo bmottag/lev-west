@@ -3,6 +3,8 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
+<link rel="stylesheet" href="<?php echo base_url('assets/css/cards.css'); ?>">
+
 <style>
 .ui-datepicker {
     z-index: 9999 !important;
@@ -24,6 +26,13 @@
 		});
 	});
 </script>
+
+<style>
+
+</style>
+
+
+
 
 <script>
 	$(function() {
@@ -280,9 +289,8 @@
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
-
 								<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_invoice"]; ?>">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> And an Item
+									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Item
 								</button><br>
 							</div>
 						<?php } ?>
@@ -290,65 +298,98 @@
 						<?php
 						if ($items) {
 						?>
-							<table class="table table-bordered table-striped table-hover table-condensed">
-								<tr class="info">
-									<th class="text-center">Item</th>
-									<th class="text-center">Description</th>
-									<th class="text-center">Quantity</th>
-									<th class="text-center">Unit</th>
-									<th class="text-center">Rate</th>
-									<th class="text-center">Links</th>
-								</tr>
-								<?php
-								$record = 0;
-								foreach ($items as $data) :
-									$record++;
-									echo "<tr>";
-									echo "<td ><small>" . $record . "</small></td>";
-									echo "<td ><small>" . $data['name'] . "</small></td>";
+							<form method="post" action="<?php echo base_url('invoices/save_all'); ?>">
+								<input type="hidden" name="hddIdInvoice" value="<?php echo $information[0]["id_invoice"]; ?>">
 
-									$idRecord = $data['id_invoices_items'];
-								?>
-									<form name="item_<?php echo $idRecord ?>" id="item_<?php echo $idRecord ?>" method="post" action="<?php echo base_url("workorders/save_hour"); ?>">
-										<input type="hidden" id="hddId" name="hddId" value="<?php echo $idRecord; ?>" />
-										<input type="hidden" id="hddIdInvoice" name="hddIdInvoice" value="<?php echo $data['fk_id_invoice']; ?>" />
+								<table class="table table-bordered table-striped table-hover table-condensed table-mobile">
+									<thead>
+										<tr>
+											<th width='50%' class="text-center">Description</th>
+											<th width='10%' class="text-right">Quantity</th>
+											<th width='10%' class="text-center">Unit</th>
+											<th width='10%' class="text-right">Rate</th>
+											<th width='10%' class="text-right">Value</th>
+											<th width='10%' class="text-center">Actions</th>
+										</tr>
+									</thead>
 
-										<td>
-											<textarea id="description" name="description" class="form-control" rows="3" required <?php echo $deshabilitar; ?>><?php echo $data['description']; ?></textarea>
-										</td>
+									<?php 
+										$total = 0;
+										foreach ($items as $data): 
+											$total += $data['value'];
+									?>
+											<tr>
+												<td>
 
-										<td>
-											<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" value="<?php echo $data['quantity']; ?>" required <?php echo $deshabilitar; ?>>
-										</td>
+													<label class="td-label">Description</label>
+													<textarea 
+													name="description[]" 
+													class="form-control" 
+													rows="3"
+													required
+													<?php echo $deshabilitar; ?>><?php echo htmlspecialchars(trim($data['description'])); ?></textarea>
 
-										<td>
-											<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" value="<?php echo $data['unit']; ?>" required <?php echo $deshabilitar; ?>>
-										</td>
+													<input type="hidden" name="id_item[]" value="<?php echo $data['id_invoices_items']; ?>">
 
-										<td>
-											<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" value="<?php echo $data['rate']; ?>" required <?php echo $deshabilitar; ?>>
-										</td>
+												</td>
 
-										<td class='text-center'>
-											<button type="submit" id="btnSubmit" name="btnSubmit" class="btn btn-primary btn-xs" title="Save" <?php echo $deshabilitar; ?>>
-												Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-											</button>
-									</form>
+												<td class="table-desktop-numeric">
+													<label class="td-label">Quantity</label>
+													<input type="number" step="0.5" name="quantity[]" class="form-control"
+													value="<?php echo $data['quantity']; ?>" required>
+												</td>
 
-									<br><br>
-									<?php if (!$deshabilitar) { ?>
-										<a class='btn btn-danger btn-xs' href='<?php echo base_url('workorders/deleteRecord/personal/' . $data['id_workorder_personal'] . '/' . $data['fk_id_workorder'] . '/add_workorder') ?>' id="btn-delete">
-											Delete <i class="fa fa-trash-o"></i>
-										</a>
-									<?php } else {
-										echo "---";
-									} ?>
-									</td>
-									</tr>
-								<?php
-								endforeach;
-								?>
-							</table>
+												<td>
+													<label class="td-label">Unit</label>
+													<input type="text" name="unit[]" class="form-control"
+													value="<?php echo $data['unit']; ?>" required>
+												</td>
+
+												<td class="table-desktop-numeric">
+													<label class="td-label">Rate</label>
+													<input type="number" step="0.5" name="rate[]" class="form-control"
+													value="<?php echo $data['rate']; ?>" required>
+												</td>
+
+												<td class="table-desktop-numeric">
+													<label class="td-label">Total</label>
+													<input type="text" class="form-control total-field" value="<?php echo $data['value']; ?>" readonly>
+												</td>
+
+												<td class="text-center action-col">
+													<?php if (!$deshabilitar) { ?>
+													<a class="btn btn-danger btn-xs"
+													href="<?php echo base_url('invoices/delete_item/'.$data['id_invoices_items']); ?>">
+													<i class="fa fa-trash"></i>
+													</a>
+													<?php } ?>
+												</td>
+											</tr>
+									<?php endforeach; ?>
+								</table>
+
+								<div class="row" style="margin-top:20px">
+									<div class="col-md-4 col-md-offset-8">
+										<div class="panel panel-default">
+											<div class="panel-body">
+												<div class="form-group">
+													<label>Subtotal</label>
+													<input type="text" id="subtotal" class="form-control" value="<?php echo $total; ?>" readonly>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+
+								<?php if(!$deshabilitar){ ?>
+									<div class="text-right" style="margin-top:20px;">
+										<button type="submit" class="btn btn-primary">
+											<span class="glyphicon glyphicon-floppy-disk"></span> Save All Items
+										</button>
+									</div>
+								<?php } ?>
+
+							</form>
 						<?php } ?>
 					</div>
 				</div>

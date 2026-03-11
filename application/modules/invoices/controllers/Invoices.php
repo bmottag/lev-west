@@ -163,6 +163,56 @@ class Invoices extends CI_Controller {
 		$this->load->view("modal_items", $data);
 	}
 
+	/**
+	 * Save items
+	 * @since 11/03/2026
+	 * @author BMOTTAG
+	 */
+	public function save_item()
+	{
+		header('Content-Type: application/json');
+		$data = array();
 
+		$data["idRecord"] = $this->input->post('hddIdInvoice');
+		if ($this->invoices_model->saveItem()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		echo json_encode($data);
+	}
+
+	/**
+	 * Save all information
+	 * @since 11/03/2026
+	 * @author BMOTTAG
+	 */
+	public function save_all()
+	{
+		$ids = $this->input->post('id_item');
+		$descriptions = $this->input->post('description');
+		$quantities = $this->input->post('quantity');
+		$units = $this->input->post('unit');
+		$rates = $this->input->post('rate');
+
+		for ($i = 0; $i < count($ids); $i++) {
+
+			$value = $rates[$i] * $quantities[$i];
+
+			$data = array(
+				'description' => $descriptions[$i],
+				'quantity' => $quantities[$i],
+				'unit' => $units[$i],
+				'rate' => $rates[$i],
+				'value' => $value
+			);
+
+			$this->invoices_model->updateItem($ids[$i], $data);
+		}
+
+		redirect('invoices/add_invoice/' . $this->input->post('hddIdInvoice'), 'refresh');
+	}
 	
 }
