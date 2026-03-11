@@ -118,6 +118,30 @@ class Invoices extends CI_Controller {
 		}
 
 		if ($idInvoice = $this->invoices_model->add_invoice()) {
+
+			$is_wo_or_claim = $this->input->post('link_to');
+			if($is_wo_or_claim == 'wo'){
+				$arrParam["idWorkorder"] = $this->input->post('list_work_order');
+
+				// Traer información de la WO
+				$this->load->model('workorders/workorders_model');
+				$workorderPersonal   = $this->workorders_model->get_workorder_personal($arrParam);
+				$workorderMaterials  = $this->workorders_model->get_workorder_materials($arrParam);
+				$workorderReceipt    = $this->workorders_model->get_workorder_receipt($arrParam);
+				$workorderEquipment  = $this->workorders_model->get_workorder_equipment($arrParam);
+				$workorderOcasional  = $this->workorders_model->get_workorder_ocasional($arrParam);
+
+				// Insertar items
+				$this->insertInvoiceItems($workorderPersonal, $idInvoice, 'personal');
+				$this->insertInvoiceItems($workorderMaterials, $idInvoice, 'materials');
+				$this->insertInvoiceItems($workorderEquipment, $idInvoice, 'equipment');
+				$this->insertInvoiceItems($workorderOcasional, $idInvoice, 'ocasional');
+				$this->insertInvoiceItems($workorderReceipt, $idInvoice, 'receipt');
+
+			}else if($is_wo_or_claim == 'claim'){
+				$data['fk_id_wo_or_claim'] = $this->input->post('list_claim');
+			}
+
 			$data["result"] = true;
 			$data["mensaje"] = $msj;
 			$data["idInvoice"] = $idInvoice;
@@ -213,6 +237,116 @@ class Invoices extends CI_Controller {
 		}
 
 		redirect('invoices/add_invoice/' . $this->input->post('hddIdInvoice'), 'refresh');
+	}
+
+	/**
+	 * Delete item record
+	 * @param int $idItem: id que se va a borrar
+	 * @param int $idInvoice
+	 */
+	public function delete_item($idItem, $idInvoice)
+	{
+		if (empty($idItem) || empty($idInvoice)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+
+		$arrParam = array(
+			"table" => "invoices_items",
+			"primaryKey" => "id_invoices_items",
+			"id" => $idItem
+		);
+
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) {
+			$this->session->set_flashdata('retornoExito', 'You have deleted one Item.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+	}
+
+	private function insertInvoiceItems($items, $idInvoice, $type)
+	{
+		if (!$items) {
+			return;
+		}
+
+		foreach ($items as $item) {
+
+			switch ($type) {
+
+				case 'personal':
+					$description = $item['employee_type'] . ' - ' . $item['description'] . ' by ' . $item['name'];
+					$quantity = $item['hours'];
+					$unit = 'Hours';
+					break;
+
+				case 'materials':
+					$description = $item['description'] . ' - ' . $item['material'];
+					if($item['markup'] > 0){
+						$description = $description . ' - Plus M.U.';
+					}
+					$quantity = $item['quantity'];
+					$unit = $item['unit'];
+					break;
+
+				case 'equipment':
+					$attachment = '';
+
+					if($item['fk_id_attachment'] != "" && $item['fk_id_attachment'] != 0){
+						$attachment = 'ATTACHMENT: ' . $item["attachment_number"] . " - " . $item["attachment_description"] . ' ';
+					}
+
+					//si es tipo miscellaneous -> 8, entonces la description es diferente
+					if($item['fk_id_type_2'] == 8){
+						$equipment = $item['miscellaneous'] . " - " . $item['other'];
+						$description = preg_replace('([^A-Za-z0-9 ])', ' ', $item['description']);
+					}else{
+						$equipment = "Unit #: " .$item['unit_number'] . " Make: " . $item['make'] . " Model: " . $item['model'];
+						$description = $item['v_description'] . " - " . preg_replace('([^A-Za-z0-9 ])', ' ', $item['description']);
+					}
+					
+					$description = $attachment . $equipment . ' Description: ' . $description . ', operated by ' . $item['operatedby'];
+
+					$quantity = $item['hours'];
+					$unit = 'Hours';
+					break;
+
+				case 'ocasional':
+					$description = $item['description'];
+					if($item['markup'] > 0){
+						$description = $description . ' - Plus M.U.';
+					}
+					$quantity = $item['quantity'];
+					$unit = $item['unit'];
+					break;
+
+				case 'receipt':
+					$description = $item['description'] . ' - ' . $item['place'];
+					if($item['markup'] > 0){
+						$description = $description . ' - Plus M.U.';
+					}
+					$quantity = 1;
+					$unit = 'Receipt';
+					break;
+
+				default:
+					return;
+			}
+
+			$rate = isset($item['rate']) ? $item['rate'] : $item['value'];
+
+			$dataItem = array(
+				'fk_id_invoice' => $idInvoice,
+				'description' => $description,
+				'quantity' => $quantity,
+				'unit' => $unit,
+				'rate' => $rate,
+				'value' => $item['value']
+			);
+
+			$this->invoices_model->insertItem($dataItem);
+		}
 	}
 	
 }

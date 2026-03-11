@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=3.0.0"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=4.0.0"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -335,7 +335,7 @@
 
 												<td class="table-desktop-numeric">
 													<label class="td-label">Quantity</label>
-													<input type="number" step="0.5" name="quantity[]" class="form-control"
+													<input type="number" step="0.5" name="quantity[]" class="form-control quantity-field"
 													value="<?php echo $data['quantity']; ?>" required>
 												</td>
 
@@ -347,19 +347,28 @@
 
 												<td class="table-desktop-numeric">
 													<label class="td-label">Rate</label>
-													<input type="number" step="0.5" name="rate[]" class="form-control"
-													value="<?php echo $data['rate']; ?>" required>
+
+													<div class="input-group">
+														<span class="input-group-addon">$</span>
+														<input type="number" step="any" name="rate[]" class="form-control rate-field"
+														value="<?php echo $data['rate']; ?>" required>
+													</div>
+
 												</td>
 
 												<td class="table-desktop-numeric">
-													<label class="td-label">Total</label>
-													<input type="text" class="form-control total-field" value="<?php echo $data['value']; ?>" readonly>
+													<label class="td-label">Value</label>
+
+													<div class="input-group">
+														<span class="input-group-addon">$</span>
+														<input type="text" class="form-control total-field" value="<?php echo number_format($data['value'],2); ?>" readonly>
+													</div>
 												</td>
 
 												<td class="text-center action-col">
 													<?php if (!$deshabilitar) { ?>
 													<a class="btn btn-danger btn-xs"
-													href="<?php echo base_url('invoices/delete_item/'.$data['id_invoices_items']); ?>">
+													href="<?php echo base_url('invoices/delete_item/'.$data['id_invoices_items'].'/'.$information[0]["id_invoice"]); ?>">
 													<i class="fa fa-trash"></i>
 													</a>
 													<?php } ?>
@@ -374,7 +383,7 @@
 											<div class="panel-body">
 												<div class="form-group">
 													<label>Subtotal</label>
-													<input type="text" id="subtotal" class="form-control" value="<?php echo $total; ?>" readonly>
+													<input type="text" id="subtotal" class="form-control" value="$ <?php echo number_format($total,2); ?>" readonly>
 												</div>
 											</div>
 										</div>

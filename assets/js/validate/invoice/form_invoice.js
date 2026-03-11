@@ -1,6 +1,27 @@
 var firstLoad = true;
 
 $( document ).ready( function () {
+
+	function calculateTotals(){
+		let subtotal = 0;
+
+		$(".table-mobile tbody tr").each(function(){
+			let qty = parseFloat($(this).find(".quantity-field").val()) || 0;
+			let rate = parseFloat($(this).find(".rate-field").val()) || 0;
+
+			let total = qty * rate;
+
+			$(this).find(".total-field").val(total.toFixed(2));
+
+			subtotal += total;
+		});
+
+		$("#subtotal").val(subtotal.toFixed(2));
+	}
+
+	$(document).on("input", ".quantity-field, .rate-field", function(){
+		calculateTotals();
+	});
 			
 	$( "#form" ).validate( {
 		rules: {
