@@ -3490,45 +3490,64 @@ class TCPDF {
 	 * @public
 	 */
 	public function Footer() {
-		$cur_y = $this->y;
-		$this->SetTextColorArray($this->footer_text_color);
-		//set style for cell border
-		$line_width = (0.85 / $this->k);
-		$this->SetLineStyle(array('width' => $line_width, 'cap' => 'butt', 'join' => 'miter', 'dash' => 0, 'color' => $this->footer_line_color));
-		//print document barcode
-		$barcode = $this->getBarcode();
-		if (!empty($barcode)) {
-			$this->Ln($line_width);
-			$barcode_width = round(($this->w - $this->original_lMargin - $this->original_rMargin) / 3);
-			$style = array(
-				'position' => $this->rtl?'R':'L',
-				'align' => $this->rtl?'R':'L',
-				'stretch' => false,
-				'fitwidth' => true,
-				'cellfitalign' => '',
-				'border' => false,
-				'padding' => 0,
-				'fgcolor' => array(0,0,0),
-				'bgcolor' => false,
-				'text' => false
-			);
-			$this->write1DBarcode($barcode, 'C128', '', $cur_y + $line_width, '', (($this->footer_margin / 3) - $line_width), 0.3, $style, '');
-		}
-		$w_page = isset($this->l['w_page']) ? $this->l['w_page'].' ' : '';
-		if (empty($this->pagegroups)) {
-			$pagenumtxt = $w_page.$this->getAliasNumPage().' / '.$this->getAliasNbPages();
-		} else {
-			$pagenumtxt = $w_page.$this->getPageNumGroupAlias().' / '.$this->getPageGroupAlias();
-		}
-		$this->SetY($cur_y);
-		//Print page number
-		if ($this->getRTL()) {
-			$this->SetX($this->original_rMargin);
-			$this->Cell(0, 0, $pagenumtxt, 'T', 0, 'L');
-		} else {
-			$this->SetX($this->original_lMargin);
-			$this->Cell(0, 0, $this->getAliasRightShift().$pagenumtxt, 'T', 0, 'R');
-		}
+		// ----------------------
+		// IMAGEN DECORATIVA
+		// ----------------------
+		$this->SetY(-50); // posición desde el borde inferior
+		$this->Image(
+			FCPATH.'images/flowers.png', // ruta
+			3,                          // X
+			$this->GetY()-80,          // Y (ajustable según diseño)
+			50                          // ancho
+		);
+
+		// ----------------------
+		// TEXTO DE PAGO (CENTRADO HORIZONTAL)
+		// ----------------------
+		$this->SetFont('helvetica','',8);
+		$this->SetTextColor(0,0,0);
+
+		$pageWidth = $this->getPageWidth();
+		$margin = 20; // margen lateral para centrar más
+
+		// Posición desde el borde inferior, lo más abajo posible
+		$this->SetY(-25);
+
+		// Usamos Cell centrado con toda la línea combinada
+		$this->Cell(
+			0,
+			5,
+			'Send electronic payments to: Invoice@Lev-west.com       GST No.: 791493158RT0001',
+			0,
+			1,
+			'C'
+		);
+
+		// ----------------------
+		// TEXTO LEGAL (CENTRADO)
+		// ----------------------
+		$this->SetFont('helvetica','',7.5);
+		$this->SetTextColor(120,120,120);
+
+		// Pequeño espacio entre el primer texto y el legal
+		$this->SetY($this->GetY() + 2);
+
+		$legal = 'All invoices are due and payable within fifteen (15) days of the invoice date. Any invoice outstanding beyond thirty (30) days will be subject to an administrative fee of eight percent (8%) per month until payment is received in full.';
+
+		$footerWidth = $pageWidth - 2*$margin;
+
+		// MultiCell centrado horizontalmente
+		$this->MultiCell(
+			$footerWidth,
+			4,          // altura de línea
+			$legal,
+			0,          // sin borde
+			'C',        // centrado
+			false,      // fondo transparente
+			1,          // siguiente línea
+			'', '',     // X, Y automáticos
+			true, 0, false, true, 0, 'T', false
+		);
 	}
 
 	/**

@@ -1,6 +1,17 @@
 var firstLoad = true;
 
+function previewInvoice(id){
+	var url = base_url + "invoices/generaInvoicePDF/" + id;
+	$("#iframePreview").attr("src", url);
+	$("#modalPreview").modal("show");
+}
+
 $( document ).ready( function () {
+
+	// limpiar iframe cuando se cierre el modal
+	$('#modalPreview').on('hidden.bs.modal', function () {
+		$("#iframePreview").attr("src", "");
+	});
 
 	function calculateTotals(){
 		let subtotal = 0;
