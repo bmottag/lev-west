@@ -122,7 +122,7 @@ if ($retornoError) {
 								echo "<td>" . $lista['number'] . "</td>";
 								echo "<td>" . date('M j, Y', strtotime($lista['date_issue'])) . "</td>";
 								echo "<td>" . $lista['job_description'] . "</td>";
-								echo "<td>" . $lista['company'] . "</td>";
+								echo "<td>" . $lista['company_name'] . "</td>";
 								echo "<td>" . date('M j, Y', strtotime($lista['due_date'])) . "</td>";
 								echo "<td class='text-center'>";
 								echo '<p class="text-' . $lista['status_style'] . '"><b>' . $lista['status_name'] . '</b></p>';

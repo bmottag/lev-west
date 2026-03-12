@@ -8,7 +8,7 @@ class Invoices_model extends CI_Model {
 	 */
 	public function get_invoices($arrData) 
 	{		
-		$this->db->select("I.*, S.*, J.id_job, job_description, C.id_company, C.company_name company");
+		$this->db->select("I.*, S.*, J.id_job, job_description, C.*");
 		$this->db->join('param_status S', 'S.status_slug = I.invoice_status', 'INNER');
 		$this->db->join('param_jobs J', 'J.id_job = I.fk_id_job', 'INNER');
 		$this->db->join('param_company C', 'C.id_company = J.fk_id_company', 'LEFT');
@@ -139,6 +139,47 @@ class Invoices_model extends CI_Model {
 		}
 		$this->db->close();
 		return $wos;
+	}
+
+	/**
+	 * Add invoice
+	 * @since 10/03/2026
+	 * @author BMOTTAG
+	 */
+	public function saveItem()
+	{
+		$rate = $this->input->post('rate');
+		$quantity = $this->input->post('quantity');
+
+		$value = $rate * $quantity;
+
+		$data = array(
+			'fk_id_invoice' => $this->input->post('hddIdInvoice'),
+			'description' => $this->input->post('description'),
+			'quantity' => $this->input->post('quantity'),
+			'unit' => $this->input->post('unit'),
+			'rate' => $this->input->post('rate'),
+			'value' => $value
+		);
+		$query = $this->db->insert('invoices_items', $data);
+
+		if ($query) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function insertItem($data)
+	{
+		$this->db->insert('invoices_items', $data);
+		return $this->db->insert_id();
+	}
+
+	public function updateItem($idItem, $data)
+	{
+		$this->db->where('id_invoices_items', $idItem);
+		return $this->db->update('invoices_items', $data);
 	}
 		
 	    

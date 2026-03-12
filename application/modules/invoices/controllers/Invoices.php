@@ -118,6 +118,30 @@ class Invoices extends CI_Controller {
 		}
 
 		if ($idInvoice = $this->invoices_model->add_invoice()) {
+
+			$is_wo_or_claim = $this->input->post('link_to');
+			if($is_wo_or_claim == 'wo'){
+				$arrParam["idWorkorder"] = $this->input->post('list_work_order');
+
+				// Traer información de la WO
+				$this->load->model('workorders/workorders_model');
+				$workorderPersonal   = $this->workorders_model->get_workorder_personal($arrParam);
+				$workorderMaterials  = $this->workorders_model->get_workorder_materials($arrParam);
+				$workorderReceipt    = $this->workorders_model->get_workorder_receipt($arrParam);
+				$workorderEquipment  = $this->workorders_model->get_workorder_equipment($arrParam);
+				$workorderOcasional  = $this->workorders_model->get_workorder_ocasional($arrParam);
+
+				// Insertar items
+				$this->insertInvoiceItems($workorderPersonal, $idInvoice, 'personal');
+				$this->insertInvoiceItems($workorderMaterials, $idInvoice, 'materials');
+				$this->insertInvoiceItems($workorderEquipment, $idInvoice, 'equipment');
+				$this->insertInvoiceItems($workorderOcasional, $idInvoice, 'ocasional');
+				$this->insertInvoiceItems($workorderReceipt, $idInvoice, 'receipt');
+
+			}else if($is_wo_or_claim == 'claim'){
+				$data['fk_id_wo_or_claim'] = $this->input->post('list_claim');
+			}
+
 			$data["result"] = true;
 			$data["mensaje"] = $msj;
 			$data["idInvoice"] = $idInvoice;
@@ -163,6 +187,256 @@ class Invoices extends CI_Controller {
 		$this->load->view("modal_items", $data);
 	}
 
+	/**
+	 * Save items
+	 * @since 11/03/2026
+	 * @author BMOTTAG
+	 */
+	public function save_item()
+	{
+		header('Content-Type: application/json');
+		$data = array();
 
+		$data["idRecord"] = $this->input->post('hddIdInvoice');
+		if ($this->invoices_model->saveItem()) {
+			$data["result"] = true;
+			$this->session->set_flashdata('retornoExito', "You have added a new record!!");
+		} else {
+			$data["result"] = "error";
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		echo json_encode($data);
+	}
+
+	/**
+	 * Save all information
+	 * @since 11/03/2026
+	 * @author BMOTTAG
+	 */
+	public function save_all()
+	{
+		$ids = $this->input->post('id_item');
+		$descriptions = $this->input->post('description');
+		$quantities = $this->input->post('quantity');
+		$units = $this->input->post('unit');
+		$rates = $this->input->post('rate');
+
+		for ($i = 0; $i < count($ids); $i++) {
+
+			$value = $rates[$i] * $quantities[$i];
+
+			$data = array(
+				'description' => $descriptions[$i],
+				'quantity' => $quantities[$i],
+				'unit' => $units[$i],
+				'rate' => $rates[$i],
+				'value' => $value
+			);
+
+			$this->invoices_model->updateItem($ids[$i], $data);
+		}
+
+		redirect('invoices/add_invoice/' . $this->input->post('hddIdInvoice'), 'refresh');
+	}
+
+	/**
+	 * Delete item record
+	 * @param int $idItem: id que se va a borrar
+	 * @param int $idInvoice
+	 */
+	public function delete_item($idItem, $idInvoice)
+	{
+		if (empty($idItem) || empty($idInvoice)) {
+			show_error('ERROR!!! - You are in the wrong place.');
+		}
+
+		$arrParam = array(
+			"table" => "invoices_items",
+			"primaryKey" => "id_invoices_items",
+			"id" => $idItem
+		);
+
+		$this->load->model("general_model");
+		if ($this->general_model->deleteRecord($arrParam)) {
+			$this->session->set_flashdata('retornoExito', 'You have deleted one Item.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
+		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+	}
+
+	private function insertInvoiceItems($items, $idInvoice, $type)
+	{
+		if (!$items) {
+			return;
+		}
+
+		foreach ($items as $item) {
+
+			switch ($type) {
+
+				case 'personal':
+					$description = $item['employee_type'] . ' - ' . $item['description'] . ' by ' . $item['name'];
+					$quantity = $item['hours'];
+					$unit = 'Hours';
+					break;
+
+				case 'materials':
+					$description = $item['description'] . ' - ' . $item['material'];
+					if($item['markup'] > 0){
+						$description = $description . ' - Plus M.U.';
+					}
+					$quantity = $item['quantity'];
+					$unit = $item['unit'];
+					break;
+
+				case 'equipment':
+					$attachment = '';
+
+					if($item['fk_id_attachment'] != "" && $item['fk_id_attachment'] != 0){
+						$attachment = 'ATTACHMENT: ' . $item["attachment_number"] . " - " . $item["attachment_description"] . ' ';
+					}
+
+					//si es tipo miscellaneous -> 8, entonces la description es diferente
+					if($item['fk_id_type_2'] == 8){
+						$equipment = $item['miscellaneous'] . " - " . $item['other'];
+						$description = preg_replace('([^A-Za-z0-9 ])', ' ', $item['description']);
+					}else{
+						$equipment = "Unit #: " .$item['unit_number'] . " Make: " . $item['make'] . " Model: " . $item['model'];
+						$description = $item['v_description'] . " - " . preg_replace('([^A-Za-z0-9 ])', ' ', $item['description']);
+					}
+					
+					$description = $attachment . $equipment . ' Description: ' . $description . ', operated by ' . $item['operatedby'];
+
+					$quantity = $item['hours'];
+					$unit = 'Hours';
+					break;
+
+				case 'ocasional':
+					$description = $item['description'];
+					if($item['markup'] > 0){
+						$description = $description . ' - Plus M.U.';
+					}
+					$quantity = $item['quantity'];
+					$unit = $item['unit'];
+					break;
+
+				case 'receipt':
+					$description = $item['description'] . ' - ' . $item['place'];
+					if($item['markup'] > 0){
+						$description = $description . ' - Plus M.U.';
+					}
+					$quantity = 1;
+					$unit = 'Receipt';
+					break;
+
+				default:
+					return;
+			}
+
+			$rate = isset($item['rate']) ? $item['rate'] : $item['value'];
+
+			$dataItem = array(
+				'fk_id_invoice' => $idInvoice,
+				'description' => $description,
+				'quantity' => $quantity,
+				'unit' => $unit,
+				'rate' => $rate,
+				'value' => $item['value']
+			);
+
+			$this->invoices_model->insertItem($dataItem);
+		}
+	}
+
+	/**
+	 * Generate INVOICE Report in PDF
+	 * @param int $idInvoice
+	 * @since 12/03/2026
+	 * @author BMOTTAG
+	 */
+	public function generaInvoicePDF($idInvoice)
+	{
+		$this->load->library('Pdf');
+
+		// create new PDF document
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+		$arrParam = array("idInvoice" => $idInvoice);
+		$data['info'] = $this->invoices_model->get_invoices($arrParam);
+		$data['logo'] = base_url('images/logo.png');
+		$number = $data['info'][0]['number'];
+
+		if (empty($data['info'])) {
+			// Option 1: Show a custom error message
+			show_error('No Invoice information found for ID: ' . $idInvoice, 404);
+			return;
+		}
+
+		$fecha = date('F j, Y', strtotime($data['info'][0]['date_issue']));
+
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('Lev-West');
+		$pdf->SetTitle('INVOICE');
+		$pdf->SetSubject('TCPDF Tutorial');
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set some language-dependent strings (optional)
+		if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+			require_once(dirname(__FILE__) . '/lang/eng.php');
+			$pdf->setLanguageArray($l);
+		}
+
+		// ---------------------------------------------------------
+
+		// set font
+		$pdf->SetFont('dejavusans', '', 8);
+
+		// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+		// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+
+		$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items list			
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// Print a table
+
+		// add a page
+		//$pdf->AddPage('L', 'A4');
+		$pdf->AddPage();
+
+		$html = $this->load->view("report_invoice", $data, true);
+
+		// output the HTML content
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		// Print some HTML Cells
+
+		// reset pointer to the last page
+		$pdf->lastPage();
+
+
+		//Close and output PDF document
+		$pdf->Output('invoice_' . $number . '.pdf', 'I');
+
+		//============================================================+
+		// END OF FILE
+		//============================================================+
+
+	}
 	
 }

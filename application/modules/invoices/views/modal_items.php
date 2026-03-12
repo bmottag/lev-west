@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/workorder/materials.js"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/items.js"); ?>"></script>
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">INVOICE ITEMS
@@ -9,40 +9,8 @@
 </div>
 
 <div class="modal-body">
-	<form  name="formMaterial" id="formMaterial" role="form" method="post" >
-		<input type="hidden" id="hddidWorkorder" name="hddidWorkorder" value="<?php echo $idWorkorder; ?>"/>
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label class="control-label" for="material">Material : *</label>
-					<select name="material" id="material" class="form-control" >
-						<option value=''>Select...</option>
-						<?php for ($i = 0; $i < count($materialList); $i++) { ?>
-							<option value="<?php echo $materialList[$i]["id_material"]; ?>" ><?php echo $materialList[$i]["material"]; ?></option>	
-						<?php } ?>
-					</select>
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label class="control-label" for="hour">Quantity : *</label>
-					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
-				</div>
-			</div>
-		</div>
-		
-		<div class="row">
-			<div class="col-sm-12">
-				<div class="form-group text-left">
-					<label class="control-label" for="unit">Unit : *</label>
-					<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
-				</div>
-			</div>
-		</div>
+	<form  name="formItem" id="formItem" role="form" method="post" >
+		<input type="hidden" id="hddIdInvoice" name="hddIdInvoice" value="<?php echo $idInvoice; ?>"/>
 		
 		<div class="row">
 			<div class="col-sm-12">
@@ -53,10 +21,35 @@
 			</div>
 		</div>
 		
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="hour">Quantity : *</label>
+					<input type="text" id="quantity" name="quantity" class="form-control" placeholder="Quantity" required >
+				</div>
+			</div>
+
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="unit">Unit : *</label>
+					<input type="text" id="unit" name="unit" class="form-control" placeholder="Unit" required >
+				</div>
+			</div>
+		</div>
+
+		<div class="row">	
+			<div class="col-sm-6">
+				<div class="form-group text-left">
+					<label class="control-label" for="rate">Rate : *</label>
+					<input type="text" id="rate" name="rate" class="form-control" placeholder="Rate" required>
+				</div>
+			</div>
+		</div>
+				
 		<div class="form-group">
 			<div class="row" align="center">
 				<div style="width:50%;" align="center">
-					<button type="button" id="btnSubmitMaterial" name="btnSubmitMaterial" class="btn btn-primary" >
+					<button type="button" id="btnSubmitItem" name="btnSubmitItem" class="btn btn-primary" >
 						Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
 					</button> 
 				</div>
