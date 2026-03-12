@@ -359,84 +359,49 @@ class Invoices extends CI_Controller {
 	{
 		$this->load->library('Pdf');
 
-		// create new PDF document
-		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+		$pdf = new TCPDF();
+
+		$pdf->setPrintHeader(false);
+
+
+		$pdf->setFooterMargin(20);
+		$pdf->setPrintFooter(true);
+
+		$pdf->SetMargins(15, 15, 15);
+		$pdf->SetAutoPageBreak(TRUE, 15);
+
+		$pdf->SetFont('helvetica', '', 9);
 
 		$arrParam = array("idInvoice" => $idInvoice);
+
 		$data['info'] = $this->invoices_model->get_invoices($arrParam);
-		$data['logo'] = base_url('images/logo.png');
-		$number = $data['info'][0]['number'];
+		$data['logo'] = FCPATH . 'images/logo_black.jpg';
 
-		if (empty($data['info'])) {
-			// Option 1: Show a custom error message
-			show_error('No Invoice information found for ID: ' . $idInvoice, 404);
-			return;
+		if(empty($data['info'])){
+			show_error('No Invoice found',404);
 		}
 
-		$fecha = date('F j, Y', strtotime($data['info'][0]['date_issue']));
+		$data['items'] = $this->invoices_model->get_invoices_items($arrParam);
 
-		// set document information
-		$pdf->SetCreator(PDF_CREATOR);
-		$pdf->SetAuthor('Lev-West');
-		$pdf->SetTitle('INVOICE');
-		$pdf->SetSubject('TCPDF Tutorial');
-
-		// set default monospaced font
-		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-
-		$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
-
-		// set margins
-		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
-		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
-
-		// set auto page breaks
-		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
-
-		// set image scale factor
-		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-		// set some language-dependent strings (optional)
-		if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
-			require_once(dirname(__FILE__) . '/lang/eng.php');
-			$pdf->setLanguageArray($l);
-		}
-
-		// ---------------------------------------------------------
-
-		// set font
-		$pdf->SetFont('dejavusans', '', 8);
-
-		// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
-		// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
-
-		$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items list			
-		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-		// Print a table
-
-		// add a page
-		//$pdf->AddPage('L', 'A4');
 		$pdf->AddPage();
+
+		/* INVOICE VERTICAL */
+		$pdf->StartTransform();
+		$pdf->Rotate(90,15,70);
+		$pdf->SetFont('helvetica','B',36);
+		$pdf->Text(15,70,'INVOICE');
+		$pdf->StopTransform();
+
+		// Resetear fuente
+		$pdf->SetFont('helvetica','',9);
+
+		// Mover el puntero a la derecha para que el HTML no choque con INVOICE
+		$pdf->SetXY(35, 25); // X = espacio a la derecha de INVOICE, Y = margen superior
 
 		$html = $this->load->view("report_invoice", $data, true);
 
-		// output the HTML content
-		$pdf->writeHTML($html, true, false, true, false, '');
-
-		// Print some HTML Cells
-
-		// reset pointer to the last page
-		$pdf->lastPage();
-
-
-		//Close and output PDF document
-		$pdf->Output('invoice_' . $number . '.pdf', 'I');
-
-		//============================================================+
-		// END OF FILE
-		//============================================================+
-
+		$pdf->writeHTML($html, true, false, false, false, '');
+		$pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf','I');
 	}
 	
 }

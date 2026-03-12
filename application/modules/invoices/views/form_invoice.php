@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=4.0.0"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=5.0.0"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -54,14 +54,25 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
-				<div class="panel-heading">
+				<div class="panel-heading clearfix">
+					<div class="pull-left">
+						<i class="fa fa-money"></i>
+						<strong><?php echo $information ? 'EDIT' : 'NEW'; ?> INVOICE</strong>
+					</div>
 
-					<?php
-					$userRol = $this->session->rol;
-					?>
-					<a class="btn btn-gris btn-xs" href=" <?php echo base_url() . 'invoices'; ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
-					<i class="fa fa-money"></i> <strong>NEW INVOICE</strong>
+					<?php if ($information) { ?>
+						<div class="pull-right">
+							Actual status: <strong><?php echo $information[0]["status_name"]; ?></strong>
+						</div>
+					<?php }else{ ?> 
+						<div class="pull-right">
+							<a class="btn btn-default btn-xs" href="<?php echo base_url('invoices'); ?>">
+							<i class="fa fa-arrow-left"></i> Back
+							</a>
+						</div>
+					<?php } ?>
 				</div>
+
 				<div class="panel-body">
 
 					<?php
@@ -72,12 +83,26 @@
 					 */
 					if ($information) {
 					?>
-							<ul class="nav nav-pills">
-								<li class='active'><a href="<?php echo base_url('invoices/add_invoice/' . $information[0]["id_invoice"]) ?>">Edit</a>
-								</li>
-								<li><a href="<?php echo base_url('invoices/generaInvoicePDF/' . $information[0]["id_invoice"]) ?>" target="_blank">Download invoice</a>
-								</li>
-							</ul>
+
+							<div class="btn-group" style="margin-bottom:15px">
+
+								<a class="btn btn-default btn-sm"
+								href="<?php echo base_url('invoices'); ?>">
+								<i class="fa fa-arrow-left"></i> Back
+								</a>
+
+								<button class="btn btn-info btn-sm"
+								onclick="previewInvoice(<?php echo $information[0]['id_invoice']; ?>)">
+								<i class="fa fa-eye"></i> Preview
+								</button>
+
+								<a class="btn btn-success btn-sm"
+								href="<?php echo base_url('invoices/generaInvoicePDF/'.$information[0]["id_invoice"]); ?>"
+								target="_blank">
+								<i class="fa fa-download"></i> Download
+								</a>
+
+							</div>
 						<?php 
 						echo "<br>";
 					}
@@ -113,58 +138,56 @@
 					}
 					?>
 
-					<?php
-					if ($information) {
-					?>
-						<div class="row">
-							<div class="col-lg-12">
-								<div class="alert alert-<?php echo $information[0]["status_style"]; ?>">
-									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-									Actual status: <strong><?php echo $information[0]["status_name"]; ?></strong>
-								</div>
-							</div>
-						</div>
-					<?php } ?>
-
-
 					<form name="form" id="form" class="form-horizontal" method="post">
 						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information ? $information[0]["id_invoice"] : ""; ?>" />
 
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="taskDescription">Job Code/Name :</label>
-							<div class="col-sm-5">
-								<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
-									<option value=''>Select...</option>
-									<?php for ($i = 0; $i < count($jobs); $i++) { ?>
-										<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) {
-																								echo "selected";
-																							}  ?>><?php echo $jobs[$i]["job_description"]; ?></option>
-									<?php } ?>
-								</select>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="taskDescription">Job Code/Name :</label>
+									<div class="col-sm-5">
+										<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
+											<option value=''>Select...</option>
+											<?php for ($i = 0; $i < count($jobs); $i++) { ?>
+												<option value="<?php echo $jobs[$i]["id_job"]; ?>" <?php if ($information && $information[0]["fk_id_job"] == $jobs[$i]["id_job"]) {
+																										echo "selected";
+																									}  ?>><?php echo $jobs[$i]["job_description"]; ?></option>
+											<?php } ?>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="hddTask">Date :</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" id="date" name="date"
+										value="<?php echo $information ? $information[0]['date_issue'] : date('Y-m-d'); ?>"
+										placeholder="Date" required <?php echo $deshabilitar; ?> />
+									</div>
+								</div>
 							</div>
 						</div>
 
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="hddTask">Date :</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" id="date" name="date"
-								value="<?php echo $information ? $information[0]['date_issue'] : date('Y-m-d'); ?>"
-								placeholder="Date" required <?php echo $deshabilitar; ?> />
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="hddTask">Due Date :</label>
+									<div class="col-sm-5">
+										<input type="text" class="form-control" id="due_date" name="due_date" value="<?php echo $information ? $information[0]["due_date"] : ""; ?>" placeholder="Due Date" required <?php echo $deshabilitar; ?> />
+									</div>
+								</div>
 							</div>
-						</div>
 
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="hddTask">Due Date :</label>
-							<div class="col-sm-5">
-								<input type="text" class="form-control" id="due_date" name="due_date" value="<?php echo $information ? $information[0]["due_date"] : ""; ?>" placeholder="Due Date" required <?php echo $deshabilitar; ?> />
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="company">Company:</label>
-							<div class="col-sm-5">
-								<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["id_company"] : ""; ?>" <?php echo $deshabilitar; ?>>
-								<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company_name"] : ""; ?>" disabled>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="company">Company:</label>
+									<div class="col-sm-5">
+										<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["id_company"] : ""; ?>" <?php echo $deshabilitar; ?>>
+										<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company_name"] : ""; ?>" readonly>
+									</div>
+								</div>
 							</div>
 						</div>
 
@@ -181,77 +204,90 @@
 						}
 						?>
 
-						<div class="form-group text-danger">
-							<label class="col-sm-4 control-label" for="number">Invoice #:</label>
-							<div class="col-sm-5">
-								<div class="input-group">
-									<span class="input-group-addon"><?php echo $year; ?>-</span>
-									<input type="text" 
-										id="number" 
-										name="number" 
-										class="form-control"
-										value="<?php echo $numberValue; ?>"
-										<?php echo $deshabilitar; ?>>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group text-danger">
+									<label class="col-sm-4 control-label" for="number">Invoice #:</label>
+									<div class="col-sm-5">
+										<div class="input-group">
+											<span class="input-group-addon"><?php echo $year; ?>-</span>
+											<input type="text" 
+												id="number" 
+												name="number" 
+												class="form-control"
+												value="<?php echo $numberValue; ?>"
+												<?php echo $deshabilitar; ?>>
+										</div>
+									</div>
+								</div>
+
+								<input type="hidden" id="year" name="year" value="<?php echo $year; ?>">
+							</div>
+
+							<div class="col-md-6">
+								<?php
+								if ($information) {
+								?>
+									<div class="form-group">
+										<label class="col-sm-4 control-label" for="taskDescription">Status :</label>
+										<div class="col-sm-5">
+											<select name="status" id="status" class="form-control" <?php echo $deshabilitar; ?>>
+												<option value=''>Select...</option>
+												<?php
+												if($statusList) {
+													foreach ($statusList as $status) {
+												?>
+													<option value="<?php echo $status["status_slug"]; ?>" <?php if($information && $information[0]["invoice_status"] == $status["status_slug"]) { echo "selected"; }  ?> ><?php echo $status["status_name"]; ?> </option>
+												<?php
+													}
+												}
+												?>
+											</select>
+										</div>
+									</div>
+								<?php } ?>
+							</div>
+						</div>
+<hr>
+						<div class="row">
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="taskDescription">Link to :</label>
+									<div class="col-sm-5">
+										<select name="link_to" id="link_to" class="form-control">
+											<option value=''>Select...</option>
+											<option value='wo' <?php if($information && $information[0]["is_wo_or_claim"] == 'wo') { echo "selected"; }  ?>>W.O.</option>
+											<option value='claim' <?php if($information && $information[0]["is_wo_or_claim"] == 'claim') { echo "selected"; }  ?>>Claim</option>
+										</select>
+									</div>
+								</div>
+
+								<input type="hidden" id="selected_link_id" value="<?php echo $information ? $information[0]['fk_id_wo_or_claim'] : ''; ?>">
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group" id="div_list_work_order">
+									<label class="col-sm-4 control-label" id="label_list" for="work_order_div">Select Work Order</label>
+									<div class="col-sm-5">
+										<select name="list_work_order" id="list_work_order" class="form-control">
+											<option value="">Select...</option>
+										</select>
+									</div>
 								</div>
 							</div>
 						</div>
 
-						<input type="hidden" id="year" name="year" value="<?php echo $year; ?>">
 
-						<?php
-						if ($information) {
-						?>
-							<div class="form-group">
-								<label class="col-sm-4 control-label" for="taskDescription">Status :</label>
-								<div class="col-sm-5">
-									<select name="status" id="status" class="form-control" <?php echo $deshabilitar; ?>>
-										<option value=''>Select...</option>
-										<?php
-										if($statusList) {
-											foreach ($statusList as $status) {
-										?>
-											<option value="<?php echo $status["status_slug"]; ?>" <?php if($information && $information[0]["invoice_status"] == $status["status_slug"]) { echo "selected"; }  ?> ><?php echo $status["status_name"]; ?> </option>
-										<?php
-											}
-										}
-										?>
-									</select>
-								</div>
-							</div>
-						<?php } ?>
 
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="taskDescription">Link to :</label>
-							<div class="col-sm-5">
-								<select name="link_to" id="link_to" class="form-control">
-									<option value=''>Select...</option>
-									<option value='wo' <?php if($information && $information[0]["is_wo_or_claim"] == 'wo') { echo "selected"; }  ?>>W.O.</option>
-									<option value='claim' <?php if($information && $information[0]["is_wo_or_claim"] == 'claim') { echo "selected"; }  ?>>Claim</option>
-								</select>
-							</div>
-						</div>
-
-						<input type="hidden" id="selected_link_id" value="<?php echo $information ? $information[0]['fk_id_wo_or_claim'] : ''; ?>">
-
-						<div class="form-group" id="div_list_work_order">
-							<label class="col-sm-4 control-label" id="label_list" for="work_order_div">Select Work Order</label>
-							<div class="col-sm-5">
-								<select name="list_work_order" id="list_work_order" class="form-control">
-									<option value="">Select...</option>
-								</select>
-							</div>
-						</div>
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="form-group">
-								<div class="row" align="center">
-									<div style="width:100%;" align="center">
+								<div class="col-sm-12 text-right">
 
-										<button type="button" id="btnSubmit" name="btnSubmit" class="btn btn-primary">
-											Save <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true">
-										</button>
+									<button type="button" id="btnSubmit" class="btn btn-primary btn-lg">
+										<i class="fa fa-save"></i> Save Invoice
+									</button>
 
-									</div>
 								</div>
 							</div>
 						<?php } ?>
@@ -381,7 +417,7 @@
 
 								<?php if(!$deshabilitar){ ?>
 									<div class="text-right" style="margin-top:20px;">
-										<button type="submit" class="btn btn-primary">
+										<button type="submit" class="btn btn-primary btn-lg">
 											<span class="glyphicon glyphicon-floppy-disk"></span> Save All Items
 										</button>
 									</div>
@@ -408,3 +444,24 @@
 	</div>
 </div>
 <!--FIN Modal para ITEM -->
+
+<div class="modal fade" id="modalPreview" tabindex="-1">
+    <div class="modal-dialog modal-lg" style="width:90%">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Invoice Preview</h4>
+            </div>
+
+            <div class="modal-body" style="height:80vh">
+
+                <iframe id="iframePreview"
+                        style="width:100%; height:100%; border:none;">
+                </iframe>
+
+            </div>
+
+        </div>
+    </div>
+</div>
