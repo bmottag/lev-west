@@ -348,5 +348,95 @@ class Invoices extends CI_Controller {
 			$this->invoices_model->insertItem($dataItem);
 		}
 	}
+
+	/**
+	 * Generate INVOICE Report in PDF
+	 * @param int $idInvoice
+	 * @since 12/03/2026
+	 * @author BMOTTAG
+	 */
+	public function generaInvoicePDF($idInvoice)
+	{
+		$this->load->library('Pdf');
+
+		// create new PDF document
+		$pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+		$arrParam = array("idInvoice" => $idInvoice);
+		$data['info'] = $this->invoices_model->get_invoices($arrParam);
+		$data['logo'] = base_url('images/logo.png');
+		$number = $data['info'][0]['number'];
+
+		if (empty($data['info'])) {
+			// Option 1: Show a custom error message
+			show_error('No Invoice information found for ID: ' . $idInvoice, 404);
+			return;
+		}
+
+		$fecha = date('F j, Y', strtotime($data['info'][0]['date_issue']));
+
+		// set document information
+		$pdf->SetCreator(PDF_CREATOR);
+		$pdf->SetAuthor('Lev-West');
+		$pdf->SetTitle('INVOICE');
+		$pdf->SetSubject('TCPDF Tutorial');
+
+		// set default monospaced font
+		$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+		$pdf->setPrintFooter(false); //no imprime el pie ni la linea 
+
+		// set margins
+		$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+		$pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+		$pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
+
+		// set auto page breaks
+		$pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+
+		// set image scale factor
+		$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+		// set some language-dependent strings (optional)
+		if (@file_exists(dirname(__FILE__) . '/lang/eng.php')) {
+			require_once(dirname(__FILE__) . '/lang/eng.php');
+			$pdf->setLanguageArray($l);
+		}
+
+		// ---------------------------------------------------------
+
+		// set font
+		$pdf->SetFont('dejavusans', '', 8);
+
+		// writeHTML($html, $ln=true, $fill=false, $reseth=false, $cell=false, $align='')
+		// writeHTMLCell($w, $h, $x, $y, $html='', $border=0, $ln=0, $fill=0, $reseth=true, $align='', $autopadding=true)
+
+		$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items list			
+		// - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+		// Print a table
+
+		// add a page
+		//$pdf->AddPage('L', 'A4');
+		$pdf->AddPage();
+
+		$html = $this->load->view("report_invoice", $data, true);
+
+		// output the HTML content
+		$pdf->writeHTML($html, true, false, true, false, '');
+
+		// Print some HTML Cells
+
+		// reset pointer to the last page
+		$pdf->lastPage();
+
+
+		//Close and output PDF document
+		$pdf->Output('invoice_' . $number . '.pdf', 'I');
+
+		//============================================================+
+		// END OF FILE
+		//============================================================+
+
+	}
 	
 }

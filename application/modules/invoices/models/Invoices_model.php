@@ -8,7 +8,7 @@ class Invoices_model extends CI_Model {
 	 */
 	public function get_invoices($arrData) 
 	{		
-		$this->db->select("I.*, S.*, J.id_job, job_description, C.id_company, C.company_name company");
+		$this->db->select("I.*, S.*, J.id_job, job_description, C.*");
 		$this->db->join('param_status S', 'S.status_slug = I.invoice_status', 'INNER');
 		$this->db->join('param_jobs J', 'J.id_job = I.fk_id_job', 'INNER');
 		$this->db->join('param_company C', 'C.id_company = J.fk_id_company', 'LEFT');

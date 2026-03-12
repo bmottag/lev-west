@@ -27,13 +27,6 @@
 	});
 </script>
 
-<style>
-
-</style>
-
-
-
-
 <script>
 	$(function() {
 
@@ -80,13 +73,9 @@
 					if ($information) {
 					?>
 							<ul class="nav nav-pills">
-								<li class='active'><a href="<?php echo base_url('workorders/add_workorder/' . $information[0]["id_invoice"]) ?>">Edit</a>
+								<li class='active'><a href="<?php echo base_url('invoices/add_invoice/' . $information[0]["id_invoice"]) ?>">Edit</a>
 								</li>
-								<li><a href="<?php echo base_url('workorders/view_workorder/' . $information[0]["id_invoice"]) ?>">Asign rate</a>
-								</li>
-								<li><a href="<?php echo base_url('workorders/generaWorkOrderPDF/' . $information[0]["id_invoice"]) ?>" target="_blank">Download invoice</a>
-								</li>
-								<li><a href="<?php echo base_url('workorders/foreman_view/' . $information[0]["id_invoice"]) ?>">Foreman View</a>
+								<li><a href="<?php echo base_url('invoices/generaInvoicePDF/' . $information[0]["id_invoice"]) ?>" target="_blank">Download invoice</a>
 								</li>
 							</ul>
 						<?php 
@@ -175,7 +164,7 @@
 							<label class="col-sm-4 control-label" for="company">Company:</label>
 							<div class="col-sm-5">
 								<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["id_company"] : ""; ?>" <?php echo $deshabilitar; ?>>
-								<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company"] : ""; ?>" disabled>
+								<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company_name"] : ""; ?>" disabled>
 							</div>
 						</div>
 
