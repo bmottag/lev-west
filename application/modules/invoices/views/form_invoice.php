@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=5.0.0"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=6.0.0"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -97,15 +97,9 @@
 								</button>
 
 								<a class="btn btn-success btn-sm"
-								href="<?php echo base_url('invoices/generaInvoicePDF/'.$information[0]["id_invoice"]); ?>"
+								href="<?php echo base_url('invoices/generaInvoicePDF/'.$idInvoice); ?>"
 								target="_blank">
 								<i class="fa fa-download"></i> Download
-								</a>
-
-								<a class="btn btn-success btn-sm"
-								href="<?php echo base_url('invoices/upload_images/'.$information[0]["id_invoice"]); ?>"
-								target="_blank">
-								<i class="fa fa-download"></i> Upload Images
 								</a>
 
 							</div>
@@ -145,7 +139,7 @@
 					?>
 
 					<form name="form" id="form" class="form-horizontal" method="post">
-						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information ? $information[0]["id_invoice"] : ""; ?>" />
+						<input type="hidden" id="hddIdentificador" name="hddIdentificador" value="<?php echo $information ? $idInvoice : ""; ?>" />
 
 						<div class="row">
 							<div class="col-md-6">
@@ -320,7 +314,7 @@
 
 						<?php if (!$deshabilitar) { ?>
 							<div class="col-lg-12">
-								<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $information[0]["id_invoice"]; ?>">
+								<button type="button" class="btn btn-info btn-block" data-toggle="modal" data-target="#modal" id="<?php echo $idInvoice; ?>">
 									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Item
 								</button><br>
 							</div>
@@ -330,7 +324,7 @@
 						if ($items) {
 						?>
 							<form method="post" action="<?php echo base_url('invoices/save_all'); ?>">
-								<input type="hidden" name="hddIdInvoice" value="<?php echo $information[0]["id_invoice"]; ?>">
+								<input type="hidden" name="hddIdInvoice" value="<?php echo $idInvoice; ?>">
 
 								<table class="table table-bordered table-striped table-hover table-condensed table-mobile">
 									<thead>
@@ -399,7 +393,7 @@
 												<td class="text-center action-col">
 													<?php if (!$deshabilitar) { ?>
 													<a class="btn btn-danger btn-xs"
-													href="<?php echo base_url('invoices/delete_item/'.$data['id_invoices_items'].'/'.$information[0]["id_invoice"]); ?>">
+													href="<?php echo base_url('invoices/delete_item/'.$data['id_invoices_items'].'/'.$idInvoice); ?>">
 													<i class="fa fa-trash"></i>
 													</a>
 													<?php } ?>
@@ -408,18 +402,65 @@
 									<?php endforeach; ?>
 								</table>
 
+
+								<?php
+									$total_paid = 0;
+									if(!empty($payments)){
+										foreach($payments as $p){
+											$total_paid += $p->amount;
+										}
+									}
+								?>
+
 								<div class="row" style="margin-top:20px">
 									<div class="col-md-4 col-md-offset-8">
 										<div class="panel panel-default">
-											<div class="panel-body">
-												<div class="form-group">
-													<label>Subtotal</label>
-													<input type="text" id="subtotal" class="form-control" value="$ <?php echo number_format($total,2); ?>" readonly>
-												</div>
+												<div class="panel-body invoice-summary">
+													<div class="form-group">
+														<label>Subtotal</label>
+														<input type="text" id="subtotal"
+															class="form-control money total-field"
+															readonly>
+													</div>
+
+													<div class="form-group">
+														<label>GST</label>
+														<input type="text" id="gst"
+															class="form-control money total-field"
+															readonly>
+													</div>
+
+													<div class="form-group">
+														<label>Total</label>
+														<input type="text" id="invoice_total"
+															class="form-control money invoice-total"
+															readonly>
+													</div>
+
+													<div class="form-group">
+														<label>Total Paid</label>
+														<input type="text"
+															id="total_paid"
+															class="form-control money total-field"
+															value="<?php echo number_format($total_paid,2,'.',''); ?>"
+															readonly>
+													</div>
+
+													<div class="form-group">
+														<label>Balance Due</label>
+														<input type="text" id="balance_due"
+															class="form-control money balance-due"
+															readonly>
+													</div>
+
 											</div>
 										</div>
 									</div>
 								</div>
+
+
+
+
 
 								<?php if(!$deshabilitar){ ?>
 									<div class="text-right" style="margin-top:20px;">
@@ -438,60 +479,139 @@
 		<!--FIN ITEM -->
 
 		<!--IMAGES -->
-<div class="row">
-    <div class="col-lg-12">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <b>IMAGES</b>
-            </div>
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<b>IMAGES</b>
+					</div>
 
-            <div class="panel-body">
+					<div class="panel-body">
 
-                <form action="<?php echo site_url('invoices/upload_image/'.$information[0]["id_invoice"]); ?>" 
-                      method="post" 
-                      enctype="multipart/form-data">
+						<form action="<?php echo site_url('invoices/upload_image/'.$idInvoice); ?>" 
+							method="post" 
+							enctype="multipart/form-data">
 
-                    <div class="row">
+							<div class="row">
 
-                        <div class="col-md-6">
-                            <input type="file" name="image" class="form-control">
-                        </div>
+								<div class="col-md-6">
+									<input type="file" name="image" class="form-control">
+								</div>
 
-                        <div class="col-md-2">
-                            <button class="btn btn-success">
-                                Upload
-                            </button>
-                        </div>
+								<div class="col-md-2">
+									<button class="btn btn-success">
+										Upload
+									</button>
+								</div>
 
-                    </div>
+							</div>
 
-                </form>
+						</form>
 
-                <hr>
+						<hr>
 
-                <div class="row">
+						<div class="row">
 
-                    <?php if(!empty($images)){ ?>
+							<?php if(!empty($images)){ ?>
 
-                        <?php foreach($images as $img){ ?>
+								<?php foreach($images as $img){ ?>
 
-                            <div class="col-md-3">
-                                <img src="<?php echo base_url('images/invoices/'.$img->file_name); ?>" 
-                                     class="img-thumbnail"
-                                     style="width:100%;">
-                            </div>
+									<div class="col-md-3">
+										<img src="<?php echo base_url('images/invoices/'.$img->file_name); ?>" 
+											class="img-thumbnail"
+											style="width:100%;">
+									</div>
 
-                        <?php } ?>
+								<?php } ?>
 
-                    <?php } ?>
+							<?php } ?>
 
-                </div>
+						</div>
 
-            </div>
-        </div>
-    </div>
-</div>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!--FIN IMAGES -->
+
+		<!--PAYMENTS -->
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="panel panel-success">
+
+					<div class="panel-heading">
+						<b>PAYMENTS RECEIVED</b>
+					</div>
+
+					<div class="panel-body">
+
+						<form action="<?php echo site_url('invoices/add_payment/'.$idInvoice); ?>" method="post">
+
+							<div class="row">
+
+								<div class="col-md-3">
+									<label>Amount Paid</label>
+									<input type="number" step="any" name="amount" class="form-control" required>
+								</div>
+
+								<div class="col-md-3">
+									<label>Date Paid</label>
+									<input type="date" name="date_paid" class="form-control" required>
+								</div>
+
+								<div class="col-md-2" style="margin-top:25px;">
+									<button class="btn btn-primary">
+										Add Payment
+									</button>
+								</div>
+
+							</div>
+
+						</form>
+
+						<hr>
+
+						<h4>Payments History</h4>
+
+						<table class="table table-bordered">
+
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th>Amount</th>
+								</tr>
+							</thead>
+
+							<tbody>
+
+							<?php 
+							if(!empty($payments)){
+								foreach($payments as $p){
+							?>
+
+								<tr>
+									<td><?php echo $p->date_paid; ?></td>
+									<td>$<?php echo number_format($p->amount,2); ?></td>
+								</tr>
+
+							<?php }} ?>
+
+							</tbody>
+
+							<tfoot>
+								<tr>
+									<th>Total Paid</th>
+									<th>$<?php echo number_format($total_paid,2); ?></th>
+								</tr>
+							</tfoot>
+
+						</table>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--FIN PAYMENTS -->
 
 	<?php } ?>
 

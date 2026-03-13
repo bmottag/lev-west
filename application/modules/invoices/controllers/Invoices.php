@@ -85,11 +85,12 @@ class Invoices extends CI_Controller {
 		//si envio el id, entonces busco la informacion 
 		if ($id != 'x') {
 			$arrParam = array('idInvoice' => $id);
+
+			$data['idInvoice'] = $id;
 			$data['information'] = $this->invoices_model->get_invoices($arrParam); //info invoice
-
 			$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items
-
-			 $data['images'] = $this->invoices_model->get_images($id);
+			$data['images'] = $this->invoices_model->get_images($id);
+			$data['payments'] = $this->invoices_model->get_payments($id);
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -435,6 +436,20 @@ class Invoices extends CI_Controller {
             redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
         }
     }
+
+	public function add_payment($idInvoice)
+	{
+
+		$data = [
+			'fk_id_invoice' => $idInvoice,
+			'amount' => $this->input->post('amount'),
+			'date_paid' => $this->input->post('date_paid')
+		];
+
+		$this->invoices_model->save_payment($data);
+
+		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+	}
 
 
 	
