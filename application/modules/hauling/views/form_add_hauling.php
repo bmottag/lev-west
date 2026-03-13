@@ -29,7 +29,7 @@ if ($userRol == 99) {
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
 						<a class="btn btn-primary btn-xs" href=" <?php echo base_url('dashboard/hauling'); ?> "><span class="glyphicon glyphicon glyphicon-chevron-left" aria-hidden="true"></span> Go back </a>
-						<i class="fa fa-truck fa-fw"></i> <b>RECORD TASK(S) - HAULING</b>
+						<i class="fa fa-truck fa-fw"></i> <b>Haul Sheets</b>
 					</h4>
 				</div>
 				<div class="panel-body">
@@ -66,7 +66,7 @@ if ($userRol == 99) {
 						<div class="col-lg-12">
 							<div class="alert alert-success ">
 								<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-								This hauling form is close.
+								Haul Sheet is currently close.
 							</div>
 						</div>
 					<?php
@@ -79,7 +79,7 @@ if ($userRol == 99) {
 							<div class="col-lg-12">
 								<div class="alert alert-danger ">
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-									This hauling form is close.
+									Haul Sheet is currently close.
 								</div>
 							</div>
 						<?php
@@ -96,7 +96,7 @@ if ($userRol == 99) {
 								<div class="col-lg-6">
 									<div class="panel panel-primary">
 										<div class="panel-heading">
-											<i class="fa fa-edit fa-fw"></i> V-Contracting
+											<i class="fa fa-edit fa-fw"></i> Lev West Inc
 										</div>
 										<!-- /.panel-heading -->
 										<div class="panel-body">
@@ -120,7 +120,7 @@ if ($userRol == 99) {
 																	<div class="modal-content">
 																		<div class="modal-header">
 																			<button type="button" class="close" data-dismiss="modal">×</button>
-																			<h4 class="modal-title">Hauling Supervisor Signature</h4>
+																			<h4 class="modal-title">Lev west Representative Signature</h4>
 																		</div>
 																		<div class="modal-body text-center"><img src="<?php echo base_url($information["vci_signature"]); ?>" class="img-rounded" alt="Hauling Supervisor Signature" width="304" height="236" /> </div>
 																		<div class="modal-footer">
@@ -148,7 +148,7 @@ if ($userRol == 99) {
 								<div class="col-lg-6">
 									<div class="panel panel-info">
 										<div class="panel-heading">
-											<i class="fa fa-edit fa-fw"></i> Subcontractor
+											<i class="fa fa-edit fa-fw"></i> Sub-contractor
 											<a href="<?php echo base_url("hauling/email/" . $information["id_hauling"]); ?>" class="btn btn-danger btn-xs class_disabled"> <span class="glyphicon glyphicon-send" aria-hidden="true"></span> Send Email</a>
 										</div>
 										<!-- /.panel-heading -->
@@ -172,7 +172,7 @@ if ($userRol == 99) {
 																	<div class="modal-content">
 																		<div class="modal-header">
 																			<button type="button" class="close" data-dismiss="modal">×</button>
-																			<h4 class="modal-title">Hauling Contractor Signature</h4>
+																			<h4 class="modal-title">Driver / Contractor Signature</h4>
 																		</div>
 																		<div class="modal-body text-center"><img src="<?php echo base_url($information["contractor_signature"]); ?>" class="img-rounded" alt="Hauling Contractor Signature" width="304" height="236" /> </div>
 																		<div class="modal-footer">
@@ -216,7 +216,7 @@ if ($userRol == 99) {
 									});
 								</script>
 								<div class="form-group">
-									<label class="col-sm-4 control-label" for="date">Date of Issue</label>
+									<label class="col-sm-4 control-label" for="date">Issued Date</label>
 									<div class="col-sm-5">
 										<input type="text" class="form-control" id="date" name="date" value="<?php echo $information ? $information["date_issue"] : ""; ?>" placeholder="Date of Issue" />
 									</div>
@@ -225,7 +225,7 @@ if ($userRol == 99) {
 
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="company">Lev-West or Subcontractor</label>
+								<label class="col-sm-4 control-label" for="company">Lev-West or Sub-contractor</label>
 								<div class="col-sm-5">
 									<select name="CompanyType" id="CompanyType" class="form-control" required <?php if ($information) { ?>
 										disabled
@@ -237,13 +237,13 @@ if ($userRol == 99) {
 														}  ?>>Lev-West</option>
 										<option value=2 <?php if ($information && $information["company_type"] == 2) {
 															echo "selected";
-														}  ?>>Subcontractor</option>
+														}  ?>>Sub-contractor</option>
 									</select>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="company">Hauling done by</label>
+								<label class="col-sm-4 control-label" for="company">Material Hauled by</label>
 								<div class="col-sm-5">
 									<select name="company" id="company" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
@@ -289,7 +289,7 @@ if ($userRol == 99) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="truckType">Truck Type</label>
+								<label class="col-sm-4 control-label" for="truckType">Type of Truck Used</label>
 								<div class="col-sm-5">
 									<select name="truckType" id="truckType" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
@@ -303,14 +303,14 @@ if ($userRol == 99) {
 							</div>
 
 							<div class="form-group" id="div_plate" style="display:<?php echo $mostrar; ?>">
-								<label class="col-sm-4 control-label" for="plate">Plate Number </label>
+								<label class="col-sm-4 control-label" for="plate">Unit's License Plate Number </label>
 								<div class="col-sm-5">
 									<input type="text" id="plate" name="plate" class="form-control" value="<?php echo $information ? $information["plate"] : ""; ?>" placeholder="Plate number" <?php echo $plateRequired; ?>>
 								</div>
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="materialType">Material Type</label>
+								<label class="col-sm-4 control-label" for="materialType">Material Transported</label>
 								<div class="col-sm-5">
 									<select name="materialType" id="materialType" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
@@ -331,7 +331,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 ?>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="fromSite">Job Code/Name</label>
+								<label class="col-sm-4 control-label" for="fromSite">Venture Code</label>
 								<div class="col-sm-5">
 									<select name="fromSite" id="fromSite" class="form-control js-example-basic-single" <?php echo $deshabilitar; ?>>
 										<option value=''>Select...</option>
@@ -345,7 +345,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="toSite">To Site</label>
+								<label class="col-sm-4 control-label" for="toSite">Delivered to:</label>
 								<div class="col-sm-5">
 									<select name="toSite" id="toSite" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
@@ -359,7 +359,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="timeIn">Time In</label>
+								<label class="col-sm-4 control-label" for="timeIn">Clock In</label>
 								<div class="col-sm-2">
 									<?php
 									$hourIn = $minIn = 0;
@@ -401,7 +401,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="fromSite">Time Out</label>
+								<label class="col-sm-4 control-label" for="fromSite">Clock Out</label>
 								<div class="col-sm-2">
 									<?php
 									$hourOut = $minOut = 0;
@@ -443,7 +443,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="payment">Payment</label>
+								<label class="col-sm-4 control-label" for="payment">Method of Payment</label>
 								<div class="col-sm-5">
 									<select name="payment" id="payment" class="form-control js-example-basic-single">
 										<option value=''>Select...</option>
@@ -460,7 +460,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 								<div class="form-group">
 									<input type="hidden" name="id_work_order" id="id_work_order" value="">
 									<input type="hidden" name="list_work_order" id="list_work_order" value="<?php echo ($information["fk_id_workorder"]) ?>">
-									<label class="col-sm-4 control-label" for="work_order">Work Order</label>
+									<label class="col-sm-4 control-label" for="work_order">Work Ticket</label>
 									<div class="col-sm-5">
 										<select class="form-control" disabled>
 											<option value="<?php echo ($information["fk_id_workorder"]) ?>"><?php echo ($workorder) ?></option>
@@ -469,7 +469,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 								</div>
 							<?php } else {   ?>
 								<div class="form-group" id="div_work_order">
-									<label class="col-sm-4 control-label" for="work_order">Work Order</label>
+									<label class="col-sm-4 control-label" for="work_order">Work Ticket</label>
 									<div class="col-sm-5">
 										<select name="id_work_order" id="id_work_order" class="form-control">
 											<option value="">Select...</option>
@@ -484,7 +484,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 								</div>
 
 								<div class="form-group" id="div_list_work_order">
-									<label class="col-sm-4 control-label" for="work_order_div">Select Work Order</label>
+									<label class="col-sm-4 control-label" for="work_order_div">Select Work Ticket</label>
 									<div class="col-sm-5">
 										<select name="list_work_order" id="list_work_order" class="form-control">
 											<option value="">Select...</option>
@@ -495,7 +495,7 @@ if ($information && $information["fk_id_workorder"] != null) {
 							<?php }  ?>
 
 							<div class="form-group">
-								<label class="col-sm-4 control-label" for="comments">Comments</label>
+								<label class="col-sm-4 control-label" for="comments">Remarks & Observations</label>
 								<div class="col-sm-5">
 									<textarea id="comments" name="comments" placeholder="Comments" class="form-control" rows="3"><?php echo $information ? $information["comments"] : ""; ?></textarea>
 								</div>
@@ -521,9 +521,9 @@ if ($information && $information["fk_id_workorder"] != null) {
 							<div class="col-lg-12">
 								<div class="alert alert-danger ">
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-									If you use the SAVE button you just save the Hauling Report.<br>
+									the "Save" button, will only save the information.<br>
 									<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-									If you use the SAVE & SEND EMAIL button you save the Hauling Report and sent the email to the subcontractor and to <strong>fabian.v@lev-west.com</strong>.
+									the "Save & Send" button will send a copy of the Haul Ticket to the Sub <strong>Invoice@lev-west.com</strong>.
 								</div>
 							</div>
 

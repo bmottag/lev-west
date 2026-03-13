@@ -133,14 +133,14 @@
 	<div class="row">
 		<div class="col-lg-3 col-md-6">
 			<a class="btn btn-block btn-social btn-primary" href="#anclaPayroll">
-				<i class="fa fa-book"></i> <b> Last Payroll Records </b>
+				<i class="fa fa-book"></i> <b> Clock in/out Records </b>
 			</a>
 		</div>
 
 		<?php if ($infoSafety) {  ?>
 			<div class="col-lg-3 col-md-6">
 				<a class="btn btn-block btn-social btn-info" href="#anclaSafety">
-					<i class="fa fa-life-saver"></i> <b> Last FLHA Records </b>
+					<i class="fa fa-life-saver"></i> <b> FHE Records </b>
 				</a>
 			</div>
 		<?php } ?>
@@ -148,7 +148,7 @@
 		<?php if ($noJobs) {  ?>
 			<div class="col-lg-3 col-md-6">
 				<a class="btn btn-block btn-social btn-info" href="<?php echo base_url('jobs'); ?>">
-					<i class="fa fa-life-saver"></i> <b> Jobs - Safety</b>
+					<i class="fa fa-life-saver"></i> <b> Safety & Compliance </b>
 				</a>
 			</div>
 		<?php } ?>
@@ -156,7 +156,7 @@
 		<?php if ($noHauling) {  ?>
 			<div class="col-lg-3 col-md-6">
 				<a class="btn btn-block btn-social btn-warning" href="<?php echo base_url('dashboard/hauling'); ?>">
-					<i class="fa fa-truck"></i> <b> Last Hauling Records </b>
+					<i class="fa fa-truck"></i> <b> Haul Sheets Records </b>
 				</a>
 			</div>
 		<?php } ?>
@@ -167,7 +167,8 @@
 		<?php if ($noDailyInspection) {  ?>
 			<div class="col-lg-3 col-md-6">
 				<a class="btn btn-block btn-social btn-success" href="<?php echo base_url('dashboard/pickups_inspection'); ?>">
-					<i class="fa fa-search"></i> <b> Last Pickups & Trucks Inspections</b>
+					<i class="fa fa-search"></i> <b> Most Recent P/u's & Trucks Reports<P>
+					<u></u></b>
 				</a>
 			</div>
 		<?php } ?>
@@ -175,27 +176,27 @@
 		<?php if ($noHeavyInspection) {  ?>
 			<div class="col-lg-3 col-md-6">
 				<a class="btn btn-block btn-social btn-danger" href="<?php echo base_url('dashboard/construction_equipment_inspection'); ?>">
-					<i class="fa fa-search"></i> <b> Last Construction Equipment Inspections</b>
+					<i class="fa fa-search"></i> <b> Most Recent H-Equipment Report</b>
 				</a>
 			</div>
 		<?php } ?>
 
 		<div class="col-lg-3 col-md-6">
 			<a class="btn btn-block btn-social btn-purpura" href="#anclaWatertruck">
-				<i class="fa fa-search"></i> <b> Last Special Equipment Inspections</b>
+				<i class="fa fa-search"></i> <b> Most Recent SE Report</b>
 			</a>
 		</div>
 
 		<div class="col-lg-3 col-md-6">
 			<a class="btn btn-block btn-social btn-primary" href="<?php echo base_url('dashboard/checkin'); ?>">
-				<i class="fa fa-search"></i> <b> View Sign-In Form Registers </b>
+				<i class="fa fa-search"></i> <b> View Clocked In QR Form Registers </b>
 			</a>
 			<br>
 		</div>
 
 		<div class="col-lg-3 col-md-6">
 			<a class="btn btn-block btn-social btn-warning" href="<?php echo base_url('trailers/index'); ?>">
-				<i class="fa fa-car"></i> <b> Trailers Inspections </b>
+				<i class="fa fa-car"></i> <b> Trailers Inspections Report </b>
 			</a>
 			<br>
 		</div>
@@ -214,9 +215,9 @@
 							<thead>
 								<tr>
 									<th>Date</th>
-									<th>Job Code/Name</th>
-									<th>Observation</th>
-									<th>Message</th>
+									<th>Venture Code</th>
+									<th>Observations</th>
+									<th>Instruction</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -317,14 +318,14 @@
 							<thead>
 								<tr>
 									<th>Date</th>
-									<th>Job Code/Name</th>
+									<th>Venture Code</th>
 									<th>Observation</th>
-									<th>Time In</th>
+									<th>Clock In</th>
 									<th>Site</th>
 									<th>Description</th>
-									<th>FLHA/IHSR</th>
+									<th>FHE or IHSR</th>
 									<th>Equipment</th>
-									<th>Confirmed?</th>
+									<th>Have you Confirmed?</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -393,7 +394,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-book fa-fw"></i> <b>Last Payroll Records</b>
+					<i class="fa fa-book fa-fw"></i> <b>Last Clock In/Out Records</b>
 				</div>
 				<!-- /.panel-heading -->
 				<div class="panel-body">
@@ -412,14 +413,14 @@
 							<thead>
 								<tr>
 									<th>Employee</th>
-									<th>Start</th>
-									<th>Finish</th>
+									<th>Clocked In</th>
+									<th>Clocked Out</th>
 									<th>Working Hours <small>(HH:MM)</small></th>
-									<th>Job Start</th>
-									<th>Address Start</th>
-									<th>Job Finish</th>
-									<th>Address Finish</th>
-									<th>Task Description</th>
+									<th>Venture Start at:</th>
+									<th>Meeting Point</th>
+									<th>Venture Finished at:</th>
+									<th>Location Done at:</th>
+									<th>Assigned Work Description</th>
 									<th>Observation</th>
 								</tr>
 							</thead>
@@ -446,7 +447,7 @@
 						</table>
 
 						<a href="<?php echo base_url("report/searchByDateRange/payroll"); ?>" class="btn btn-outline btn-default btn-block">
-							View more own records <span class="fa fa-book" aria-hidden="true">
+							Expand Clock In/out past Record <span class="fa fa-book" aria-hidden="true">
 						</a>
 						<?php
 						$userBankTime = $this->session->bankTime;
@@ -478,7 +479,7 @@
 				<a name="anclaWatertruck"></a>
 				<div class="panel panel-purpura">
 					<div class="panel-heading">
-						<i class="fa fa-search fa-fw"></i> Last Water Truck Inspection Records
+						<i class="fa fa-search fa-fw"></i> Most Recent Water Truck Inspection Report
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
@@ -591,7 +592,7 @@
 				<a name="anclaHydrovac"></a>
 				<div class="panel panel-purpura">
 					<div class="panel-heading">
-						<i class="fa fa-search fa-fw"></i> Last Hydro-Vac Inspection Records
+						<i class="fa fa-search fa-fw"></i> Most Recent Hydro-Vac Inspection Report
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
@@ -723,7 +724,7 @@
 				<a name="anclaSweeper"></a>
 				<div class="panel panel-purpura">
 					<div class="panel-heading">
-						<i class="fa fa-search fa-fw"></i> Last Sweeper Inspection Records
+						<i class="fa fa-search fa-fw"></i> Mort Resent Sweeper Inspection Report
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
@@ -844,7 +845,7 @@
 				<a name="anclaGenerator"></a>
 				<div class="panel panel-purpura">
 					<div class="panel-heading">
-						<i class="fa fa-search fa-fw"></i> Last Generators Inspection Records
+						<i class="fa fa-search fa-fw"></i> Most Recent Generators Inspection Report
 					</div>
 					<!-- /.panel-heading -->
 					<div class="panel-body">
@@ -949,7 +950,7 @@ if ($infoSafety) {
 				<div class="panel panel-info">
 
 					<div class="panel-heading">
-						<i class="fa fa-life-saver fa-fw"></i> <strong>LAST FLHA - FIELD LEVEL HAZARD ASSESSMENT RECORDS</strong>
+						<i class="fa fa-life-saver fa-fw"></i> <strong>Most Recent FHE - Field Hazard Evaluation Report</strong>
 					</div>
 
 					<div class="panel-body">

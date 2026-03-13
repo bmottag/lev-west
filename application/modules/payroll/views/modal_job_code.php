@@ -2,8 +2,8 @@
 
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	<h4 class="modal-title" id="exampleModalLabel">Edit Worked Hours for each Job Code</h4>
-	<p>Total Worked Hours: <b><?php echo $information["working_hours"] . " Hours"; ?></b></p>
+	<h4 class="modal-title" id="exampleModalLabel">Edit Worked Hours for each Venture Code</h4>
+	<p>Total Hours Worked: <b><?php echo $information["working_hours"] . " Hours"; ?></b></p>
 </div>
 
 <div class="modal-body">
@@ -14,7 +14,7 @@
 		<div class="row">
 			<div class="col-sm-8">
 				<div class="form-group text-left">
-					<label class="control-label" for="jobName">Job Code/Name - Start: *  <?php echo $information["wo_start_project"]?"(W.O. # " . $information["wo_start_project"] . ")":"";  ?></label>
+					<label class="control-label" for="jobName">Venture Code - Start: *  <?php echo $information["wo_start_project"]?"(W.O. # " . $information["wo_start_project"] . ")":"";  ?></label>
 					<select name="jobName" id="jobName" class="form-control js-example-basic-single" <?php echo $information["wo_start_project"]?"disabled":"";  ?> >
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($jobs); $i++) { ?>
@@ -31,7 +31,7 @@
 
 			<div class="col-sm-4">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Worked hours: *</label>
+					<label for="type" class="control-label">Hours Worked: *</label>
 					<input id="hours_first_project" name="hours_first_project" class="form-control" type="number" min="0" step="any" placeholder="Hours" value="<?php echo $information["hours_start_project"]; ?>"  />
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 		<div class="row">
 			<div class="col-sm-8">
 				<div class="form-group text-left">
-					<label class="control-label" for="jobNameFinish">Job Code/Name - Finish: *    <?php echo $information["wo_end_project"]?"(W.O. # " . $information["wo_end_project"] . ")":"";  ?></label>
+					<label class="control-label" for="jobNameFinish">Venture Code - Finish: *    <?php echo $information["wo_end_project"]?"(W.O. # " . $information["wo_end_project"] . ")":"";  ?></label>
 					<select name="jobNameFinish" id="jobNameFinish" class="form-control js-example-basic-single" <?php echo $information["wo_end_project"]?"disabled":"";  ?>>
 						<option value=''>Select...</option>
 						<?php for ($i = 0; $i < count($jobs); $i++) { ?>
@@ -57,7 +57,7 @@
 
 			<div class="col-sm-4">
 				<div class="form-group text-left">
-					<label for="type" class="control-label">Worked hours: *</label>
+					<label for="type" class="control-label">Hours Worked: *</label>
 					<input id="hours_last_project" name="hours_last_project" class="form-control" type="number" min="0" step="any" placeholder="Hours" value="<?php echo $information["hours_end_project"]; ?>"  />
 				</div>
 			</div>

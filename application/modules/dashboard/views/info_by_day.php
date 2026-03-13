@@ -53,15 +53,15 @@
         <div class="col-lg-12">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-list fa-fw"></i> <strong>PLANNING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-list fa-fw"></i> <strong>Clock In/out Reports</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <div class="panel-body">
 
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
                         <thead>
                             <tr>
-                                <th width='20%'>Job Code/Name</th>
-                                <th width='60%'>Observation</th>
+                                <th width='20%'>Venture Code</th>
+                                <th width='60%'>Comments</th>
                                 <th width='20%'>Message</th>
                             </tr>
                         </thead>
@@ -152,18 +152,18 @@
         <div class="col-lg-12">
             <div class="panel panel-success">
                 <div class="panel-heading">
-                    <i class="fa fa-money fa-fw"></i> <strong>WORK ORDER RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-money fa-fw"></i> <strong>Work Ticket Report</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
 
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataPlanning">
                         <thead>
                             <tr>
-                                <th width='10%' class='text-center'>Work Order #</th>
-                                <th width='20%'>Job Code/Name</th>
-                                <th width='15%'>Supervisor</th>
-                                <th width='30%'>Task Description</th>
-                                <th width='25%'>Last Message</th>
+                                <th width='10%' class='text-center'>Work Ticket Number</th>
+                                <th width='20%'>Venture Code</th>
+                                <th width='15%'>Person In Charge</th>
+                                <th width='30%'>Overview</th>
+                                <th width='25%'>Previous Remarks</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -230,7 +230,7 @@
         <div class="col-lg-12">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-money fa-fw"></i> <strong>FORCE ACCOUNTS RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-money fa-fw"></i> <strong>Force Account Report</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
 
                 <div class="panel-body">
@@ -238,10 +238,10 @@
                         <thead>
                             <tr>
                                 <th width='10%' class='text-center'>Force Account #</th>
-                                <th width='20%'>Job Code/Name</th>
-                                <th width='15%'>Supervisor</th>
-                                <th width='30%'>Task Description</th>
-                                <th width='25%'>Last Message</th>
+                                <th width='20%'>Venture Code</th>
+                                <th width='15%'>Person In Charge</th>
+                                <th width='30%'>Overview</th>
+                                <th width='25%'>Previous Remarks</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -308,7 +308,7 @@
         <div class="col-lg-12">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <i class="fa fa-book fa-fw"></i> <strong>PAYROLL RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-book fa-fw"></i> <strong>Clock In/out Report</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <div class="panel-body table-container">
                     <br>
@@ -316,9 +316,9 @@
                         <thead>
                             <tr>
                                 <th width='8%'>Employee</th>
-                                <th width='7%' class="text-center">Hours Worked at Project Start</th>
-                                <th width='7%' class="text-center">Hours Worked at Project Finish</th>
-                                <th width='8%' class="text-center">Payroll Working Hours </th>
+                                <th width='7%' class="text-center">Clock-In Time At Venture Start</th>
+                                <th width='7%' class="text-center">Clock-out time At Venture Finish</th>
+                                <th width='8%' class="text-center">Total Clock In/out Worked Hours </th>
 
                                 <?php 
                                     if (isset($workOrderCheck) && $workOrderCheck) {
@@ -329,7 +329,7 @@
                                         endforeach; 
                                     }
                                 ?>
-                                <th width='10%' class='text-center'>Total W.O. Hours</td>
+                                <th width='10%' class='text-center'>Total Work Ticket Hours</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -388,7 +388,7 @@
                                     } else {
                                     ?>
                                         <div class="alert alert-danger">
-                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> These hours have already been paid, they cannot be edited.
+                                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> These hours are already paid ✅—no edits allowed! 😄.
                                         </div>
                             <?php
                                     }
@@ -547,25 +547,25 @@
         <div class="col-lg-12">
             <div class="panel panel-warning">
                 <div class="panel-heading">
-                    <i class="fa fa-truck fa-fw"></i> <strong>HAULING RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-truck fa-fw"></i> <strong>Haul Ticket Report</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
 
                 <div class="panel-body">
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                         <thead>
                             <tr>
-                                <th class='text-center'>#</th>
-                                <th class='text-center'>Report done by</th>
+                                <th class='text-center'>ID</th>
+                                <th class='text-center'>Report Created by</th>
                                 <th class='text-center'>Download</th>
-                                <th class='text-center'>Hauling done by</th>
+                                <th class='text-center'>Haul Ticket Created by</th>
                                 <th class='text-center'>Truck - Unit Number</th>
                                 <th class='text-center'>Truck Type</th>
                                 <th class='text-center'>Material Type</th>
                                 <th class='text-center'>From Site</th>
                                 <th class='text-center'>To Site</th>
-                                <th class='text-center'>Payment</th>
-                                <th class='text-center'>Time In</th>
-                                <th class='text-center'>Time Out</th>
+                                <th class='text-center'>Method of Payment</th>
+                                <th class='text-center'>Clock In</th>
+                                <th class='text-center'>Clock Out</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -606,16 +606,16 @@
         <div class="col-lg-12">
             <div class="panel panel-info">
                 <div class="panel-heading">
-                    <i class="fa fa-life-saver fa-fw"></i> <strong>FLHA RECORDS</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
+                    <i class="fa fa-life-saver fa-fw"></i> <strong>FHE REports</strong> - <?php echo date('l, F j, Y', strtotime($fecha)); ?>
                 </div>
                 <div class="panel-body">
 
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                         <thead>
                             <tr>
-                                <th class='text-center'>Job Code/Name</th>
-                                <th class='text-center'>Meeting conducted by</th>
-                                <th class='text-center'>Task(s) To Be Done</th>
+                                <th class='text-center'>Venture Code</th>
+                                <th class='text-center'>Session conducted by</th>
+                                <th class='text-center'>To-Do Tasks 🎯 </th>
                                 <th class='text-center'>Download</th>
                             </tr>
                         </thead>
@@ -656,10 +656,10 @@
                     <table width="100%" class="table table-striped table-bordered table-hover" id="dataTables">
                         <thead>
                             <tr>
-                                <th class='text-center'>Job Code/Name</th>
-                                <th class='text-center'>Reported by</th>
-                                <th class='text-center'>Activities of the Day</th>
-                                <th class='text-center'>Employee Suggestions</th>
+                                <th class='text-center'>Venture Code</th>
+                                <th class='text-center'>Reported by 📝</th>
+                                <th class='text-center'>Today’s Activities 🚧</th>
+                                <th class='text-center'>Employee Suggestions 💡</th>
                                 <th class='text-center'>Download</th>
                             </tr>
                         </thead>
@@ -696,7 +696,7 @@
         <div class="modal-content" id="tablaDatos">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">Assign hours to a Work Order</h4>
+                <h4 class="modal-title" id="exampleModalLabel">Log Your Hours to a Work Ticket ⏱️🎫</h4>
             </div>
             <div class="modal-body">
                 <h5 id="modalMessage"></h5> <!-- Mensaje que se mostrará -->
@@ -705,7 +705,7 @@
                 <p id="workorderID" hidden></p>
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnModalAssign" class="btn btn-primary">Assign</button> <!-- Botón para asignar -->
+                <button type="button" id="btnModalAssign" class="btn btn-primary">Delegate it to</button> <!-- Botón para asignar -->
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -773,7 +773,7 @@
                     $('#workorderID').text(response.id_workorder);
                     $('#btnModalAssign').show();
                 } else {
-                    $('#modalMessage').text("There is no W.O. for the date the employee worked and the Job Code used.");
+                    $('#modalMessage').text("Oops! 😅 There’s no Work Ticket for that date and job code..");
                     $('#btnModalAssign').hide();
                 }
                 $('#modalWorker').modal('show');

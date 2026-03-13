@@ -87,7 +87,7 @@
 		<div class="col-lg-12">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
-					<i class="fa fa-book"></i> <strong>Clock In/OutS</strong>
+					<i class="fa fa-book"></i> <strong>Clock In/Out</strong>
 					<br><small>Clock In</small>
 				</div>
 				<div class="panel-body">
@@ -119,9 +119,9 @@
 
 						<input id="programming" name="programming" type="hidden" value="<?php echo $programming; ?>">
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="jobName">Project Code:
+							<label class="col-sm-4 control-label" for="jobName">Venture Code:
 								<?php if ($job_programming) { ?>
-									<p class="help-block">Are you logging in under this Job Code/Name?</p>
+									<p class="help-block">Are you Clockinh in under this Venture Code?</p>
 								<?php } ?>
 							</label>
 							<div class="col-sm-5">

@@ -10,38 +10,38 @@
 				</div>
 				<div class="panel-body">
 					<p>
-						* <strong>Dashboard:</strong> 
+						* <strong>My Work Space:</strong> 
 						<ul>
-						<li>Own Payroll Records</li>
-						<li>Last FLHA Records</li>
-						<li>Last Hauling Records</li>
-						<li>Own Inspections Records</li>
+						<li>My Own Clock In/Out Report</li>
+						<li>Most Recent FHE Report</li>
+						<li>Most Recent Haul Ticket Report</li>
+						<li>MY Inspections Report</li>
 						</ul>
 						<strong>Inspections</strong>
-						<br><strong>Record Task:</strong> 
+						<br><strong>My Work Zone:</strong> 
 						<ul>
-						<li>Payroll</li>
-						<li>Hauling</li>
+						<li>Clock In/out</li>
+						<li>Haul Tickets</li>
 						</ul>
-						* <strong>Jobs - Safety:</strong> 
+						* <strong>Ventures - Act Safe - Work Safe:</strong> 
 						<ul>
 						<li>IHSR</li>
-						<li>FLHA</li>
+						<li>FHE</li>
 						<li>Locates</li>
 						<li>CSEP</li>
 						<li>Fire Watch</li>
-						<li>Bitacora</li>
+						<li>Ventures Log</li>
 						<li>Near miss report</li>
-						<li>Incident/Accident report</li>
+						<li>Accident report</li>
 						</ul>
 						----------------------------
-						<br><strong>Day Off:</strong> Request Day Off 
+						<br><strong>Day's Off:</strong> Request a new Day Off 
 						<br>----------------------------
-						<br>* <strong>Work orders:</strong>
+						<br>* <strong>Work Tickets:</strong>
 						<ul>
-						<li>Add/Edit W.O.</li>
-						<li>This user can edit their own work orders if it is "On Field".</li>
-						<li>This user cannot change the status of the work order.</li>
+						<li>Add/Edit W.Ticket</li>
+						<li>Work ticket's under "On Field" status can be eddited by the user.</li>
+						<li>Thes user can not make any modification to the status of the work ticket.</li>
 						</ul>
 						----------------------------
 						<br><strong>Manuals</strong>
@@ -61,31 +61,31 @@
 				</div>
 				<div class="panel-body">
 					<p>
-						* <strong>Dashboard:</strong> 
+						* <strong>My Work Space:</strong> 
 						<ul>
 						<li>Maintenance Program</li>
-						<li>Own Payroll Records</li>
-						<li>Last FLHA Records</li>
-						<li>Last Hauling Records</li>
-						<li>Own Inspections Records</li>
+						<li>My Own Clock In/out Records</li>
+						<li>Last FHE Records</li>
+						<li>Last Haul Tickets Records</li>
+						<li>My Own Inspections Report</li>
 						</ul>
 						<strong>Inspections</strong>
-						<br><strong>Service Order</strong>
+						<br><strong>Maintenance Order</strong>
 						<ul>
-						<li>View, edit and changes status of Service Orders</li>
+						<li>View, edit and change status for Maintenance Orders</li>
 						<li>Add and edit Corrective Maintenance</li>
 						<li>Add and edit Preventive Maintenance</li>
-						<li>Parts by Store</li>
+						<li>Order Parts by Store</li>
 						</ul>
-						<strong>Record Task:</strong> Payroll
-						<br>* <strong>Jobs - Safety:</strong> All except JHA
-						<br><strong>Day Off:</strong> Request Day Off 
+						<strong>My Work Zone :</strong> Clock In/out
+						<br>* <strong>Ventures - Act Safe, Work Safe:</strong> All except JHA
+						<br><strong>Day's Off:</strong> Request a new Day Off 
 						<br>----------------------------
-						<br>* <strong>Work orders:</strong>
+						<br>* <strong>Work Tickets:</strong>
 						<ul>
-						<li>Add/Edit W.O.</li>
-						<li>This user can edit their own work orders if it is "On Field".</li>
-						<li>This user cannot change the status of the work order.</li>
+						<li>Add/Edit W. Ticket</li>
+						<li>Work ticket's under "On Field" status can be eddited by the user.</li>
+						<li>Thes user can not make any modification to the status of the work ticket.</li>
 						</ul>
 						----------------------------
 						<br><strong>Manuals</strong>
@@ -105,30 +105,30 @@
 				</div>
 				<div class="panel-body">
 					<p>
-						* <strong>Dashboard: </strong>
+						* <strong>My Work Space: </strong>
 						<ul>
-						<li>Last Payroll Records</li>
-						<li>Last FLHA Records</li>
-						<li>Jobs - Safety</li>
-						<li>Last Inspections Records</li>
+						<li>My Own Clock In/out Report</li>
+						<li>Most Recent FHE Report</li>
+						<li>Ventures - Act Safe, Work Safe</li>
+						<li>Most Recent Inspections Report</li>
 						</ul>
 						<strong>Inspections</strong>
-						<br><strong>Record Task:</strong> 
+						<br><strong>My Work Space:</strong> 
 						<ul>
-						<li>Payroll</li>
-						<li>Hauling</li>
+						<li>Clock In/out</li>
+						<li>Haul Ticket</li>
 						</ul>
-						<strong>Jobs - Safety:</strong> All except JHA
+						<strong>Venture - Act Safe, Work Safe:</strong> All except JHA
 						<br>----------------------------
-						<br><strong>Engineering:</strong> Projects - Planning
-						<br><strong>Day off</strong> Request Day Off
+						<br><strong>Engineering:</strong> Ventures - Planning
+						<br><strong>Day's off</strong> Request a New Day Off
 						<br>----------------------------
-						<br>* <strong>Work orders:</strong>
+						<br>* <strong>Work Ticket:</strong>
 						<ul>
-						<li>Add/Edit W.O.</li>
-						<li>Search W.O.</li>
-						<li>This user can edit any work orders if it is "On Field".</li>
-						<li>This user cannot change the status of the work order.</li>
+						<li>Add/Edit W.Ticket</li>
+						<li>Search W.Ticket</li>
+						<li>Work ticket's under "On Field" status can be eddited by the user..</li>
+						<li>Thes user can not make any modification to the status of the work ticket.</li>
 						<li>Force Account</li>
 						</ul>
 						<br>----------------------------
@@ -147,7 +147,7 @@
 		<div class="col-lg-4">
 			<div class="panel panel-warning">
 				<div class="panel-heading">
-					<strong>Work Order User Access</strong>
+					<strong>Work Ticket User Access</strong>
 				</div>
 				<div class="panel-body">
 					<p>
