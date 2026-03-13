@@ -102,6 +102,12 @@
 								<i class="fa fa-download"></i> Download
 								</a>
 
+								<a class="btn btn-success btn-sm"
+								href="<?php echo base_url('invoices/upload_images/'.$information[0]["id_invoice"]); ?>"
+								target="_blank">
+								<i class="fa fa-download"></i> Upload Images
+								</a>
+
 							</div>
 						<?php 
 						echo "<br>";
@@ -430,6 +436,62 @@
 			</div>
 		</div>
 		<!--FIN ITEM -->
+
+		<!--IMAGES -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <b>IMAGES</b>
+            </div>
+
+            <div class="panel-body">
+
+                <form action="<?php echo site_url('invoices/upload_image/'.$information[0]["id_invoice"]); ?>" 
+                      method="post" 
+                      enctype="multipart/form-data">
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <input type="file" name="image" class="form-control">
+                        </div>
+
+                        <div class="col-md-2">
+                            <button class="btn btn-success">
+                                Upload
+                            </button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <hr>
+
+                <div class="row">
+
+                    <?php if(!empty($images)){ ?>
+
+                        <?php foreach($images as $img){ ?>
+
+                            <div class="col-md-3">
+                                <img src="<?php echo base_url('images/invoices/'.$img->file_name); ?>" 
+                                     class="img-thumbnail"
+                                     style="width:100%;">
+                            </div>
+
+                        <?php } ?>
+
+                    <?php } ?>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+		<!--FIN IMAGES -->
 
 	<?php } ?>
 
