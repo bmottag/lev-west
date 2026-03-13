@@ -181,6 +181,29 @@ class Invoices_model extends CI_Model {
 		$this->db->where('id_invoices_items', $idItem);
 		return $this->db->update('invoices_items', $data);
 	}
+
+    public function save_image($data)
+    {
+        $this->db->insert('invoices_images', $data);
+    }
+
+    public function get_images($invoice_id)
+    {
+        $this->db->where('fk_id_invoice', $invoice_id);
+        return $this->db->get('invoices_images')->result();
+    }
+
+	public function save_payment($data)
+	{
+		$this->db->insert('invoices_payments', $data);
+	}
+
+	public function get_payments($invoice_id)
+	{
+		$this->db->where('fk_id_invoice', $invoice_id);
+		$this->db->order_by('date_paid','DESC');
+		return $this->db->get('invoices_payments')->result();
+	}
 		
 	    
 }

@@ -13,10 +13,38 @@ $( document ).ready( function () {
 		$("#iframePreview").attr("src", "");
 	});
 
+function calculateBalance(){
+
+	let total = parseFloat($("#invoice_total").val()) || 0;
+	let paid = parseFloat($("#total_paid").val()) || 0;
+
+	let balance = total - paid;
+
+	if(balance < 0){
+		balance = 0;
+	}
+
+	$("#balance_due").val(balance.toFixed(2));
+
+	// cambiar estilo segun estado
+	if(balance == 0){
+		$("#balance_due")
+			.removeClass("balance-due")
+			.addClass("balance-paid");
+	}
+	else{
+		$("#balance_due")
+			.removeClass("balance-paid")
+			.addClass("balance-due");
+	}
+}
+
 	function calculateTotals(){
+
 		let subtotal = 0;
 
 		$(".table-mobile tbody tr").each(function(){
+
 			let qty = parseFloat($(this).find(".quantity-field").val()) || 0;
 			let rate = parseFloat($(this).find(".rate-field").val()) || 0;
 
@@ -25,9 +53,17 @@ $( document ).ready( function () {
 			$(this).find(".total-field").val(total.toFixed(2));
 
 			subtotal += total;
+
 		});
 
+		let gst = subtotal * 0.05;
+		let total_invoice = subtotal + gst;
+
 		$("#subtotal").val(subtotal.toFixed(2));
+		$("#gst").val(gst.toFixed(2));
+		$("#invoice_total").val(total_invoice.toFixed(2));
+
+		calculateBalance();
 	}
 
 	$(document).on("input", ".quantity-field, .rate-field", function(){
@@ -286,5 +322,8 @@ $( document ).ready( function () {
 			$('#link_to').trigger('change');
 		}, 200);
 	}
+
+	calculateTotals();
+	calculateBalance();
 
 });

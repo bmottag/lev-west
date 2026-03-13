@@ -85,9 +85,12 @@ class Invoices extends CI_Controller {
 		//si envio el id, entonces busco la informacion 
 		if ($id != 'x') {
 			$arrParam = array('idInvoice' => $id);
-			$data['information'] = $this->invoices_model->get_invoices($arrParam); //info invoice
 
+			$data['idInvoice'] = $id;
+			$data['information'] = $this->invoices_model->get_invoices($arrParam); //info invoice
 			$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items
+			$data['images'] = $this->invoices_model->get_images($id);
+			$data['payments'] = $this->invoices_model->get_payments($id);
 
 			if (!$data['information']) {
 				show_error('ERROR!!! - You are in the wrong place.');
@@ -403,5 +406,51 @@ class Invoices extends CI_Controller {
 		$pdf->writeHTML($html, true, false, false, false, '');
 		$pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf','I');
 	}
+
+    public function upload_image($idInvoice)
+    {
+
+        $config['upload_path'] = './images/invoices/';
+        $config['allowed_types'] = 'jpg|jpeg|png|gif';
+        $config['max_size'] = 5000;
+        $config['encrypt_name'] = TRUE;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('image')) {
+
+            $error = $this->upload->display_errors();
+            echo $error;
+
+        } else {
+
+            $data = $this->upload->data();
+
+            $save = [
+                'fk_id_invoice' => $idInvoice,
+                'file_name'  => $data['file_name']
+            ];
+
+            $this->invoices_model->save_image($save);
+
+            redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+        }
+    }
+
+	public function add_payment($idInvoice)
+	{
+
+		$data = [
+			'fk_id_invoice' => $idInvoice,
+			'amount' => $this->input->post('amount'),
+			'date_paid' => $this->input->post('date_paid')
+		];
+
+		$this->invoices_model->save_payment($data);
+
+		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+	}
+
+
 	
 }

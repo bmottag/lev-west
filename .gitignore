@@ -33,8 +33,12 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 *.sublime-project
 /tests/tests/
 /tests/results/
-images/usuarios/
 files/
-images/reservas/
+images/employee/
+images/erp/
+images/invoices/
+images/locates/
+images/signature/
+images/vehicle/
 images/captcha_images/
 .vscode/*
