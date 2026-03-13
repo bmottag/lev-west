@@ -102,6 +102,11 @@
 								<i class="fa fa-download"></i> Download
 								</a>
 
+								<a class="btn btn-primary btn-sm"
+								href="<?php echo base_url('invoices/sendInvoiceEmail/'.$idInvoice); ?>">
+								<i class="fa fa-envelope"></i> Send Invoice
+								</a>
+
 							</div>
 						<?php 
 						echo "<br>";
@@ -537,7 +542,7 @@
 		<!--PAYMENTS -->
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="panel panel-success">
+				<div class="panel panel-primary">
 
 					<div class="panel-heading">
 						<b>PAYMENTS RECEIVED</b>

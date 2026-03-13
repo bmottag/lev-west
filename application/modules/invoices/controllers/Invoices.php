@@ -358,7 +358,7 @@ class Invoices extends CI_Controller {
 	 * @since 12/03/2026
 	 * @author BMOTTAG
 	 */
-	public function generaInvoicePDF($idInvoice)
+	public function generaInvoicePDF($idInvoice, $returnAsString = false)
 	{
 		$this->load->library('Pdf');
 
@@ -404,7 +404,12 @@ class Invoices extends CI_Controller {
 		$html = $this->load->view("report_invoice", $data, true);
 
 		$pdf->writeHTML($html, true, false, false, false, '');
-		$pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf','I');
+
+		if($returnAsString){
+			return $pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf', 'S');
+		}else{
+			$pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf','I');
+		}
 	}
 
     public function upload_image($idInvoice)
@@ -449,6 +454,173 @@ class Invoices extends CI_Controller {
 		$this->invoices_model->save_payment($data);
 
 		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+	}
+
+public function sendInvoiceEmail($idInvoice)
+{
+    $this->load->model("invoices_model");
+
+    $arrParam = array('idInvoice' => $idInvoice);
+    $invoice = $this->invoices_model->get_invoices($arrParam);
+
+    if(!$invoice){
+        show_error('Invoice not found');
+    }
+
+    $invoice = $invoice[0];
+
+    $clientEmail = 'benmotta@gmail.com';
+    $invoiceNumber = $invoice['number'];
+
+    // PDF URL
+    $pdfUrl = base_url('invoices/generaInvoicePDF/'.$idInvoice);
+	$pdfContent = $this->generaInvoicePDF($idInvoice, true);
+    $pdfEncoded = chunk_split(base64_encode($pdfContent));
+
+    $subject = "Invoice #" . $invoiceNumber;
+
+    $boundary = "LEVWEST-".md5(time());
+
+    // HEADERS
+    $headers  = "MIME-Version: 1.0\r\n";
+    $headers .= "From: Lev-West <no-reply@lev-west.com>\r\n";
+    $headers .= "Reply-To: fabian.v@lev-west.com\r\n";
+    $headers .= "Return-Path: fabian.v@lev-west.com\r\n";
+    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+	$headers .= "Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n\r\n";
+
+    // BODY
+    $message  = "--".$boundary."\r\n";
+    $message .= "Content-Type: text/html; charset=UTF-8\r\n";
+    $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+
+    $message .= $this->invoiceEmailTemplate($invoice, $idInvoice)."\r\n";
+
+    // ATTACHMENT
+    $message .= "--".$boundary."\r\n";
+    $message .= "Content-Type: application/pdf; name=\"invoice_".$invoiceNumber.".pdf\"\r\n";
+    $message .= "Content-Transfer-Encoding: base64\r\n";
+    $message .= "Content-Disposition: attachment; filename=\"invoice_".$invoiceNumber.".pdf\"\r\n\r\n";
+    $message .= $pdfEncoded."\r\n";
+
+	$message .= "--".$boundary."--\r\n";
+
+    mail($clientEmail, $subject, $message, $headers);
+
+    $this->session->set_flashdata('retornoExito', 'Invoice email sent successfully.');
+    redirect('invoices/add_invoice/'.$idInvoice);
+}
+/*
+	public function sendInvoiceEmail($idInvoice)
+	{
+		$arrParam = array('idInvoice' => $idInvoice);
+		$invoice = $this->invoices_model->get_invoices($arrParam);
+
+		if(!$invoice){
+			show_error('Invoice not found');
+		}
+
+		$invoice = $invoice[0];
+
+		$clientEmail = 'benmotta@gmail.com';//$invoice['email']; // email cliente
+
+		$invoiceLink = base_url('invoices/generaInvoicePDF/'.$idInvoice);
+
+		$subject = "Invoice #" . $invoice['number'];
+
+		$message = $this->invoiceEmailTemplate($invoice, $idInvoice);
+
+		$headers  = "MIME-Version: 1.0\r\n";
+		$headers .= "Content-type:text/html;charset=UTF-8\r\n";
+
+		$headers .= "From: Lev-West <no-reply@lev-west.com>\r\n";
+		$headers .= "Reply-To: fabian.v@lev-west.com\r\n";
+		$headers .= "Return-Path: fabian.v@lev-west.com\r\n";
+
+		$headers .= "Message-ID: <".time()."@lev-west.com>\r\n";
+		$headers .= "X-Mailer: PHP/" . phpversion();
+
+		mail($clientEmail, $subject, $message, $headers);
+
+		$this->session->set_flashdata('retornoExito', 'Invoice email sent successfully.');
+		redirect('invoices/add_invoice/'.$idInvoice);
+	}
+*/
+	private function invoiceEmailTemplate($invoice, $idInvoice)
+	{
+
+		$invoiceLink = base_url('invoices/generaInvoicePDF/'.$idInvoice);
+
+		$html = '
+		<html>
+		<body style="font-family:Arial;background:#f4f4f4;padding:20px;">
+
+			<table width="600" align="center" style="background:#ffffff;border-collapse:collapse">
+
+				<tr>
+					<td style="background:#2c3e50;color:#fff;padding:15px;font-size:20px;">
+						Lev-West
+					</td>
+				</tr>
+
+				<tr>
+					<td style="padding:20px">
+
+						<p>Dear Customer,</p>
+
+						<p>
+						We hope you are doing well.
+						Please find your invoice attached to this email.
+						</p>
+
+						<p>
+						You can also view or download it using the link below:
+						</p>
+
+						<p style="text-align:center;margin:30px 0">
+
+							<a href="'.$invoiceLink.'"
+							style="background:#27ae60;
+							color:#fff;
+							padding:12px 25px;
+							text-decoration:none;
+							border-radius:4px;
+							font-weight:bold;">
+
+							View Invoice
+
+							</a>
+
+						</p>
+
+						<p>
+						If you have any questions regarding this invoice,
+						please feel free to contact us.
+						</p>
+
+						<p>
+						Best regards,<br>
+						<b>Lev-West Team</b>
+						</p>
+
+					</td>
+				</tr>
+
+				<tr>
+					<td style="background:#f2f2f2;padding:15px;font-size:12px;color:#777;text-align:center">
+
+						This is an automated message from the Lev-West system.
+
+					</td>
+				</tr>
+
+			</table>
+
+		</body>
+		</html>
+		';
+
+		return $html;
 	}
 
 
