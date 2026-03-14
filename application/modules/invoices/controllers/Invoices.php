@@ -89,7 +89,7 @@ class Invoices extends CI_Controller {
 			$data['idInvoice'] = $id;
 			$data['information'] = $this->invoices_model->get_invoices($arrParam); //info invoice
 			$data['items'] = $this->invoices_model->get_invoices_items($arrParam); //items
-			$data['images'] = $this->invoices_model->get_images($id);
+			$data['files'] = $this->invoices_model->get_files($id);
 			$data['payments'] = $this->invoices_model->get_payments($id);
 
 			if (!$data['information']) {
@@ -121,29 +121,35 @@ class Invoices extends CI_Controller {
 		}
 
 		if ($idInvoice = $this->invoices_model->add_invoice()) {
+			if($idInvoiceInicial == ''){ //si es nuevo, entonces se insertan los items relacionados a la WO o Claim
+				$is_wo_or_claim = $this->input->post('link_to');
+				if($is_wo_or_claim == 'wo'){
+					$arrParam["idWorkorder"] = $this->input->post('list_work_order');
 
-			$is_wo_or_claim = $this->input->post('link_to');
-			if($is_wo_or_claim == 'wo'){
-				$arrParam["idWorkorder"] = $this->input->post('list_work_order');
+					// Traer información de la WO
+					$this->load->model('workorders/workorders_model');
+					$workorderPersonal   = $this->workorders_model->get_workorder_personal($arrParam);
+					$workorderMaterials  = $this->workorders_model->get_workorder_materials($arrParam);
+					$workorderReceipt    = $this->workorders_model->get_workorder_receipt($arrParam);
+					$workorderEquipment  = $this->workorders_model->get_workorder_equipment($arrParam);
+					$workorderOcasional  = $this->workorders_model->get_workorder_ocasional($arrParam);
 
-				// Traer información de la WO
-				$this->load->model('workorders/workorders_model');
-				$workorderPersonal   = $this->workorders_model->get_workorder_personal($arrParam);
-				$workorderMaterials  = $this->workorders_model->get_workorder_materials($arrParam);
-				$workorderReceipt    = $this->workorders_model->get_workorder_receipt($arrParam);
-				$workorderEquipment  = $this->workorders_model->get_workorder_equipment($arrParam);
-				$workorderOcasional  = $this->workorders_model->get_workorder_ocasional($arrParam);
+					// Insertar items
+					$this->insertInvoiceItems($workorderPersonal, $idInvoice, 'personal');
+					$this->insertInvoiceItems($workorderMaterials, $idInvoice, 'materials');
+					$this->insertInvoiceItems($workorderEquipment, $idInvoice, 'equipment');
+					$this->insertInvoiceItems($workorderOcasional, $idInvoice, 'ocasional');
+					$this->insertInvoiceItems($workorderReceipt, $idInvoice, 'receipt');
 
-				// Insertar items
-				$this->insertInvoiceItems($workorderPersonal, $idInvoice, 'personal');
-				$this->insertInvoiceItems($workorderMaterials, $idInvoice, 'materials');
-				$this->insertInvoiceItems($workorderEquipment, $idInvoice, 'equipment');
-				$this->insertInvoiceItems($workorderOcasional, $idInvoice, 'ocasional');
-				$this->insertInvoiceItems($workorderReceipt, $idInvoice, 'receipt');
+				}else if($is_wo_or_claim == 'claim'){
+					$arrParamCheck['idClaim'] = $this->input->post('list_work_order');
+					$this->load->model("general_model");
+					$claimInfo = $this->general_model->get_job_detail_claims_info($arrParamCheck);
 
-			}else if($is_wo_or_claim == 'claim'){
-				$data['fk_id_wo_or_claim'] = $this->input->post('list_claim');
+					$this->insertInvoiceItems($claimInfo, $idInvoice, 'claim');
+				}
 			}
+
 
 			$data["result"] = true;
 			$data["mensaje"] = $msj;
@@ -268,6 +274,17 @@ class Invoices extends CI_Controller {
 		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
 	}
 
+public function delete_payment($idPayment, $idInvoice)
+{
+	if ($this->invoices_model->delete_payment($idPayment)) {
+		$this->session->set_flashdata('retornoExito', 'You have deleted one Payment.');
+	} else {
+		$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+	}
+
+	redirect('invoices/add_invoice/'.$idInvoice,'refresh');
+}
+
 	private function insertInvoiceItems($items, $idInvoice, $type)
 	{
 		if (!$items) {
@@ -282,6 +299,8 @@ class Invoices extends CI_Controller {
 					$description = $item['employee_type'] . ' - ' . $item['description'] . ' by ' . $item['name'];
 					$quantity = $item['hours'];
 					$unit = 'Hours';
+					$rate = $item['rate'];
+					$value = $item['value'];
 					break;
 
 				case 'materials':
@@ -291,6 +310,8 @@ class Invoices extends CI_Controller {
 					}
 					$quantity = $item['quantity'];
 					$unit = $item['unit'];
+					$rate = $item['rate'];
+					$value = $item['value'];
 					break;
 
 				case 'equipment':
@@ -313,6 +334,8 @@ class Invoices extends CI_Controller {
 
 					$quantity = $item['hours'];
 					$unit = 'Hours';
+					$rate = $item['rate'];
+					$value = $item['value'];
 					break;
 
 				case 'ocasional':
@@ -322,6 +345,8 @@ class Invoices extends CI_Controller {
 					}
 					$quantity = $item['quantity'];
 					$unit = $item['unit'];
+					$rate = $item['rate'];
+					$value = $item['value'];
 					break;
 
 				case 'receipt':
@@ -331,13 +356,21 @@ class Invoices extends CI_Controller {
 					}
 					$quantity = 1;
 					$unit = 'Receipt';
+					$rate = $item['value'];
+					$value = $item['value'];
+					break;
+
+				case 'claim':
+					$description = $item['chapter_number'] . '.' . $item['item'] . ' ' . $item['description'];
+					$quantity = $item['quantity_claim'] == 0 ? 1 : $item['quantity_claim'];
+					$unit = $item['unit'];
+					$rate = $item['quantity_claim'] != 0 ? $item['unit_price'] : $item['cost'];
+					$value = $item['cost'];
 					break;
 
 				default:
 					return;
 			}
-
-			$rate = isset($item['rate']) ? $item['rate'] : $item['value'];
 
 			$dataItem = array(
 				'fk_id_invoice' => $idInvoice,
@@ -345,7 +378,7 @@ class Invoices extends CI_Controller {
 				'quantity' => $quantity,
 				'unit' => $unit,
 				'rate' => $rate,
-				'value' => $item['value']
+				'value' => $value
 			);
 
 			$this->invoices_model->insertItem($dataItem);
@@ -399,7 +432,7 @@ class Invoices extends CI_Controller {
 		$pdf->SetFont('helvetica','',9);
 
 		// Mover el puntero a la derecha para que el HTML no choque con INVOICE
-		$pdf->SetXY(35, 25); // X = espacio a la derecha de INVOICE, Y = margen superior
+		$pdf->SetXY(35, 10); // X = espacio a la derecha de INVOICE, Y = margen superior
 
 		$html = $this->load->view("report_invoice", $data, true);
 
@@ -412,35 +445,44 @@ class Invoices extends CI_Controller {
 		}
 	}
 
-    public function upload_image($idInvoice)
-    {
+	public function upload_file($idInvoice)
+	{
 
-        $config['upload_path'] = './images/invoices/';
-        $config['allowed_types'] = 'jpg|jpeg|png|gif';
-        $config['max_size'] = 5000;
-        $config['encrypt_name'] = TRUE;
+		// verificar si se seleccionó archivo
+		if(empty($_FILES['file']['name'])){
+			redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+			return;
+		}
 
-        $this->load->library('upload', $config);
+		$config['upload_path'] = './files/invoices/';
+		$config['allowed_types'] = 'jpg|jpeg|png|gif|pdf|doc|docx|xls|xlsx|txt';
+		$config['max_size'] = 10000;
+		$config['encrypt_name'] = TRUE;
 
-        if (!$this->upload->do_upload('image')) {
+		$this->load->library('upload', $config);
 
-            $error = $this->upload->display_errors();
-            echo $error;
+		if (!$this->upload->do_upload('file')) {
 
-        } else {
+			$error = $this->upload->display_errors();
 
-            $data = $this->upload->data();
+			$this->session->set_flashdata('retornoError', $error);
 
-            $save = [
-                'fk_id_invoice' => $idInvoice,
-                'file_name'  => $data['file_name']
-            ];
+			redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
 
-            $this->invoices_model->save_image($save);
+		} else {
 
-            redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
-        }
-    }
+			$data = $this->upload->data();
+
+			$save = [
+				'fk_id_invoice' => $idInvoice,
+				'file_name' => $data['file_name']
+			];
+
+			$this->invoices_model->save_file($save);
+
+			redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
+		}
+	}
 
 	public function add_payment($idInvoice)
 	{
@@ -448,7 +490,8 @@ class Invoices extends CI_Controller {
 		$data = [
 			'fk_id_invoice' => $idInvoice,
 			'amount' => $this->input->post('amount'),
-			'date_paid' => $this->input->post('date_paid')
+			'date_paid' => $this->input->post('date_paid'),
+			'reference' => $this->input->post('reference')
 		];
 
 		$this->invoices_model->save_payment($data);
@@ -456,63 +499,10 @@ class Invoices extends CI_Controller {
 		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
 	}
 
-public function sendInvoiceEmail($idInvoice)
-{
-    $this->load->model("invoices_model");
-
-    $arrParam = array('idInvoice' => $idInvoice);
-    $invoice = $this->invoices_model->get_invoices($arrParam);
-
-    if(!$invoice){
-        show_error('Invoice not found');
-    }
-
-    $invoice = $invoice[0];
-
-    $clientEmail = 'benmotta@gmail.com';
-    $invoiceNumber = $invoice['number'];
-
-    // PDF URL
-    $pdfUrl = base_url('invoices/generaInvoicePDF/'.$idInvoice);
-	$pdfContent = $this->generaInvoicePDF($idInvoice, true);
-    $pdfEncoded = chunk_split(base64_encode($pdfContent));
-
-    $subject = "Invoice #" . $invoiceNumber;
-
-    $boundary = "LEVWEST-".md5(time());
-
-    // HEADERS
-    $headers  = "MIME-Version: 1.0\r\n";
-    $headers .= "From: Lev-West <no-reply@lev-west.com>\r\n";
-    $headers .= "Reply-To: fabian.v@lev-west.com\r\n";
-    $headers .= "Return-Path: fabian.v@lev-west.com\r\n";
-    $headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
-	$headers .= "Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n\r\n";
-
-    // BODY
-    $message  = "--".$boundary."\r\n";
-    $message .= "Content-Type: text/html; charset=UTF-8\r\n";
-    $message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
-
-    $message .= $this->invoiceEmailTemplate($invoice, $idInvoice)."\r\n";
-
-    // ATTACHMENT
-    $message .= "--".$boundary."\r\n";
-    $message .= "Content-Type: application/pdf; name=\"invoice_".$invoiceNumber.".pdf\"\r\n";
-    $message .= "Content-Transfer-Encoding: base64\r\n";
-    $message .= "Content-Disposition: attachment; filename=\"invoice_".$invoiceNumber.".pdf\"\r\n\r\n";
-    $message .= $pdfEncoded."\r\n";
-
-	$message .= "--".$boundary."--\r\n";
-
-    mail($clientEmail, $subject, $message, $headers);
-
-    $this->session->set_flashdata('retornoExito', 'Invoice email sent successfully.');
-    redirect('invoices/add_invoice/'.$idInvoice);
-}
-/*
 	public function sendInvoiceEmail($idInvoice)
 	{
+		$this->load->model("invoices_model");
+
 		$arrParam = array('idInvoice' => $idInvoice);
 		$invoice = $this->invoices_model->get_invoices($arrParam);
 
@@ -522,30 +512,59 @@ public function sendInvoiceEmail($idInvoice)
 
 		$invoice = $invoice[0];
 
-		$clientEmail = 'benmotta@gmail.com';//$invoice['email']; // email cliente
+		$clientEmail = $invoice['email'];
+		$invoiceNumber = $invoice['number'];
 
-		$invoiceLink = base_url('invoices/generaInvoicePDF/'.$idInvoice);
+		// PDF URL
+		$pdfUrl = base_url('invoices/generaInvoicePDF/'.$idInvoice);
+		$pdfContent = $this->generaInvoicePDF($idInvoice, true);
+		$pdfEncoded = chunk_split(base64_encode($pdfContent));
 
-		$subject = "Invoice #" . $invoice['number'];
+		$subject = $invoice['job_description'] . " - Invoice #" . $invoiceNumber;
 
-		$message = $this->invoiceEmailTemplate($invoice, $idInvoice);
+		$boundary = "LEVWEST-".md5(time());
 
+		// HEADERS
 		$headers  = "MIME-Version: 1.0\r\n";
-		$headers .= "Content-type:text/html;charset=UTF-8\r\n";
-
 		$headers .= "From: Lev-West <no-reply@lev-west.com>\r\n";
-		$headers .= "Reply-To: fabian.v@lev-west.com\r\n";
-		$headers .= "Return-Path: fabian.v@lev-west.com\r\n";
+		$headers .= "Reply-To: invoice@lev-west.com\r\n";
+		$headers .= "Return-Path: invoice@lev-west.com\r\n";
+		$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+		$headers .= "Content-Type: multipart/mixed; boundary=\"".$boundary."\"\r\n\r\n";
 
-		$headers .= "Message-ID: <".time()."@lev-west.com>\r\n";
-		$headers .= "X-Mailer: PHP/" . phpversion();
+		// BODY
+		$message  = "--".$boundary."\r\n";
+		$message .= "Content-Type: text/html; charset=UTF-8\r\n";
+		$message .= "Content-Transfer-Encoding: 7bit\r\n\r\n";
+
+		$message .= $this->invoiceEmailTemplate($invoice, $idInvoice)."\r\n";
+
+		// ATTACHMENT
+		$message .= "--".$boundary."\r\n";
+		$message .= "Content-Type: application/pdf; name=\"invoice_".$invoiceNumber.".pdf\"\r\n";
+		$message .= "Content-Transfer-Encoding: base64\r\n";
+		$message .= "Content-Disposition: attachment; filename=\"invoice_".$invoiceNumber.".pdf\"\r\n\r\n";
+		$message .= $pdfEncoded."\r\n";
+
+		$message .= "--".$boundary."--\r\n";
 
 		mail($clientEmail, $subject, $message, $headers);
+
+		//update invoice status to sent
+		$this->load->model("general_model");
+		$arrParam = array(
+			"table" => "invoices",
+			"primaryKey" => "id_invoice",
+			"id" => $idInvoice,
+			"column" => 'invoice_status',
+			"value" => 'sent'
+		);
+		$this->general_model->updateRecord($arrParam);
 
 		$this->session->set_flashdata('retornoExito', 'Invoice email sent successfully.');
 		redirect('invoices/add_invoice/'.$idInvoice);
 	}
-*/
+
 	private function invoiceEmailTemplate($invoice, $idInvoice)
 	{
 

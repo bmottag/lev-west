@@ -13,31 +13,34 @@ $( document ).ready( function () {
 		$("#iframePreview").attr("src", "");
 	});
 
-function calculateBalance(){
+	function calculateBalance(){
 
-	let total = parseFloat($("#invoice_total").val()) || 0;
-	let paid = parseFloat($("#total_paid").val()) || 0;
+		let total = parseFloat($("#invoice_total").val()) || 0;
+		let paid = parseFloat($("#total_paid").val()) || 0;
 
-	let balance = total - paid;
+		let balance = total - paid;
 
-	if(balance < 0){
-		balance = 0;
+		if(balance < 0){
+			balance = 0;
+		}
+
+		$("#balance_due").val(balance.toFixed(2));
+
+		// actualizar maximo permitido del pago
+		$("#amount").attr("max", balance.toFixed(2));
+
+		// cambiar estilo segun estado
+		if(balance == 0){
+			$("#balance_due")
+				.removeClass("balance-due")
+				.addClass("balance-paid");
+		}
+		else{
+			$("#balance_due")
+				.removeClass("balance-paid")
+				.addClass("balance-due");
+		}
 	}
-
-	$("#balance_due").val(balance.toFixed(2));
-
-	// cambiar estilo segun estado
-	if(balance == 0){
-		$("#balance_due")
-			.removeClass("balance-due")
-			.addClass("balance-paid");
-	}
-	else{
-		$("#balance_due")
-			.removeClass("balance-paid")
-			.addClass("balance-due");
-	}
-}
 
 	function calculateTotals(){
 
