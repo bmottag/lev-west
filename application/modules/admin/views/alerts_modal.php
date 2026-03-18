@@ -2,7 +2,7 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	<h4 class="modal-title" id="exampleModalLabel">Alerts Settings Form
-	<br><small>Add/Edit Alerts</small>
+	<br><small>Add or Edit Alerts</small>
 	</h4>
 </div>
 

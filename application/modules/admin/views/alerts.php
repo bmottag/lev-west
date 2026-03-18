@@ -22,7 +22,7 @@ $(function(){
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h4 class="list-group-item-heading">
-					<i class="fa fa-gear fa-fw"></i> SETTINGS - ALERTS
+					<i class="fa fa-gear fa-fw"></i> Settings - Alerts
 					</h4>
 				</div>
 			</div>
@@ -35,11 +35,11 @@ $(function(){
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-heading">
-					<i class="fa fa-building"></i> ALERTS LIST
+					<i class="fa fa-building"></i> Alert List
 				</div>
 				<div class="panel-body">
 					<button type="button" class="btn btn-success btn-block" data-toggle="modal" data-target="#modal" id="x">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add an Alert
+							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add a New Alert
 					</button><br>
 <?php
 $retornoExito = $this->session->flashdata('retornoExito');
