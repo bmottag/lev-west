@@ -549,96 +549,102 @@
 		<!--FIN IMAGES -->
 
 		<!--PAYMENTS -->
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-primary">
+		<?php
+		if ($items) {
+		?>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-primary">
 
-					<div class="panel-heading">
-						<b>PAYMENTS RECEIVED</b>
-					</div>
+						<div class="panel-heading">
+							<b>PAYMENTS RECEIVED</b>
+						</div>
 
-					<div class="panel-body">
+						<div class="panel-body">
 
-						<form action="<?php echo site_url('invoices/add_payment/'.$idInvoice); ?>" method="post">
+							<form action="<?php echo site_url('invoices/add_payment/'.$idInvoice); ?>" method="post">
 
-							<div class="row">
+								<div class="row">
 
-								<div class="col-md-3">
-									<label>Amount Paid</label>
-									<input type="number" step="any" id="amount" name="amount" class="form-control" required>
+									<div class="col-md-3">
+										<label>Amount Paid</label>
+										<input type="number" step="any" id="amount" name="amount" class="form-control" required>
+									</div>
+
+									<div class="col-md-3">
+										<label>Date Paid</label>
+										<input type="date" name="date_paid" class="form-control" required>
+									</div>
+
+									<div class="col-md-3">
+										<label>Reference</label>
+										<input type="text" id="reference" name="reference" class="form-control">
+									</div>
+
+									<div class="col-md-2" style="margin-top:25px;">
+										<button class="btn btn-primary">
+											Add Payment
+										</button>
+									</div>
+
 								</div>
 
-								<div class="col-md-3">
-									<label>Date Paid</label>
-									<input type="date" name="date_paid" class="form-control" required>
-								</div>
+							</form>
 
-								<div class="col-md-3">
-									<label>Reference</label>
-									<input type="text" id="reference" name="reference" class="form-control">
-								</div>
+							<hr>
 
-								<div class="col-md-2" style="margin-top:25px;">
-									<button class="btn btn-primary">
-										Add Payment
-									</button>
-								</div>
+							<h4>Payments History</h4>
 
-							</div>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Amount</th>
+										<th>Reference</th>
+										<th class="text-center">Action</th>
+									</tr>
+								</thead>
 
-						</form>
+								<tbody>
 
-						<hr>
+								<?php 
+								if(!empty($payments)){
+									foreach($payments as $p){
+								?>
 
-						<h4>Payments History</h4>
+									<tr>
+										<td><?php echo $p->date_paid; ?></td>
+										<td>$<?php echo number_format($p->amount,2); ?></td>
+										<td><?php echo $p->reference; ?></td>
+										<td class="text-center action-col">
+											<a class="btn btn-danger btn-xs"
+											onclick="return confirm('Delete this payment?')"
+											href="<?php echo base_url('invoices/delete_payment/'.$p->id_invoice_payment.'/'.$idInvoice); ?>">
+												<i class="fa fa-trash"></i>
+											</a>
+										</td>
+									</tr>
 
-						<table class="table table-bordered">
-							<thead>
-								<tr>
-									<th>Date</th>
-									<th>Amount</th>
-									<th>Reference</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
+								<?php }} ?>
 
-							<tbody>
+								</tbody>
 
-							<?php 
-							if(!empty($payments)){
-								foreach($payments as $p){
-							?>
+								<tfoot>
+									<tr>
+										<th>Total Paid</th>
+										<th>$<?php echo number_format($total_paid,2); ?></th>
+									</tr>
+								</tfoot>
 
-								<tr>
-									<td><?php echo $p->date_paid; ?></td>
-									<td>$<?php echo number_format($p->amount,2); ?></td>
-									<td><?php echo $p->reference; ?></td>
-									<td class="text-center action-col">
-										<a class="btn btn-danger btn-xs"
-										onclick="return confirm('Delete this payment?')"
-										href="<?php echo base_url('invoices/delete_payment/'.$p->id_invoice_payment.'/'.$idInvoice); ?>">
-											<i class="fa fa-trash"></i>
-										</a>
-									</td>
-								</tr>
+							</table>
 
-							<?php }} ?>
-
-							</tbody>
-
-							<tfoot>
-								<tr>
-									<th>Total Paid</th>
-									<th>$<?php echo number_format($total_paid,2); ?></th>
-								</tr>
-							</tfoot>
-
-						</table>
-
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		<?php
+		}
+		 ?>
 		<!--FIN PAYMENTS -->
 
 	<?php } ?>

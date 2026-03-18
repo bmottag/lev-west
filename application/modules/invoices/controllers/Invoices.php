@@ -455,9 +455,9 @@ public function delete_payment($idPayment, $idInvoice)
 		}
 
 		$config['upload_path'] = './files/invoices/';
+		$config['overwrite'] = true;
 		$config['allowed_types'] = 'jpg|jpeg|png|gif|pdf|doc|docx|xls|xlsx|txt';
 		$config['max_size'] = 10000;
-		$config['encrypt_name'] = TRUE;
 
 		$this->load->library('upload', $config);
 
