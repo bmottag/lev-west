@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=6.0.0"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=7.0.0"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -164,6 +164,12 @@
 							</div>
 
 							<div class="col-md-6">
+
+							</div>
+						</div>
+
+						<div class="row">
+							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="hddTask">Date :</label>
 									<div class="col-sm-5">
@@ -173,9 +179,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
 
-						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="hddTask">Due Date :</label>
@@ -184,13 +188,24 @@
 									</div>
 								</div>
 							</div>
+						</div>
 
+						<div class="row">
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="company">Company:</label>
 									<div class="col-sm-5">
 										<input type="hidden" id="company" name="company" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["id_company"] : ""; ?>" <?php echo $deshabilitar; ?>>
 										<input type="text" id="companyName" name="companyName" class="form-control" placeholder="Company" value="<?php echo $information ? $information[0]["company_name"] : ""; ?>" readonly>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="company">Email:</label>
+									<div class="col-sm-5">
+										<input type="text" id="companyEmail" name="companyEmail" class="form-control" placeholder="Email" value="<?php echo $information ? $information[0]["email"] : ""; ?>" readonly>
 									</div>
 								</div>
 							</div>
@@ -488,19 +503,17 @@
 			<div class="col-lg-12">
 				<div class="panel panel-primary">
 					<div class="panel-heading">
-						<b>IMAGES</b>
+						<b>FILES</b>
 					</div>
 
 					<div class="panel-body">
-
-						<form action="<?php echo site_url('invoices/upload_image/'.$idInvoice); ?>" 
+						<form action="<?php echo site_url('invoices/upload_file/'.$idInvoice); ?>" 
 							method="post" 
 							enctype="multipart/form-data">
 
 							<div class="row">
-
 								<div class="col-md-6">
-									<input type="file" name="image" class="form-control">
+									<input type="file" name="file" class="form-control" required>
 								</div>
 
 								<div class="col-md-2">
@@ -508,31 +521,27 @@
 										Upload
 									</button>
 								</div>
-
 							</div>
-
 						</form>
 
 						<hr>
-
 						<div class="row">
-
-							<?php if(!empty($images)){ ?>
-
-								<?php foreach($images as $img){ ?>
-
+							<?php if(!empty($files)){ ?>
+								<?php foreach($files as $f){ ?>
 									<div class="col-md-3">
-										<img src="<?php echo base_url('images/invoices/'.$img->file_name); ?>" 
-											class="img-thumbnail"
-											style="width:100%;">
+										<div class="panel panel-default">
+											<div class="panel-body text-center">
+												<i class="fa fa-file fa-3x"></i>
+												<br><br>
+												<a href="<?php echo base_url('files/invoices/'.$f->file_name); ?>" target="_blank">
+													<?php echo $f->file_name; ?>
+												</a>
+											</div>
+										</div>
 									</div>
-
 								<?php } ?>
-
 							<?php } ?>
-
 						</div>
-
 					</div>
 				</div>
 			</div>
@@ -540,82 +549,102 @@
 		<!--FIN IMAGES -->
 
 		<!--PAYMENTS -->
-		<div class="row">
-			<div class="col-lg-12">
-				<div class="panel panel-primary">
+		<?php
+		if ($items) {
+		?>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="panel panel-primary">
 
-					<div class="panel-heading">
-						<b>PAYMENTS RECEIVED</b>
-					</div>
+						<div class="panel-heading">
+							<b>PAYMENTS RECEIVED</b>
+						</div>
 
-					<div class="panel-body">
+						<div class="panel-body">
 
-						<form action="<?php echo site_url('invoices/add_payment/'.$idInvoice); ?>" method="post">
+							<form action="<?php echo site_url('invoices/add_payment/'.$idInvoice); ?>" method="post">
 
-							<div class="row">
+								<div class="row">
 
-								<div class="col-md-3">
-									<label>Amount Paid</label>
-									<input type="number" step="any" name="amount" class="form-control" required>
+									<div class="col-md-3">
+										<label>Amount Paid</label>
+										<input type="number" step="any" id="amount" name="amount" class="form-control" required>
+									</div>
+
+									<div class="col-md-3">
+										<label>Date Paid</label>
+										<input type="date" name="date_paid" class="form-control" required>
+									</div>
+
+									<div class="col-md-3">
+										<label>Reference</label>
+										<input type="text" id="reference" name="reference" class="form-control">
+									</div>
+
+									<div class="col-md-2" style="margin-top:25px;">
+										<button class="btn btn-primary">
+											Add Payment
+										</button>
+									</div>
+
 								</div>
 
-								<div class="col-md-3">
-									<label>Date Paid</label>
-									<input type="date" name="date_paid" class="form-control" required>
-								</div>
+							</form>
 
-								<div class="col-md-2" style="margin-top:25px;">
-									<button class="btn btn-primary">
-										Add Payment
-									</button>
-								</div>
+							<hr>
 
-							</div>
+							<h4>Payments History</h4>
 
-						</form>
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>Date</th>
+										<th>Amount</th>
+										<th>Reference</th>
+										<th class="text-center">Action</th>
+									</tr>
+								</thead>
 
-						<hr>
+								<tbody>
 
-						<h4>Payments History</h4>
+								<?php 
+								if(!empty($payments)){
+									foreach($payments as $p){
+								?>
 
-						<table class="table table-bordered">
+									<tr>
+										<td><?php echo $p->date_paid; ?></td>
+										<td>$<?php echo number_format($p->amount,2); ?></td>
+										<td><?php echo $p->reference; ?></td>
+										<td class="text-center action-col">
+											<a class="btn btn-danger btn-xs"
+											onclick="return confirm('Delete this payment?')"
+											href="<?php echo base_url('invoices/delete_payment/'.$p->id_invoice_payment.'/'.$idInvoice); ?>">
+												<i class="fa fa-trash"></i>
+											</a>
+										</td>
+									</tr>
 
-							<thead>
-								<tr>
-									<th>Date</th>
-									<th>Amount</th>
-								</tr>
-							</thead>
+								<?php }} ?>
 
-							<tbody>
+								</tbody>
 
-							<?php 
-							if(!empty($payments)){
-								foreach($payments as $p){
-							?>
+								<tfoot>
+									<tr>
+										<th>Total Paid</th>
+										<th>$<?php echo number_format($total_paid,2); ?></th>
+									</tr>
+								</tfoot>
 
-								<tr>
-									<td><?php echo $p->date_paid; ?></td>
-									<td>$<?php echo number_format($p->amount,2); ?></td>
-								</tr>
+							</table>
 
-							<?php }} ?>
-
-							</tbody>
-
-							<tfoot>
-								<tr>
-									<th>Total Paid</th>
-									<th>$<?php echo number_format($total_paid,2); ?></th>
-								</tr>
-							</tfoot>
-
-						</table>
-
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
+		<?php
+		}
+		 ?>
 		<!--FIN PAYMENTS -->
 
 	<?php } ?>

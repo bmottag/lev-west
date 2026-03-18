@@ -51,18 +51,25 @@ body{
 $html .= '
 
 <!-- HEADER -->
-<table width="100%">
+<table width="100%" cellpadding="4">
+
     <tr>
-        <td width="60%"> </td>
+        <td width="60%"></td>
 
         <td width="40%" align="right">
-            <img src="' . $logo . '" height="60">
+            <img src="'.$logo.'" height="60"><br>
+            <b>Lev-West</b><br>
+            Phone: (403) 399-0160<br>
+            www.lev-west.com<br><br>
         </td>
     </tr>
 
+</table>
+
+<table width="100%">
     <tr>
         <td width="60%">
-            <b>Client info</b><br>
+            <b>Client information</b><br>
             <b>Company name:</b> '.$info[0]['company_name'].'<br>
             <b>Job-site Location:</b> '.$info[0]['job_description'].'
         </td>
