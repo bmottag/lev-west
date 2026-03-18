@@ -3493,12 +3493,13 @@ class TCPDF {
 		// ----------------------
 		// IMAGEN DECORATIVA
 		// ----------------------
-		$this->SetY(-50); // posición desde el borde inferior
+		$this->SetY(-1); // posición desde el borde inferior
 		$this->Image(
 			FCPATH.'images/flowers.png', // ruta
 			3,                          // X
 			$this->GetY()-80,          // Y (ajustable según diseño)
-			50                          // ancho
+			30,                          // ancho
+			0
 		);
 
 		// ----------------------

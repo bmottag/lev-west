@@ -100,6 +100,15 @@ $( document ).ready( function () {
 	
 	$('#jobName').change(function () {
 		var idJob = $('#jobName').val();
+
+		// solo limpiar si NO es la primera carga
+		if (!firstLoad) {
+			$('#link_to').html('<option value="">Select...</option>');
+			
+			$('#list_work_order').html('<option value="">Select...</option>');
+			$('#selected_link_id').val('');
+		}
+
 		if (idJob > 0 || idJob != '') {			
 			$.ajax({
 				type: "POST",	
@@ -113,6 +122,7 @@ $( document ).ready( function () {
 					{	               
 						$("#company").val(data.company_id);    
 						$("#companyName").val(data.company_name);
+						$("#companyEmail").val(data.company_email);
 					}
 
 				}

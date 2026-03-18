@@ -27,6 +27,7 @@ class Invoices_model extends CI_Model {
 		if (array_key_exists("number", $arrData) && $arrData["number"] != 'x') {
 			$this->db->like('I.number', $arrData["number"]);
 		}
+		$this->db->order_by("I.id_invoice", "DESC");
 		$query = $this->db->get('invoices I');
 
 		if ($query->num_rows() > 0) {

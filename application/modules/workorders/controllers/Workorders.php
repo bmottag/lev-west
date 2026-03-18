@@ -2109,6 +2109,7 @@ class Workorders extends CI_Controller
 		$data["result"] = true;
 		$data["company_id"] = $jobInfo[0]["fk_id_company"];
 		$data["company_name"] = $jobInfo[0]["company_name"];
+		$data["company_email"] = $jobInfo[0]["email"];
 		$data["foreman_name"] = "";
 		$data["foreman_movil"] = "";
 		$data["foreman_email"] = "";

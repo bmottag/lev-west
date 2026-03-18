@@ -124,7 +124,7 @@ class Invoices extends CI_Controller {
 			if($idInvoiceInicial == ''){ //si es nuevo, entonces se insertan los items relacionados a la WO o Claim
 				$is_wo_or_claim = $this->input->post('link_to');
 				if($is_wo_or_claim == 'wo'){
-					$arrParam["idWorkorder"] = $this->input->post('list_work_order');
+					$arrParam["idWorkOrder"] = $this->input->post('list_work_order');
 
 					// Traer información de la WO
 					$this->load->model('workorders/workorders_model');
@@ -274,16 +274,16 @@ class Invoices extends CI_Controller {
 		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
 	}
 
-public function delete_payment($idPayment, $idInvoice)
-{
-	if ($this->invoices_model->delete_payment($idPayment)) {
-		$this->session->set_flashdata('retornoExito', 'You have deleted one Payment.');
-	} else {
-		$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
-	}
+	public function delete_payment($idPayment, $idInvoice)
+	{
+		if ($this->invoices_model->delete_payment($idPayment)) {
+			$this->session->set_flashdata('retornoExito', 'You have deleted one Payment.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
 
-	redirect('invoices/add_invoice/'.$idInvoice,'refresh');
-}
+		redirect('invoices/add_invoice/'.$idInvoice,'refresh');
+	}
 
 	private function insertInvoiceItems($items, $idInvoice, $type)
 	{
@@ -404,7 +404,7 @@ public function delete_payment($idPayment, $idInvoice)
 		$pdf->setPrintFooter(true);
 
 		$pdf->SetMargins(15, 15, 15);
-		$pdf->SetAutoPageBreak(TRUE, 15);
+		$pdf->SetAutoPageBreak(TRUE, 80);
 
 		$pdf->SetFont('helvetica', '', 9);
 
