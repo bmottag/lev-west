@@ -151,8 +151,9 @@ class Invoices_model extends CI_Model {
 	{
 		$rate = $this->input->post('rate');
 		$quantity = $this->input->post('quantity');
+		$markup = $this->input->post('markup');
 
-		$value = $rate * $quantity;
+		$value = $rate * $quantity * ($markup + 100) / 100;
 
 		$data = array(
 			'fk_id_invoice' => $this->input->post('hddIdInvoice'),
@@ -160,6 +161,7 @@ class Invoices_model extends CI_Model {
 			'quantity' => $this->input->post('quantity'),
 			'unit' => $this->input->post('unit'),
 			'rate' => $this->input->post('rate'),
+			'markup' => $this->input->post('markup'),
 			'value' => $value
 		);
 		$query = $this->db->insert('invoices_items', $data);
@@ -210,6 +212,36 @@ class Invoices_model extends CI_Model {
 	{
 		$this->db->where('id_invoice_payment', $idPayment);
 		return $this->db->delete('invoices_payments');
-	}		
+	}
+	
+	/**
+	 * last WO
+	 * @since 24/03/2026
+	 */
+	public function get_wo_job_code($jobCode)
+	{
+		$wos = array();
+
+		$this->db->select('*');
+		$this->db->from('workorder');
+		$this->db->where('state', 0);
+		$this->db->where('fk_id_job', $jobCode);
+		$this->db->order_by('id_workorder', 'DESC');
+		$this->db->limit(10);
+
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			$i = 0;
+			foreach ($query->result() as $row) {
+				$wos[$i]["id_workorder"] = $row->id_workorder;
+				$wos[$i]["observation"] = $row->observation;
+				$i++;
+			}
+		}
+
+		$this->db->close();
+		return $wos;
+	}
 	    
 }

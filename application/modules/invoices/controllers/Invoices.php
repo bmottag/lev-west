@@ -229,6 +229,7 @@ class Invoices extends CI_Controller {
 		$quantities = $this->input->post('quantity');
 		$units = $this->input->post('unit');
 		$rates = $this->input->post('rate');
+		$markup = $this->input->post('markup');
 
 		for ($i = 0; $i < count($ids); $i++) {
 
@@ -239,6 +240,7 @@ class Invoices extends CI_Controller {
 				'quantity' => $quantities[$i],
 				'unit' => $units[$i],
 				'rate' => $rates[$i],
+				'markup' => $markup[$i],
 				'value' => $value
 			);
 
@@ -300,6 +302,7 @@ class Invoices extends CI_Controller {
 					$quantity = $item['hours'];
 					$unit = 'Hours';
 					$rate = $item['rate'];
+					$markup = 0;
 					$value = $item['value'];
 					break;
 
@@ -311,6 +314,7 @@ class Invoices extends CI_Controller {
 					$quantity = $item['quantity'];
 					$unit = $item['unit'];
 					$rate = $item['rate'];
+					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
 
@@ -335,6 +339,7 @@ class Invoices extends CI_Controller {
 					$quantity = $item['hours'];
 					$unit = 'Hours';
 					$rate = $item['rate'];
+					$markup = 0;
 					$value = $item['value'];
 					break;
 
@@ -343,9 +348,10 @@ class Invoices extends CI_Controller {
 					if($item['markup'] > 0){
 						$description = $description . ' - Plus M.U.';
 					}
-					$quantity = $item['quantity'];
+					$quantity = $item['quantity'] * $item['hours'];
 					$unit = $item['unit'];
 					$rate = $item['rate'];
+					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
 
@@ -357,6 +363,7 @@ class Invoices extends CI_Controller {
 					$quantity = 1;
 					$unit = 'Receipt';
 					$rate = $item['value'];
+					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
 
@@ -365,6 +372,7 @@ class Invoices extends CI_Controller {
 					$quantity = $item['quantity_claim'] == 0 ? 1 : $item['quantity_claim'];
 					$unit = $item['unit'];
 					$rate = $item['quantity_claim'] != 0 ? $item['unit_price'] : $item['cost'];
+					$markup = 0;
 					$value = $item['cost'];
 					break;
 
@@ -378,6 +386,7 @@ class Invoices extends CI_Controller {
 				'quantity' => $quantity,
 				'unit' => $unit,
 				'rate' => $rate,
+				'markup' => $markup,
 				'value' => $value
 			);
 
@@ -640,6 +649,24 @@ class Invoices extends CI_Controller {
 		';
 
 		return $html;
+	}
+
+	/**
+	 * Work Order list
+	 * @since 24/03/2026
+	 * @author BMOTTAG
+	 */
+	public function woList()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+		$jobCode = $this->input->post('jobCode');
+		$list = $this->invoices_model->get_wo_job_code($jobCode);
+		echo "<option value=''>Select...</option>";
+		if ($list) {
+			foreach ($list as $fila) {
+				echo "<option value='" . $fila["id_workorder"] . "' >" . $fila["id_workorder"] . " - " . $fila["observation"] . "</option>";
+			}
+		}
 	}
 
 

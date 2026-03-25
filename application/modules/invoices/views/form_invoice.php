@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=8.0.0"); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url("assets/js/validate/invoice/form_invoice.js?v=9.0.0"); ?>"></script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -349,10 +349,11 @@
 								<table class="table table-bordered table-striped table-hover table-condensed table-mobile">
 									<thead>
 										<tr>
-											<th width='50%' class="text-center">Description</th>
+											<th width='40%' class="text-center">Description</th>
 											<th width='10%' class="text-right">Quantity</th>
 											<th width='10%' class="text-center">Unit</th>
 											<th width='10%' class="text-right">Rate</th>
+											<th width='10%' class="text-right">Markup</th>
 											<th width='10%' class="text-right">Value</th>
 											<th width='10%' class="text-center">Actions</th>
 										</tr>
@@ -399,6 +400,12 @@
 														value="<?php echo $data['rate']; ?>" required>
 													</div>
 
+												</td>
+
+												<td class="table-desktop-numeric">
+													<label class="td-label">Markup</label>
+													<input type="number" step="0.5" name="markup[]" class="form-control markup-field"
+													value="<?php echo $data['markup']; ?>" required>
 												</td>
 
 												<td class="table-desktop-numeric">

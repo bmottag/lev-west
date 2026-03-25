@@ -50,8 +50,9 @@ $( document ).ready( function () {
 
 			let qty = parseFloat($(this).find(".quantity-field").val()) || 0;
 			let rate = parseFloat($(this).find(".rate-field").val()) || 0;
+			let markup = parseFloat($(this).find(".markup-field").val()) || 0;
 
-			let total = qty * rate;
+			let total = qty * rate * (markup + 100) / 100;
 
 			$(this).find(".total-field").val(total.toFixed(2));
 
@@ -69,7 +70,7 @@ $( document ).ready( function () {
 		calculateBalance();
 	}
 
-	$(document).on("input", ".quantity-field, .rate-field", function(){
+	$(document).on("input", ".quantity-field, .rate-field, .markup-field", function(){
 		calculateTotals();
 	});
 			
@@ -145,7 +146,7 @@ $( document ).ready( function () {
 			if (jobCode) {
 				// Definir endpoint según el valor
 				if (link_to === 'wo') {
-					endpoint = base_url + 'hauling/woList';
+					endpoint = base_url + 'invoices/woList';
 					$('#label_list').text('Select Work Order');
 				} 
 				else if (link_to === 'claim') {
