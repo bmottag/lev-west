@@ -8,7 +8,7 @@
 			<span class="icon-bar"></span>
 		</button>
 		<?php $dashboardURL = $this->session->userdata("dashboardURL"); ?>
-		<a class="navbar-brand" href="<?php echo base_url($dashboardURL); ?>"><img src="<?php echo base_url("images/logo.png"); ?>" class="img-rounded" width="87" height="32" /></a>
+		<a class="navbar-brand" href="<?php echo base_url($dashboardURL); ?>"><img src="<?php echo base_url("images/logo.png"); ?>" class="img-rounded" height="32" /></a>
 	</div>
 	<!-- /.navbar-header -->
 

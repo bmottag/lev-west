@@ -362,7 +362,7 @@ class Invoices extends CI_Controller {
 					}
 					$quantity = 1;
 					$unit = 'Receipt';
-					$rate = $item['value'];
+					$rate = $item['price']/1.05;
 					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
@@ -420,7 +420,7 @@ class Invoices extends CI_Controller {
 		$arrParam = array("idInvoice" => $idInvoice);
 
 		$data['info'] = $this->invoices_model->get_invoices($arrParam);
-		$data['logo'] = FCPATH . 'images/logo_black.jpg';
+		$data['logo'] = FCPATH . 'images/logo_black.png';
 
 		if(empty($data['info'])){
 			show_error('No Invoice found',404);
@@ -447,10 +447,12 @@ class Invoices extends CI_Controller {
 
 		$pdf->writeHTML($html, true, false, false, false, '');
 
+		$fileName = $data['info'][0]['job_description'] . 'invoice_' . $data['info'][0]['number'] . '.pdf';
+
 		if($returnAsString){
-			return $pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf', 'S');
+			return $pdf->Output($fileName, 'S');
 		}else{
-			$pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf','I');
+			$pdf->Output($fileName,'I');
 		}
 	}
 

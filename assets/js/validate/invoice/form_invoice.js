@@ -8,6 +8,27 @@ function previewInvoice(id){
 
 $( document ).ready( function () {
 
+	let originalInvoiceNumber = $("#number").val();
+
+	$("#number").on("change", function(){
+
+		let currentValue = $(this).val();
+
+		if(currentValue != originalInvoiceNumber){
+
+			let confirmChange = confirm(
+				"⚠️ This is not the next suggested invoice number.\n\n" +
+				"Recommended: " + originalInvoiceNumber + "\n\n" +
+				"Are you sure you want to change it?"
+			);
+
+			if(!confirmChange){
+				$(this).val(originalInvoiceNumber);
+			}
+		}
+
+	});
+
 	// limpiar iframe cuando se cierre el modal
 	$('#modalPreview').on('hidden.bs.modal', function () {
 		$("#iframePreview").attr("src", "");
@@ -104,7 +125,7 @@ $( document ).ready( function () {
 
 		// solo limpiar si NO es la primera carga
 		if (!firstLoad) {
-			$('#link_to').html('<option value="">Select...</option>');
+			$('#link_to').val(''); 
 			
 			$('#list_work_order').html('<option value="">Select...</option>');
 			$('#selected_link_id').val('');
