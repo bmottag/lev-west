@@ -85,14 +85,18 @@ $html .= '
 
 <!-- ITEMS TABLE -->
 <table width="100%" cellpadding="6" class="table-items">
-    <tr>
-        <th width="6%" align="center">#</th>
-        <th width="49%">Description</th>
-        <th width="10%" align="center">Unit</th>
-        <th width="10%" align="center">Qty</th>
-        <th width="12%" align="right">Unit Price</th>
-        <th width="13%" align="right">Total</th>
-    </tr>
+    <thead>
+        <tr>
+            <th width="6%" align="center">#</th>
+            <th width="49%">Description</th>
+            <th width="10%" align="center">Unit</th>
+            <th width="10%" align="center">Qty</th>
+            <th width="12%" align="right">Unit Price</th>
+            <th width="13%" align="right">Total</th>
+        </tr>
+    </thead>
+
+    <tbody>
 ';
 
 
@@ -108,12 +112,12 @@ if($items){
         $html .= '
 
         <tr>
-            <td align="center">'.$records.'</td>
-            <td>'.$data['description'].'</td>
-            <td align="center">'.$data['unit'].'</td>
-            <td align="center">'.$data['quantity'].'</td>
-            <td align="right">$ '.number_format($data['rate'],2).'</td>
-            <td align="right">$ '.number_format($data['value'],2).'</td>
+            <td width="6%" align="center">'.$records.'</td>
+            <td width="49%">'.$data['description'].'</td>
+            <td width="10%" align="center">'.$data['unit'].'</td>
+            <td width="10%" align="center">'.$data['quantity'].'</td>
+            <td width="12%" align="right">$ '.number_format($data['rate'],2).'</td>
+            <td width="13%" align="right">$ '.number_format($data['value'],2).'</td>
         </tr>
         ';
     }
@@ -122,6 +126,7 @@ if($items){
 $gst = $total * 0.05;
 
 $html .= '
+    </tbody>
 </table>
 
 <br><br>

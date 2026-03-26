@@ -151,7 +151,8 @@ if ($retornoError) {
 $(document).ready(function() {
 	$('#dataTables').DataTable({
 		responsive: false,
-		"pageLength": 100
+		"pageLength": 100,
+		"order": []
 	});
 });
 </script>

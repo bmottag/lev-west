@@ -124,7 +124,7 @@ class Invoices extends CI_Controller {
 			if($idInvoiceInicial == ''){ //si es nuevo, entonces se insertan los items relacionados a la WO o Claim
 				$is_wo_or_claim = $this->input->post('link_to');
 				if($is_wo_or_claim == 'wo'){
-					$arrParam["idWorkorder"] = $this->input->post('list_work_order');
+					$arrParam["idWorkOrder"] = $this->input->post('list_work_order');
 
 					// Traer información de la WO
 					$this->load->model('workorders/workorders_model');
@@ -229,6 +229,7 @@ class Invoices extends CI_Controller {
 		$quantities = $this->input->post('quantity');
 		$units = $this->input->post('unit');
 		$rates = $this->input->post('rate');
+		$markup = $this->input->post('markup');
 
 		for ($i = 0; $i < count($ids); $i++) {
 
@@ -239,6 +240,7 @@ class Invoices extends CI_Controller {
 				'quantity' => $quantities[$i],
 				'unit' => $units[$i],
 				'rate' => $rates[$i],
+				'markup' => $markup[$i],
 				'value' => $value
 			);
 
@@ -274,16 +276,16 @@ class Invoices extends CI_Controller {
 		redirect('invoices/add_invoice/' . $idInvoice, 'refresh');
 	}
 
-public function delete_payment($idPayment, $idInvoice)
-{
-	if ($this->invoices_model->delete_payment($idPayment)) {
-		$this->session->set_flashdata('retornoExito', 'You have deleted one Payment.');
-	} else {
-		$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
-	}
+	public function delete_payment($idPayment, $idInvoice)
+	{
+		if ($this->invoices_model->delete_payment($idPayment)) {
+			$this->session->set_flashdata('retornoExito', 'You have deleted one Payment.');
+		} else {
+			$this->session->set_flashdata('retornoError', '<strong>Error!!!</strong> Ask for help');
+		}
 
-	redirect('invoices/add_invoice/'.$idInvoice,'refresh');
-}
+		redirect('invoices/add_invoice/'.$idInvoice,'refresh');
+	}
 
 	private function insertInvoiceItems($items, $idInvoice, $type)
 	{
@@ -300,6 +302,7 @@ public function delete_payment($idPayment, $idInvoice)
 					$quantity = $item['hours'];
 					$unit = 'Hours';
 					$rate = $item['rate'];
+					$markup = 0;
 					$value = $item['value'];
 					break;
 
@@ -311,6 +314,7 @@ public function delete_payment($idPayment, $idInvoice)
 					$quantity = $item['quantity'];
 					$unit = $item['unit'];
 					$rate = $item['rate'];
+					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
 
@@ -335,6 +339,7 @@ public function delete_payment($idPayment, $idInvoice)
 					$quantity = $item['hours'];
 					$unit = 'Hours';
 					$rate = $item['rate'];
+					$markup = 0;
 					$value = $item['value'];
 					break;
 
@@ -343,9 +348,10 @@ public function delete_payment($idPayment, $idInvoice)
 					if($item['markup'] > 0){
 						$description = $description . ' - Plus M.U.';
 					}
-					$quantity = $item['quantity'];
+					$quantity = $item['quantity'] * $item['hours'];
 					$unit = $item['unit'];
 					$rate = $item['rate'];
+					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
 
@@ -356,7 +362,8 @@ public function delete_payment($idPayment, $idInvoice)
 					}
 					$quantity = 1;
 					$unit = 'Receipt';
-					$rate = $item['value'];
+					$rate = $item['price']/1.05;
+					$markup = $item['markup'];
 					$value = $item['value'];
 					break;
 
@@ -365,6 +372,7 @@ public function delete_payment($idPayment, $idInvoice)
 					$quantity = $item['quantity_claim'] == 0 ? 1 : $item['quantity_claim'];
 					$unit = $item['unit'];
 					$rate = $item['quantity_claim'] != 0 ? $item['unit_price'] : $item['cost'];
+					$markup = 0;
 					$value = $item['cost'];
 					break;
 
@@ -378,6 +386,7 @@ public function delete_payment($idPayment, $idInvoice)
 				'quantity' => $quantity,
 				'unit' => $unit,
 				'rate' => $rate,
+				'markup' => $markup,
 				'value' => $value
 			);
 
@@ -404,14 +413,14 @@ public function delete_payment($idPayment, $idInvoice)
 		$pdf->setPrintFooter(true);
 
 		$pdf->SetMargins(15, 15, 15);
-		$pdf->SetAutoPageBreak(TRUE, 15);
+		$pdf->SetAutoPageBreak(TRUE, 80);
 
 		$pdf->SetFont('helvetica', '', 9);
 
 		$arrParam = array("idInvoice" => $idInvoice);
 
 		$data['info'] = $this->invoices_model->get_invoices($arrParam);
-		$data['logo'] = FCPATH . 'images/logo_black.jpg';
+		$data['logo'] = FCPATH . 'images/logo_black.png';
 
 		if(empty($data['info'])){
 			show_error('No Invoice found',404);
@@ -438,10 +447,12 @@ public function delete_payment($idPayment, $idInvoice)
 
 		$pdf->writeHTML($html, true, false, false, false, '');
 
+		$fileName = $data['info'][0]['job_description'] . 'invoice_' . $data['info'][0]['number'] . '.pdf';
+
 		if($returnAsString){
-			return $pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf', 'S');
+			return $pdf->Output($fileName, 'S');
 		}else{
-			$pdf->Output('invoice_'.$data['info'][0]['number'].'.pdf','I');
+			$pdf->Output($fileName,'I');
 		}
 	}
 
@@ -640,6 +651,24 @@ public function delete_payment($idPayment, $idInvoice)
 		';
 
 		return $html;
+	}
+
+	/**
+	 * Work Order list
+	 * @since 24/03/2026
+	 * @author BMOTTAG
+	 */
+	public function woList()
+	{
+		header("Content-Type: text/plain; charset=utf-8"); //Para evitar problemas de acentos
+		$jobCode = $this->input->post('jobCode');
+		$list = $this->invoices_model->get_wo_job_code($jobCode);
+		echo "<option value=''>Select...</option>";
+		if ($list) {
+			foreach ($list as $fila) {
+				echo "<option value='" . $fila["id_workorder"] . "' >" . $fila["id_workorder"] . " - " . $fila["observation"] . "</option>";
+			}
+		}
 	}
 
 
